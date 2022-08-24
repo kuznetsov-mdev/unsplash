@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Unsplash Skillbox</string>
+    <string name="hello">Hello!</string>
+    <string name="intro_first">Take pictures, visit, build an audience, get feedback!</string>
+    <string name="intro_second">Share with friends, collect collections</string>
+    <string name="intro_third">Upload your favorite shots and track statistics</string>
+    <string name="finish">Finish</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Unsplash Skillbox</string>
+    <string name="hello">¡Hola!</string>
+    <string name="intro_first">¡Toma fotos, visita, construye una audiencia, obtén comentarios!</string>
+    <string name="intro_second">Comparte con amigos, colecciona colecciones</string>
+    <string name="intro_third">Sube tus fotos favoritas y realiza un seguimiento de las estadísticas</string>
+    <string name="finish">Finalizar</string>
+</resources>
