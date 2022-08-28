@@ -6,4 +6,6 @@
     <string name="intro_second">Comparte con amigos, colecciona colecciones</string>
     <string name="intro_third">Sube tus fotos favoritas y realiza un seguimiento de las estadísticas</string>
     <string name="finish">Finalizar</string>
+    <string name="skip">Perder</string>
+    <string name="get_started">Empezary</string>
 </resources>

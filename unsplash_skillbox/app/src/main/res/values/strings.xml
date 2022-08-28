@@ -5,4 +5,6 @@
     <string name="intro_second">Share with friends, collect collections</string>
     <string name="intro_third">Upload your favorite shots and track statistics</string>
     <string name="finish">Finish</string>
+    <string name="skip">Skip</string>
+    <string name="get_started">Get started</string>
 </resources>

@@ -6,4 +6,7 @@
     <string name="intro_second">Делитесь с друзьями, собирайте коллекции</string>
     <string name="intro_third">Загружайте любимые снимки и отслеживайте статистику</string>
     <string name="finish">Завершить</string>
+    <string name="skip">Пропустить</string>
+    <string name="get_started">Начать</string>
+
 </resources>
