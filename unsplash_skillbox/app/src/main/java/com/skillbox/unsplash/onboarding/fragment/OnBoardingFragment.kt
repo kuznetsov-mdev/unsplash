@@ -17,7 +17,6 @@ class OnBoardingFragment : Fragment(R.layout.fragment_onboarding) {
         super.onViewCreated(view, savedInstanceState)
         binding.onboardingImgView.setImageResource(requireArguments().getInt(KEY_IMAGE))
         binding.onBoardingTextView.setText(requireArguments().getInt(KEY_TEXT))
-
     }
 
     companion object {

@@ -15,6 +15,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = OnBoardingAdapter(onBoardingRepository.getScreens(), this)
-        binding.onBoardingViewPager.adapter = adapter
+        binding.onboardingViewPager.adapter = adapter
+        binding.wormDotsIndicator.attachTo(binding.onboardingViewPager)
     }
 }
