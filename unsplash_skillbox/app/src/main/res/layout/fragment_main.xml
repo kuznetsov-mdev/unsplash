@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/onboarding_view_pager" />
 
     <Button
-        android:id="@+id/onboarding_get_starte"
+        android:id="@+id/onboarding_get_started"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/get_started"

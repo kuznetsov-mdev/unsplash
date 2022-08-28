@@ -7,5 +7,15 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.skillbox.unsplash.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.skillbox.unsplash.auth.AuthFragment"
+        android:label="AuthFragment" />
 </navigation>

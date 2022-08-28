@@ -3,6 +3,7 @@ package com.skillbox.unsplash
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.databinding.FragmentMainBinding
@@ -24,12 +25,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     if (position == onBoardingRepository.getScreens().size - 1) {
-                        binding.onboardingGetStarte.visibility = View.VISIBLE
+                        binding.onboardingGetStarted.visibility = View.VISIBLE
                     } else {
-                        binding.onboardingGetStarte.visibility = View.INVISIBLE
+                        binding.onboardingGetStarted.visibility = View.INVISIBLE
                     }
                 }
             }
         )
+
+        binding.onboardingSkipButton.setOnClickListener { navigateToLoginScreen() }
+        binding.onboardingGetStarted.setOnClickListener { navigateToLoginScreen() }
+    }
+
+    private fun navigateToLoginScreen() {
+        val action = MainFragmentDirections.actionMainFragmentToAuthFragment()
+        findNavController().navigate(action)
     }
 }
