@@ -33,4 +33,6 @@ class OnBoardingFragment : Fragment(R.layout.fragment_onboarding) {
             }
         }
     }
+
+
 }

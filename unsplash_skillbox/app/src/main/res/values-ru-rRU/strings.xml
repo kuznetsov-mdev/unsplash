@@ -8,5 +8,6 @@
     <string name="finish">Завершить</string>
     <string name="skip">Пропустить</string>
     <string name="get_started">Начать</string>
+    <string name="unsplash_app">Unsplash application</string>
 
 </resources>
