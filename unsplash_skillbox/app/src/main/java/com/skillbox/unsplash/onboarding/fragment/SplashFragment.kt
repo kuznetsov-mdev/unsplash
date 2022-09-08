@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.onboarding.repository.OnBoardingRepository
+import com.skillbox.unsplash.onboarding.repository.OnBoardingRepositoryImpl
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
-    private val onboardingRepository = OnBoardingRepository()
+    private val onboardingRepositoryImpl = OnBoardingRepositoryImpl()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,7 +23,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         savedInstanceState: Bundle?
     ): View? {
         lifecycleScope.launchWhenCreated {
-            val isOnboardingCompleted = onboardingRepository.isOnboardingCompleted(requireContext())
+            val isOnboardingCompleted = onboardingRepositoryImpl.isOnboardingCompleted(requireContext())
             Handler(Looper.getMainLooper()).postDelayed({
                 if(!isOnboardingCompleted) {
                     findNavController().navigate(R.id.action_splashFragment_to_mainFragment)

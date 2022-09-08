@@ -9,17 +9,17 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.databinding.FragmentMainBinding
 import com.skillbox.unsplash.onboarding.adapter.OnBoardingAdapter
-import com.skillbox.unsplash.onboarding.repository.OnBoardingRepository
+import com.skillbox.unsplash.onboarding.repository.OnBoardingRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment(R.layout.fragment_main) {
-    private val onBoardingRepository = OnBoardingRepository()
+    private val onBoardingRepositoryImpl = OnBoardingRepositoryImpl()
     private val binding: FragmentMainBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = OnBoardingAdapter(onBoardingRepository.getScreens(), this)
+        val adapter = OnBoardingAdapter(onBoardingRepositoryImpl.getScreens(), this)
         binding.onboardingViewPager.adapter = adapter
         binding.wormDotsIndicator.attachTo(binding.onboardingViewPager)
 
@@ -27,7 +27,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    if (position == onBoardingRepository.getScreens().size - 1) {
+                    if (position == onBoardingRepositoryImpl.getScreens().size - 1) {
                         binding.onboardingSkipButton.visibility = View.INVISIBLE
                         binding.onboardingGetStarted.visibility = View.VISIBLE
                     } else {
@@ -44,7 +44,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun navigateToLoginScreen() {
         lifecycleScope.launch(Dispatchers.IO){
-            onBoardingRepository.setOnboardingCompletedStatus(requireContext(), true)
+            onBoardingRepositoryImpl.setOnboardingCompletedStatus(requireContext(), true)
         }
 
         val action = MainFragmentDirections.actionMainFragmentToAuthFragment()
