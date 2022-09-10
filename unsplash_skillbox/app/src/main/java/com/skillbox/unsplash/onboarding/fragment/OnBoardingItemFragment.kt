@@ -10,7 +10,7 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentOnboardingBinding
 import com.skillbox.unsplash.util.withArguments
 
-class OnBoardingFragment : Fragment(R.layout.fragment_onboarding) {
+class OnBoardingItemFragment : Fragment(R.layout.fragment_onboarding) {
     private val binding: FragmentOnboardingBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,8 +26,8 @@ class OnBoardingFragment : Fragment(R.layout.fragment_onboarding) {
         fun newInstance(
             @DrawableRes drawableRes: Int,
             @StringRes textRes: Int
-        ): OnBoardingFragment {
-            return OnBoardingFragment().withArguments {
+        ): OnBoardingItemFragment {
+            return OnBoardingItemFragment().withArguments {
                 putInt(KEY_IMAGE, drawableRes)
                 putInt(KEY_TEXT, textRes)
             }

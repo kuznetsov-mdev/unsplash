@@ -3,7 +3,7 @@ package com.skillbox.unsplash.onboarding.adapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.skillbox.unsplash.onboarding.data.OnBoardingScreen
-import com.skillbox.unsplash.onboarding.fragment.OnBoardingFragment
+import com.skillbox.unsplash.onboarding.fragment.OnBoardingItemFragment
 
 class OnBoardingAdapter(
     private val screens: List<OnBoardingScreen>,
@@ -16,7 +16,7 @@ class OnBoardingAdapter(
 
     override fun createFragment(position: Int): Fragment {
         val screen: OnBoardingScreen = screens[position]
-        return OnBoardingFragment.newInstance(
+        return OnBoardingItemFragment.newInstance(
             screen.drawableRes,
             screen.textRes
         )
