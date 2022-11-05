@@ -1,1 +1,1 @@
-package for adding unsplash application realization
+package for adding realization of unsplash application 
