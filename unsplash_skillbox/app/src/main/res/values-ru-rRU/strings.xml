@@ -9,5 +9,13 @@
     <string name="skip">Пропустить</string>
     <string name="get_started">Начать</string>
     <string name="unsplash_app">Unsplash application</string>
+    <string name="sign_in">sign in</string>
+
+    <string name="auth_login">Войти</string>
+    <string name="auth_canceled">Аутентификация не выполнена</string>
+    <string name="corrupt_access_token">Corrupt access token</string>
+    <string name="get_user_info">Get user info</string>
+    <string name="get_user_error">Get user error</string>
+    <string name="logout">logout</string>
 
 </resources>

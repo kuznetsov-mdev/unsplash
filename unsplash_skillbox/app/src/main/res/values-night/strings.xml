@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="unsplash_app">Unsplash app</string>
+    <string name="sign_in">sign in</string>
 </resources>
