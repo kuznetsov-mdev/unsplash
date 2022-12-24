@@ -1,16 +1,73 @@
 package com.skillbox.unsplash.auth.data
 
-import net.openid.appauth.ResponseTypeValues
+import android.net.Uri
+import androidx.core.net.toUri
+import net.openid.appauth.*
+import kotlin.coroutines.suspendCoroutine
 
 object AppAuth {
-    const val AUTH_URI = "https://unsplash.com/oauth/authorize"
-    const val TOKEN_URI = "https://unsplash.com/oauth/token"
-    const val END_SESSION_URI = ""
-    const val RESPONSE_TYPE = ResponseTypeValues.CODE
-    const val SCOPE = "public, read_user"
+    private val serviceConfiguration = AuthorizationServiceConfiguration(
+        Uri.parse(AuthConfig.AUTH_URI),
+        Uri.parse(AuthConfig.TOKEN_URI),
+        null,
+        Uri.parse(AuthConfig.END_SESSION_URI)
+    )
 
-    const val CLIENT_ID = "9ewwu1hGsu9JQtZlpPONImKo7QNfQZc4RCk_rmgghQw"
-    const val CLIENT_SECRET = "M_0uyC3KmjL5f1Gc5_VRSAnxSFBY9RcAx2RzgG5A_Ic"
-    const val CALLBACK_URL = "com.skillbox.unsplash.oauth://unsplash.com/callback"
-    const val LOGOUT_CALLBACK_URL = "com.skillbox.unsplash.oauth://logout_callback"
+    fun getAuthRequest(): AuthorizationRequest {
+        val redirectUri = AuthConfig.CALLBACK_URL.toUri()
+
+        return AuthorizationRequest.Builder(
+            serviceConfiguration,
+            AuthConfig.CLIENT_ID,
+            AuthConfig.RESPONSE_TYPE,
+            redirectUri
+        )
+            .setScope(AuthConfig.SCOPE)
+            .build()
+    }
+
+    fun getEndSessionRequest(): EndSessionRequest {
+        return EndSessionRequest.Builder(serviceConfiguration)
+            .setPostLogoutRedirectUri(AuthConfig.LOGOUT_CALLBACK_URL.toUri())
+            .build()
+    }
+
+    fun getRefreshTokenRequest(refreshToken: String): TokenRequest {
+        return TokenRequest.Builder(
+            serviceConfiguration,
+            AuthConfig.CLIENT_ID
+        )
+            .setGrantType(GrantTypeValues.REFRESH_TOKEN)
+            .setScope(AuthConfig.SCOPE)
+            .setRefreshToken(refreshToken)
+            .build()
+    }
+
+    suspend fun performTokenRequestSuspend(
+        authService: AuthorizationService,
+        tokenRequest: TokenRequest,
+    ): TokensModel {
+        return suspendCoroutine { continuation ->
+            authService.performTokenRequest(tokenRequest, getClientAuthentication()) { response, ex ->
+                when {
+                    response != null -> {
+                        //получение токена произошло успешно
+                        val tokens = TokensModel(
+                            accessToken = response.accessToken.orEmpty(),
+                            refreshToken = response.refreshToken.orEmpty(),
+                            idToken = response.idToken.orEmpty()
+                        )
+                        continuation.resumeWith(Result.success(tokens))
+                    }
+                    //получение токенов произошло неуспешно, показываем ошибку
+                    ex != null -> { continuation.resumeWith(Result.failure(ex)) }
+                    else -> error("unreachable")
+                }
+            }
+        }
+    }
+
+    private fun getClientAuthentication(): ClientAuthentication {
+        return ClientSecretPost(AuthConfig.CLIENT_SECRET)
+    }
 }
