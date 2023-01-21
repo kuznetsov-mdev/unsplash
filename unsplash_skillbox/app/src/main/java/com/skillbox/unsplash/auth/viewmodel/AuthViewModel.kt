@@ -12,6 +12,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthorizationException
@@ -26,6 +27,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val openAuthPageEventChannel = Channel<Intent>(Channel.BUFFERED)
     private val toastEventChannel = Channel<Int>(Channel.BUFFERED)
     private val authSuccessEventChannel = Channel<Unit>(Channel.BUFFERED)
+    private val loadingMutableStateFlow = MutableStateFlow(false)
 
     val openAuthPageFlow: Flow<Intent>
         get() = openAuthPageEventChannel.receiveAsFlow()
@@ -33,8 +35,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         get() = toastEventChannel.receiveAsFlow()
     val authSuccessFlow: Flow<Unit>
         get() = authSuccessEventChannel.receiveAsFlow()
+    val loadingFlow: Flow<Boolean>
+        get() = loadingMutableStateFlow.asStateFlow()
 
-    private val loadingMutableStateFlow = MutableStateFlow(false)
 
     override fun onCleared() {
         super.onCleared()
@@ -45,7 +48,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         val customTabsIntent = CustomTabsIntent.Builder().build()
         val authRequest = AppAuth.getAuthRequest()
 
-        Timber.tag("Oauth").d("1. Generated verifier=${authRequest.codeVerifier},challenge=${authRequest.codeVerifierChallenge}")
+        Timber.tag("Oauth").d(
+            "1. Generated verifier=${authRequest.codeVerifier}," +
+                    "challenge=${authRequest.codeVerifierChallenge}"
+        )
 
         val openAuthPageIntent = authService.getAuthorizationRequestIntent(
             authRequest,
@@ -61,6 +67,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onAuthCodeReceived(tokenRequest: TokenRequest) {
+        //Процедура обмена кода на токен
         Timber.tag("Oauth").d("3. Received code = ${tokenRequest.authorizationCode}")
 
         viewModelScope.launch {

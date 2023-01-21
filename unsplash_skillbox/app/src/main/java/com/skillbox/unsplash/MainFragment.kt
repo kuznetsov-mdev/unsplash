@@ -8,10 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentMainBinding
 import com.skillbox.unsplash.onboarding.adapter.OnBoardingAdapter
-import com.skillbox.unsplash.onboarding.repository.OnBoardingRepositoryImpl
 import com.skillbox.unsplash.onboarding.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +17,12 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
-    private val onboardingViewModel: OnboardingViewModel by viewModels()
+    private val onBoardingViewModel: OnboardingViewModel by viewModels()
     private val binding: FragmentMainBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = OnBoardingAdapter(onboardingViewModel.getScreens(), this)
+        val adapter = OnBoardingAdapter(onBoardingViewModel.getScreens(), this)
         binding.onboardingViewPager.adapter = adapter
         binding.wormDotsIndicator.attachTo(binding.onboardingViewPager)
 
@@ -32,7 +30,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    if (position == onboardingViewModel.getScreens().size - 1) {
+                    if (position == onBoardingViewModel.getScreens().size - 1) {
                         binding.onboardingSkipButton.visibility = View.INVISIBLE
                         binding.onboardingGetStarted.visibility = View.VISIBLE
                     } else {
@@ -49,7 +47,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun navigateToLoginScreen() {
         lifecycleScope.launch(Dispatchers.IO){
-            onboardingViewModel.setOnboardingCompletedStatus(requireContext(), true)
+            onBoardingViewModel.setOnboardingCompletedStatus(requireContext(), true)
         }
 
         val action = MainFragmentDirections.actionMainFragmentToAuthFragment()
