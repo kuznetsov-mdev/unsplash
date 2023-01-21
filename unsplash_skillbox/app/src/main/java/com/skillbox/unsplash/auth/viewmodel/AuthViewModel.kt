@@ -64,6 +64,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onAuthCodeFailed(exception: AuthorizationException) {
         toastEventChannel.trySendBlocking(R.string.auth_canceled)
+        Timber.tag("Oauth").d("cause is ${exception.error}")
     }
 
     fun onAuthCodeReceived(tokenRequest: TokenRequest) {
