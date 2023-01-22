@@ -41,4 +41,16 @@
         android:id="@+id/appFragment"
         android:name="com.skillbox.unsplash.app.AppFragment"
         android:label="AppFragment" />
+    <fragment
+        android:id="@+id/navigation_images"
+        android:name="com.skillbox.unsplash.app.images.ImagesFragment"
+        android:label="ImagesFragment" />
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.skillbox.unsplash.app.account.AccountFragment"
+        android:label="AccountFragment" />
+    <fragment
+        android:id="@+id/navigation_collection"
+        android:name="com.skillbox.unsplash.app.collections.CollectionsFragment"
+        android:label="CollectionsFragment" />
 </navigation>
