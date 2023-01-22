@@ -11,10 +11,13 @@
     <string name="unsplash_app">Unsplash applicaсion</string>
     <string name="sign_in">sign in</string>
 
-    <string name="auth_login">Войти</string>
-    <string name="auth_canceled">Аутентификация не выполнена</string>
+    <string name="auth_login">Entra</string>
+    <string name="auth_canceled">Autenticación fallida</string>
     <string name="corrupt_access_token">Corrupt access token</string>
     <string name="get_user_info">Get user info</string>
     <string name="get_user_error">Get user error</string>
     <string name="logout">logout</string>
+    <string name="ic_image_desc">Las photos</string>
+    <string name="collections_desc">Las colecciones</string>
+    <string name="user_account">User account</string>
 </resources>

@@ -14,8 +14,11 @@
     <string name="auth_login">Войти</string>
     <string name="auth_canceled">Аутентификация не выполнена</string>
     <string name="corrupt_access_token">Corrupt access token</string>
-    <string name="get_user_info">Get user info</string>
+    <string name="get_user_info">Получить информацию о пользователе</string>
     <string name="get_user_error">Get user error</string>
     <string name="logout">logout</string>
+    <string name="ic_image_desc">Изображения</string>
+    <string name="collections_desc">Коллекции изображений</string>
+    <string name="user_account">Аккаунт пользователя</string>
 
 </resources>
