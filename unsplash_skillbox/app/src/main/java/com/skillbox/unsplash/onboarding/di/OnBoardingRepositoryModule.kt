@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.onboarding.di
 
-import com.skillbox.unsplash.onboarding.api.OnboardingRepositoryApi
+import com.skillbox.unsplash.onboarding.api.OnBoardingRepositoryApi
 import com.skillbox.unsplash.onboarding.repository.OnBoardingRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -9,10 +9,10 @@ import dagger.hilt.android.components.ViewModelComponent
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class OnboardingRepositoryModule {
+class OnBoardingRepositoryModule {
 
     @Provides
-    fun providesOnboardingRepository(): OnboardingRepositoryApi  {
+    fun providesOnBoardingRepository(): OnBoardingRepositoryApi {
         return OnBoardingRepositoryImpl()
     }
 }

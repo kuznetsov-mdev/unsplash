@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/onboarding_img_view"
+        android:id="@+id/on_boarding_img_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:src="@drawable/on_boarding_bkg"
@@ -25,6 +25,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onboarding_img_view" />
+        app:layout_constraintTop_toBottomOf="@+id/on_boarding_img_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

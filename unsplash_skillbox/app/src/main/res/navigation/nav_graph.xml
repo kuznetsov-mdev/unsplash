@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.skillbox.unsplash.MainFragment"
+        android:name="com.skillbox.unsplash.onboarding.OnBoardingFragment"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_authFragment"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.skillbox.unsplash.onboarding.fragment.StartFragment"
+        android:name="com.skillbox.unsplash.StartFragment"
         android:label="StartFragment">
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"

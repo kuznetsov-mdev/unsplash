@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.onboarding.fragment
+package com.skillbox.unsplash
 
 import android.os.Bundle
 import android.os.Handler
@@ -10,13 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.skillbox.unsplash.R
-import com.skillbox.unsplash.onboarding.viewmodel.OnboardingViewModel
+import com.skillbox.unsplash.onboarding.viewmodel.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class StartFragment : Fragment(R.layout.fragment_start) {
-    private val onBoardingViewModel: OnboardingViewModel by viewModels()
+    private val onBoardingViewModel: OnBoardingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +23,7 @@ class StartFragment : Fragment(R.layout.fragment_start) {
         savedInstanceState: Bundle?
     ): View? {
         lifecycleScope.launchWhenCreated {
-            val isOnboardingCompleted = onBoardingViewModel.isOnboardingCompleted(requireContext())
+            val isOnboardingCompleted = onBoardingViewModel.isOnBoardingCompleted(requireContext())
             Handler(Looper.getMainLooper()).postDelayed({
                 if (!isOnboardingCompleted) {
                     findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
