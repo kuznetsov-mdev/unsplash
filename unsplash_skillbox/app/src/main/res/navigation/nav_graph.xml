@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/mainFragment"
@@ -23,18 +24,18 @@
             app:destination="@id/appFragment" />
     </fragment>
     <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.skillbox.unsplash.onboarding.fragment.SplashFragment"
-        android:label="SplashFragment" >
+        android:id="@+id/startFragment"
+        android:name="com.skillbox.unsplash.onboarding.fragment.StartFragment"
+        android:label="StartFragment">
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/splashFragment"
+            app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_authFragment"
             app:destination="@id/authFragment"
-            app:popUpTo="@id/splashFragment"
+            app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -44,13 +45,16 @@
     <fragment
         android:id="@+id/navigation_images"
         android:name="com.skillbox.unsplash.app.images.ImagesFragment"
+        tools:layout="@layout/fragment_images"
         android:label="ImagesFragment" />
     <fragment
         android:id="@+id/navigation_account"
         android:name="com.skillbox.unsplash.app.account.AccountFragment"
+        tools:layout="@layout/fragment_account"
         android:label="AccountFragment" />
     <fragment
         android:id="@+id/navigation_collection"
         android:name="com.skillbox.unsplash.app.collections.CollectionsFragment"
+        tools:layout="@layout/fragment_collections"
         android:label="CollectionsFragment" />
 </navigation>
