@@ -6,17 +6,19 @@
     app:startDestination="@id/startFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
+        android:id="@+id/onBoardingFragment"
         android:name="com.skillbox.unsplash.onboarding.OnBoardingFragment"
+        tools:layout="@layout/fragment_on_boarding"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_authFragment"
             app:destination="@id/authFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/onBoardingFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
+        tools:layout="@layout/fragment_auth"
         android:name="com.skillbox.unsplash.auth.AuthFragment"
         android:label="AuthFragment">
         <action
@@ -26,10 +28,11 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="com.skillbox.unsplash.StartFragment"
+        tools:layout="@layout/fragment_start"
         android:label="StartFragment">
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
+            app:destination="@id/onBoardingFragment"
             app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true" />
         <action
@@ -41,6 +44,7 @@
     <fragment
         android:id="@+id/appFragment"
         android:name="com.skillbox.unsplash.app.AppFragment"
+        tools:layout="@layout/fragment_app"
         android:label="AppFragment" />
     <fragment
         android:id="@+id/navigation_images"
