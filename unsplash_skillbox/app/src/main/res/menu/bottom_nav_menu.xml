@@ -13,7 +13,7 @@
         android:title="@string/collections_desc" />
 
     <item
-        android:id="@+id/navigation_user_account"
+        android:id="@+id/navigation_account"
         android:enabled="true"
         android:icon="@drawable/ic_user_account"
         android:title="@string/user_account" />
