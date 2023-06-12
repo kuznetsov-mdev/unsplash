@@ -1,0 +1,44 @@
+package com.skillbox.unsplash.feature.splash
+
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.skillbox.unsplash.R
+import com.skillbox.unsplash.feature.onboarding.OnBoardingViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class SplashFragment : Fragment(R.layout.fragment_start) {
+    private val onBoardingViewModel: OnBoardingViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        lifecycleScope.launchWhenCreated {
+            val isOnboardingCompleted = onBoardingViewModel.isOnBoardingCompleted(requireContext())
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!isOnboardingCompleted) {
+                    findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+                } else {
+                    findNavController().navigate(R.id.action_splashFragment_to_authFragment)
+                }
+
+            }, SPLASH_SCREEN_DISPLAYING_DURATION)
+        }
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    companion object {
+        private const val SPLASH_SCREEN_DISPLAYING_DURATION = 2_000L
+    }
+}

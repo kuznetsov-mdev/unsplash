@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.skillbox.unsplash.onboarding.OnBoardingFragment"
+        android:name="com.skillbox.unsplash.feature.onboarding.OnBoardingFragment"
         tools:layout="@layout/fragment_on_boarding"
         android:label="MainFragment">
         <action
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/authFragment"
         tools:layout="@layout/fragment_auth"
-        android:name="com.skillbox.unsplash.auth.AuthFragment"
+        android:name="com.skillbox.unsplash.feature.auth.AuthFragment"
         android:label="AuthFragment">
         <action
             android:id="@+id/action_authFragment_to_appFragment"
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.skillbox.unsplash.StartFragment"
+        android:name="com.skillbox.unsplash.feature.splash.SplashFragment"
         tools:layout="@layout/fragment_start"
         android:label="StartFragment">
         <action
@@ -43,22 +43,22 @@
     </fragment>
     <fragment
         android:id="@+id/appFragment"
-        android:name="com.skillbox.unsplash.app.AppFragment"
+        android:name="com.skillbox.unsplash.feature.AppFragment"
         tools:layout="@layout/fragment_app"
         android:label="AppFragment" />
     <fragment
         android:id="@+id/navigation_images"
-        android:name="com.skillbox.unsplash.app.images.ImagesFragment"
+        android:name="com.skillbox.unsplash.feature.imagelist.ImagesFragment"
         tools:layout="@layout/fragment_images"
         android:label="ImagesFragment" />
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.skillbox.unsplash.app.account.AccountFragment"
+        android:name="com.skillbox.unsplash.feature.account.AccountFragment"
         tools:layout="@layout/fragment_account"
         android:label="AccountFragment" />
     <fragment
         android:id="@+id/navigation_collections"
-        android:name="com.skillbox.unsplash.app.collections.CollectionsFragment"
+        android:name="com.skillbox.unsplash.feature.collections.CollectionsFragment"
         tools:layout="@layout/fragment_collections"
         android:label="CollectionsFragment" />
 </navigation>
