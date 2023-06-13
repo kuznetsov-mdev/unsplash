@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/images_nav_graph"
+    app:startDestination="@id/imagesFragment">
+    <fragment
+        android:id="@+id/imagesFragment"
+        android:name="com.skillbox.unsplash.feature.imagelist.ImagesFragment"
+        android:label="ImagesFragment" />
+    <fragment
+        android:id="@+id/collectionsFragment"
+        android:name="com.skillbox.unsplash.feature.collections.CollectionsFragment"
+        android:label="CollectionsFragment" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.skillbox.unsplash.feature.account.AccountFragment"
+        android:label="AccountFragment" />
+</navigation>

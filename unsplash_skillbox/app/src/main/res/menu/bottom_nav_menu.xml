@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_images"
+        android:id="@+id/imagesFragment"
         android:enabled="true"
         android:icon="@drawable/ic_image"
         android:title="@string/ic_image_desc" />
 
     <item
-        android:id="@+id/navigation_collections"
+        android:id="@+id/collectionsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_collections"
         android:title="@string/collections_desc" />
 
     <item
-        android:id="@+id/navigation_account"
+        android:id="@+id/accountFragment"
         android:enabled="true"
         android:icon="@drawable/ic_user_account"
         android:title="@string/user_account" />
