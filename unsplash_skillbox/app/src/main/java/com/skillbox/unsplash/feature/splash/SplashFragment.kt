@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.feature.splash
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,33 +9,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.feature.onboarding.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
     private val onBoardingViewModel: OnBoardingViewModel by viewModels()
 
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        lifecycleScope.launchWhenCreated {
-            val isOnboardingCompleted = onBoardingViewModel.isOnBoardingCompleted(requireContext())
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (!isOnboardingCompleted) {
-                    findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
-                } else {
-                    findNavController().navigate(R.id.action_splashFragment_to_authFragment)
-                }
-
-            }, SPLASH_SCREEN_DISPLAYING_DURATION)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val isOnBoardingCompleted = onBoardingViewModel.isOnBoardingCompleted(requireContext())
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if (!isOnBoardingCompleted) {
+                        findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+                    } else {
+                        findNavController().navigate(R.id.action_splashFragment_to_authFragment)
+                    }
+                }, SPLASH_SCREEN_DISPLAYING_DURATION)
+            }
         }
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
