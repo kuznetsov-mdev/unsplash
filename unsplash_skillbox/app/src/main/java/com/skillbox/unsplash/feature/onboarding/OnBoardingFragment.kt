@@ -11,7 +11,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentOnBoardingBinding
 import com.skillbox.unsplash.feature.onboarding.adapter.OnBoardingAdapter
-import com.skillbox.unsplash.onboarding.OnBoardingFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

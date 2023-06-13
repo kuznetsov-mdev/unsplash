@@ -15,7 +15,7 @@ import com.skillbox.unsplash.feature.onboarding.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SplashFragment : Fragment(R.layout.fragment_start) {
+class SplashFragment : Fragment(R.layout.fragment_splash) {
     private val onBoardingViewModel: OnBoardingViewModel by viewModels()
 
     override fun onCreateView(

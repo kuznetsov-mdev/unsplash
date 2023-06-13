@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.auth.AuthFragmentDirections
 import com.skillbox.unsplash.common.extensions.launchAndCollectIn
 import com.skillbox.unsplash.databinding.FragmentAuthBinding
 import com.skillbox.unsplash.util.toast
