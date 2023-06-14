@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
-import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,8 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     application: Application,
-    private val repository: AuthRepositoryApi,
-    private val authService: AuthorizationService
+    private val repository: AuthRepositoryApi
 ) : AndroidViewModel(application) {
     private val openAuthPageEventChannel = Channel<Intent>(Channel.BUFFERED)
     private val toastEventChannel = Channel<Int>(Channel.BUFFERED)
@@ -45,7 +43,6 @@ class AuthViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        authService.dispose()
     }
 
     fun openLoginPage() {
@@ -57,7 +54,7 @@ class AuthViewModel @Inject constructor(
                     "challenge=${authRequest.codeVerifierChallenge}"
         )
 
-        val openAuthPageIntent = authService.getAuthorizationRequestIntent(
+        val openAuthPageIntent = repository.getAuthorizationRequestIntent(
             authRequest,
             customTabsIntent
         )
@@ -81,7 +78,6 @@ class AuthViewModel @Inject constructor(
                 Timber.tag("Oauth")
                     .d("4. Change code to token. Url = ${tokenRequest.configuration.tokenEndpoint}, verifier = ${tokenRequest.codeVerifier}")
                 repository.performTokenRequest(
-                    authService = authService,
                     tokenRequest = tokenRequest
                 )
             }.onSuccess {

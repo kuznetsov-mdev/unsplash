@@ -2,6 +2,8 @@ package com.skillbox.unsplash.data.auth
 
 import android.net.Uri
 import androidx.core.net.toUri
+import com.skillbox.unsplash.data.auth.model.AuthConfig
+import com.skillbox.unsplash.data.auth.model.TokensModel
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration

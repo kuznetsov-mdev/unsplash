@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.auth.repository
+package com.skillbox.unsplash.data.auth.model
 
 object TokenStorage {
     var accessToken: String? = null

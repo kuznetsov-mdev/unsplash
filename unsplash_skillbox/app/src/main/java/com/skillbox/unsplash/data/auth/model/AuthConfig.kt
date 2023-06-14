@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.auth
+package com.skillbox.unsplash.data.auth.model
 
 import net.openid.appauth.ResponseTypeValues
 
