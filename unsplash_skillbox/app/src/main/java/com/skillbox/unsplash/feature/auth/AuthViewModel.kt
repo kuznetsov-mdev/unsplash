@@ -7,7 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.data.auth.AppAuth
-import com.skillbox.unsplash.data.auth.repository.AuthRepository
+import com.skillbox.unsplash.data.auth.repository.AuthRepositoryApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -16,14 +17,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthorizationException
+import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
 import timber.log.Timber
+import javax.inject.Inject
 
-class AuthViewModel(application: Application) : AndroidViewModel(application) {
-    private val authRepository = AuthRepository()
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+    application: Application,
+    private val repository: AuthRepositoryApi
+) : AndroidViewModel(application) {
     private val authService: AuthorizationService = AuthorizationService(getApplication())
-
     private val openAuthPageEventChannel = Channel<Intent>(Channel.BUFFERED)
     private val toastEventChannel = Channel<Int>(Channel.BUFFERED)
     private val authSuccessEventChannel = Channel<Unit>(Channel.BUFFERED)
@@ -37,7 +42,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         get() = authSuccessEventChannel.receiveAsFlow()
     val loadingFlow: Flow<Boolean>
         get() = loadingMutableStateFlow.asStateFlow()
-
 
     override fun onCleared() {
         super.onCleared()
@@ -76,7 +80,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             runCatching {
                 Timber.tag("Oauth")
                     .d("4. Change code to token. Url = ${tokenRequest.configuration.tokenEndpoint}, verifier = ${tokenRequest.codeVerifier}")
-                authRepository.performTokenRequest(
+                repository.performTokenRequest(
                     authService = authService,
                     tokenRequest = tokenRequest
                 )
@@ -87,6 +91,19 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 loadingMutableStateFlow.value = false
                 toastEventChannel.send(R.string.auth_canceled)
             }
+        }
+    }
+
+    fun handleAuthResponseIntent(intent: Intent) {
+        //пытаемся получить ошибку из ответа. null - есди все ок
+        val exception = AuthorizationException.fromIntent(intent)
+        //пытаемся получить запрос для обмена кода на токен, null - если произошла ошибка
+        val tokenExchangeRequest = AuthorizationResponse.fromIntent(intent)?.createTokenExchangeRequest()
+        when {
+            //авторизация завершилась ошибкой
+            exception != null -> onAuthCodeFailed(exception)
+            //авторизация прошла успешно
+            tokenExchangeRequest != null -> onAuthCodeReceived(tokenExchangeRequest)
         }
     }
 }

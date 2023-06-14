@@ -6,28 +6,29 @@ import net.openid.appauth.AuthorizationService
 import net.openid.appauth.EndSessionRequest
 import net.openid.appauth.TokenRequest
 import timber.log.Timber
+import javax.inject.Inject
 
-class AuthRepository {
+class AuthRepositoryImpl @Inject constructor() : AuthRepositoryApi {
 
-    fun corruptAccessToken() {
+    override fun corruptAccessToken() {
         TokenStorage.accessToken = "fake token"
     }
 
-    fun logout() {
+    override fun logout() {
         TokenStorage.accessToken = null
         TokenStorage.refreshToken = null
         TokenStorage.idToken = null
     }
 
-    fun getAuthRequest(): AuthorizationRequest {
+    override fun getAuthRequest(): AuthorizationRequest {
         return AppAuth.getAuthRequest()
     }
 
-    fun getEndSessionRequest(): EndSessionRequest {
+    override fun getEndSessionRequest(): EndSessionRequest {
         return AppAuth.getEndSessionRequest()
     }
 
-    suspend fun performTokenRequest(
+    override suspend fun performTokenRequest(
         authService: AuthorizationService,
         tokenRequest: TokenRequest,
     ) {

@@ -5,8 +5,9 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryImpl.SharedPrefs.ON_BOARDING_COMPLETED_KEY
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryImpl.SharedPrefs.SHARED_PREFS_NAME
 import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreen
+import javax.inject.Inject
 
-class OnBoardingRepositoryImpl : OnBoardingRepositoryApi {
+class OnBoardingRepositoryImpl @Inject constructor() : OnBoardingRepositoryApi {
     private val onBoardingScreens: List<OnBoardingScreen> = listOf(
         OnBoardingScreen(R.drawable.on_boarding_bkg, R.string.intro_first),
         OnBoardingScreen(R.drawable.on_boarding_bkg, R.string.intro_second),

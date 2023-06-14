@@ -8,7 +8,9 @@ import androidx.navigation.ui.NavigationUI
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentAppBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AppFragment : Fragment(R.layout.fragment_app) {
     private val binding by viewBinding(FragmentAppBinding::class.java)
 
