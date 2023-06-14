@@ -26,9 +26,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     application: Application,
-    private val repository: AuthRepositoryApi
+    private val repository: AuthRepositoryApi,
+    private val authService: AuthorizationService
 ) : AndroidViewModel(application) {
-    private val authService: AuthorizationService = AuthorizationService(getApplication())
     private val openAuthPageEventChannel = Channel<Intent>(Channel.BUFFERED)
     private val toastEventChannel = Channel<Int>(Channel.BUFFERED)
     private val authSuccessEventChannel = Channel<Unit>(Channel.BUFFERED)
