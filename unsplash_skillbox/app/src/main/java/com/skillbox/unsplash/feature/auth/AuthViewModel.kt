@@ -1,12 +1,10 @@
 package com.skillbox.unsplash.feature.auth
 
-import android.app.Application
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.data.auth.AppAuth
 import com.skillbox.unsplash.data.auth.repository.AuthRepositoryApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -24,9 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    application: Application,
     private val repository: AuthRepositoryApi
-) : AndroidViewModel(application) {
+) : ViewModel() {
     private val openAuthPageEventChannel = Channel<Intent>(Channel.BUFFERED)
     private val toastEventChannel = Channel<Int>(Channel.BUFFERED)
     private val authSuccessEventChannel = Channel<Unit>(Channel.BUFFERED)
@@ -41,13 +38,9 @@ class AuthViewModel @Inject constructor(
     val loadingFlow: Flow<Boolean>
         get() = loadingMutableStateFlow.asStateFlow()
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
     fun openLoginPage() {
         val customTabsIntent = CustomTabsIntent.Builder().build()
-        val authRequest = AppAuth.getAuthRequest()
+        val authRequest = repository.getAuthRequest()
 
         Timber.tag("Oauth").d(
             "1. Generated verifier=${authRequest.codeVerifier}," +
