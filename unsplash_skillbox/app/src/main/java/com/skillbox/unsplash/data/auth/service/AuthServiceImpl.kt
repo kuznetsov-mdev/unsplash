@@ -1,6 +1,8 @@
-package com.skillbox.unsplash.data.auth
+package com.skillbox.unsplash.data.auth.service
 
+import android.content.Intent
 import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import com.skillbox.unsplash.data.auth.model.AuthConfig
 import com.skillbox.unsplash.data.auth.model.TokensModel
@@ -12,9 +14,12 @@ import net.openid.appauth.ClientSecretPost
 import net.openid.appauth.EndSessionRequest
 import net.openid.appauth.GrantTypeValues
 import net.openid.appauth.TokenRequest
+import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-object AppAuth {
+class AuthServiceImpl @Inject constructor(
+    private val androidAuthService: AuthorizationService
+) : AuthServiceApi {
     private val serviceConfiguration = AuthorizationServiceConfiguration(
         Uri.parse(AuthConfig.AUTH_URI),
         Uri.parse(AuthConfig.TOKEN_URI),
@@ -22,7 +27,7 @@ object AppAuth {
         Uri.parse(AuthConfig.END_SESSION_URI)
     )
 
-    fun getAuthRequest(): AuthorizationRequest {
+    override fun getAuthRequest(): AuthorizationRequest {
         val redirectUri = AuthConfig.CALLBACK_URL.toUri()
 
         return AuthorizationRequest.Builder(
@@ -35,13 +40,13 @@ object AppAuth {
             .build()
     }
 
-    fun getEndSessionRequest(): EndSessionRequest {
+    override fun getEndSessionRequest(): EndSessionRequest {
         return EndSessionRequest.Builder(serviceConfiguration)
             .setPostLogoutRedirectUri(AuthConfig.LOGOUT_CALLBACK_URL.toUri())
             .build()
     }
 
-    fun getRefreshTokenRequest(refreshToken: String): TokenRequest {
+    override fun getRefreshTokenRequest(refreshToken: String): TokenRequest {
         return TokenRequest.Builder(
             serviceConfiguration,
             AuthConfig.CLIENT_ID
@@ -52,12 +57,11 @@ object AppAuth {
             .build()
     }
 
-    suspend fun performTokenRequestSuspend(
-        authService: AuthorizationService,
+    override suspend fun performTokenRequestSuspend(
         tokenRequest: TokenRequest,
     ): TokensModel {
         return suspendCoroutine { continuation ->
-            authService.performTokenRequest(tokenRequest, getClientAuthentication()) { response, ex ->
+            androidAuthService.performTokenRequest(tokenRequest, getClientAuthentication()) { response, ex ->
                 when {
                     response != null -> {
                         //получение токена произошло успешно
@@ -69,11 +73,24 @@ object AppAuth {
                         continuation.resumeWith(Result.success(tokens))
                     }
                     //получение токенов произошло неуспешно, показываем ошибку
-                    ex != null -> { continuation.resumeWith(Result.failure(ex)) }
+                    ex != null -> {
+                        continuation.resumeWith(Result.failure(ex))
+                    }
+
                     else -> error("unreachable")
                 }
             }
         }
+    }
+
+    override fun getAuthorizationRequestIntent(
+        authRequest: AuthorizationRequest,
+        customTabsIntent: CustomTabsIntent
+    ): Intent {
+        return androidAuthService.getAuthorizationRequestIntent(
+            authRequest,
+            customTabsIntent
+        )
     }
 
     private fun getClientAuthentication(): ClientAuthentication {

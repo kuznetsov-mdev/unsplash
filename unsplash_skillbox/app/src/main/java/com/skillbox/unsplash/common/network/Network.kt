@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.common.util
+package com.skillbox.unsplash.common.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
