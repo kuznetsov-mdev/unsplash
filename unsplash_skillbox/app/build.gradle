@@ -47,7 +47,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.core:core-ktx:+'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -68,7 +67,7 @@ dependencies {
     //AppAuth
     implementation 'net.openid:appauth:0.11.1'
 
-    def moshiVersion = '1.13.0'
+    def moshiVersion = '1.15.0'
     implementation "com.squareup.moshi:moshi:$moshiVersion"
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
@@ -79,7 +78,7 @@ dependencies {
     //OkHttp
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
     //Coroutines
-    def coroutinesVersion = "1.5.1"
+    def coroutinesVersion = "1.7.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     //Timber

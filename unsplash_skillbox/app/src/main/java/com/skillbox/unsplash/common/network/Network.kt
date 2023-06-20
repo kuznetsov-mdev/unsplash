@@ -1,14 +1,21 @@
 package com.skillbox.unsplash.common.network
 
+import com.skillbox.unsplash.data.auth.model.TokenStorage
+import com.skillbox.unsplash.data.auth.service.AuthServiceApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
+import javax.inject.Inject
 
-object Networking {
+class Network @Inject constructor(
+    authServiceApi: AuthServiceApi
+) {
     private val okHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addNetworkInterceptor(AuthInterceptor())
+        .addNetworkInterceptor(AuthFailedInterceptor(TokenStorage, authServiceApi))
         .build()
 
     private val retrofit = Retrofit.Builder()
