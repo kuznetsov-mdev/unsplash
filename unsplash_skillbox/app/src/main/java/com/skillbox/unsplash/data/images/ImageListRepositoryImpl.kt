@@ -8,9 +8,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class ImagesRepositoryImpl @Inject constructor(
+class ImageListRepositoryImpl @Inject constructor(
     private val network: Network
-) : ImagesRepositoryApi {
+) : ImageListRepositoryApi {
 
     override fun getAll(onComplete: (List<RemoteImage>) -> Unit, onError: (Throwable) -> Unit) {
         network.unsplashApi.searchImages().enqueue(

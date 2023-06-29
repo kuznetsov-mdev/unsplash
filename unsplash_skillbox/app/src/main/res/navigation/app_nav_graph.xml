@@ -5,7 +5,7 @@
     app:startDestination="@id/imagesFragment">
     <fragment
         android:id="@+id/imagesFragment"
-        android:name="com.skillbox.unsplash.feature.imagelist.ImagesFragment"
+        android:name="com.skillbox.unsplash.feature.imagelist.ImageListFragment"
         android:label="ImagesFragment" />
     <fragment
         android:id="@+id/collectionsFragment"
