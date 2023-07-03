@@ -69,8 +69,8 @@
 
         <ImageView
             android:id="@+id/likeView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/favorite_red"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             tools:text="7K"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/likeView"
