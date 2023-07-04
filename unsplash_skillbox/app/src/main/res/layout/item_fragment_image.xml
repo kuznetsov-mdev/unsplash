@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/avatarView"
+                android:id="@+id/avatarImageView"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -69,15 +69,38 @@
             app:layout_constraintStart_toStartOf="@+id/authorName"
             app:layout_constraintTop_toBottomOf="@+id/authorName" />
 
-        <ImageView
-            android:id="@+id/likeView"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/favorite_red"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@id/likesIconContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/activeLikesIconView"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginEnd="10dp"
+                android:visibility="gone"
+                android:background="@drawable/favorite_red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/inactiveLikesIconView"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/favorite_empty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/likesCountView"
@@ -88,7 +111,7 @@
             android:textSize="11sp"
             android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/likeView"
+            app:layout_constraintEnd_toStartOf="@+id/likesIconContainer"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
