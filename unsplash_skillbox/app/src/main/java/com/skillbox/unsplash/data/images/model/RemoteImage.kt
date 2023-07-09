@@ -12,5 +12,7 @@ data class RemoteImage(
     @Json(name = "liked_by_user")
     val likedByUser: Boolean,
     @Json(name = "user")
-    val user: RemoteUser
+    val user: RemoteUser,
+    @Json(name = "urls")
+    val urls: RemoteImageUrls
 )

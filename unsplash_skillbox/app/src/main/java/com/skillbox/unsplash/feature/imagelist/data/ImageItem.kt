@@ -6,5 +6,6 @@ data class ImageItem(
     val likedByUser: Boolean,
     val authorName: String,
     val authorNickname: String,
-    val authorAvatarUrl: String
+    val authorAvatarUrl: String,
+    val imageUrl: String
 )
