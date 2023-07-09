@@ -1,13 +1,14 @@
 package com.skillbox.unsplash.feature.imagelist
 
 import androidx.lifecycle.ViewModel
+import com.skillbox.unsplash.data.images.ImageListRepositoryApi
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ImageListViewModel @Inject constructor(
-    // private val repository: ImageListRepositoryApi
+    private val repository: ImageListRepositoryApi
 ) : ViewModel() {
 
     fun getImages(): List<ImageItem> {
