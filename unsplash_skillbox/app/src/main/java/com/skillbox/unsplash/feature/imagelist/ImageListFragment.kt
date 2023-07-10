@@ -27,8 +27,10 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             adapter = ImageItemAdapter(viewModel.getImages())
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
-            val vDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-            addItemDecoration(vDividerItemDecoration)
+            val verticalDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            val horizontalDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
+            addItemDecoration(verticalDividerItemDecoration)
+            addItemDecoration(horizontalDividerItemDecoration)
         }
     }
 }
