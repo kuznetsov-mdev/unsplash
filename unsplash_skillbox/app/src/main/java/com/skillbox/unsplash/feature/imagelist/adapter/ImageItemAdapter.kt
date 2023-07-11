@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.databinding.ItemFragmentImageBinding
+import com.skillbox.unsplash.databinding.ItemImageBinding
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.util.inflate
 
@@ -18,7 +18,7 @@ class ImageItemAdapter(
     override fun getItemCount() = images.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(parent.inflate(ItemFragmentImageBinding::inflate), onLikeClicked)
+        return Holder(parent.inflate(ItemImageBinding::inflate), onLikeClicked)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -32,7 +32,7 @@ class ImageItemAdapter(
     }
 
     class Holder(
-        private val binding: ItemFragmentImageBinding,
+        private val binding: ItemImageBinding,
         onLikeClicked: (Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 

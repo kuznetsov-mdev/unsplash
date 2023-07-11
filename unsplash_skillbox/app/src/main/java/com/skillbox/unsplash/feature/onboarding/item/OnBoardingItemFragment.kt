@@ -7,11 +7,11 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.databinding.ItemFragmentOnBoardingBinding
+import com.skillbox.unsplash.databinding.ItemOnBoardingBinding
 import com.skillbox.unsplash.util.withArguments
 
-class OnBoardingItemFragment : Fragment(R.layout.item_fragment_on_boarding) {
-    private val binding: ItemFragmentOnBoardingBinding by viewBinding()
+class OnBoardingItemFragment : Fragment(R.layout.item_on_boarding) {
+    private val binding: ItemOnBoardingBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
