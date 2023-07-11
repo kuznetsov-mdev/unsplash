@@ -11,6 +11,7 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.feature.imagelist.adapter.ImageItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
@@ -24,7 +25,10 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
     private fun initList() {
         with(viewBinding.imagesList) {
-            adapter = ImageItemAdapter(viewModel.getImages())
+            adapter = ImageItemAdapter(::markPhoto).apply {
+                setImages(viewModel.getImages() + viewModel.getImages() + viewModel.getImages())
+            }
+            setHasFixedSize(true)
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
             val verticalDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -32,5 +36,9 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             addItemDecoration(verticalDividerItemDecoration)
             addItemDecoration(horizontalDividerItemDecoration)
         }
+    }
+
+    private fun markPhoto(isLiked: Boolean) {
+        Timber.d("Photo is liked - $isLiked")
     }
 }

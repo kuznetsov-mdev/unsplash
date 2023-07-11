@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 
 fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
     return apply {
@@ -22,4 +23,15 @@ fun Fragment.toast(@StringRes stringRes: Int) {
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+}
+
+fun <T : ViewBinding> ViewGroup.inflate(
+    inflateBinding: (
+        inflater: LayoutInflater,
+        root: ViewGroup?,
+        attachToRoot: Boolean
+    ) -> T, attachToRoot: Boolean = false
+): T {
+    val inflater = LayoutInflater.from(context)
+    return inflateBinding(inflater, this, attachToRoot)
 }
