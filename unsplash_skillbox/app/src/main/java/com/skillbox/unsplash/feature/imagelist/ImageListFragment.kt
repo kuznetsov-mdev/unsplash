@@ -10,13 +10,14 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.feature.imagelist.adapter.ImageItemAdapter
+import com.skillbox.unsplash.util.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val viewModel: ImageListViewModel by viewModels()
+    private var imageListAdapter: ImageItemAdapter by autoCleared()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,10 +25,12 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun initList() {
+        imageListAdapter = ImageItemAdapter(::markPhoto).apply {
+            setImages(viewModel.getImages() + viewModel.getImages() + viewModel.getImages())
+        }
+
         with(viewBinding.imagesList) {
-            adapter = ImageItemAdapter(::markPhoto).apply {
-                setImages(viewModel.getImages() + viewModel.getImages() + viewModel.getImages())
-            }
+            adapter = imageListAdapter
             setHasFixedSize(true)
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
@@ -38,7 +41,12 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
     }
 
-    private fun markPhoto(isLiked: Boolean) {
-        Timber.d("Photo is liked - $isLiked")
+    private fun markPhoto(imageId: String, isLiked: Boolean) {
+        val list = viewModel.getImages().toList()
+        val elem = list.first { it.id == imageId }
+        elem.likedByUser = isLiked;
+        var updatedList = list.filter { it.id != imageId }.toMutableList()
+        updatedList.add(elem)
+        imageListAdapter.setImages(updatedList)
     }
 }

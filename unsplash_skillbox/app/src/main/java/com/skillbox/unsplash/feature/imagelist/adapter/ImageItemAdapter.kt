@@ -2,6 +2,8 @@ package com.skillbox.unsplash.feature.imagelist.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
@@ -10,48 +12,53 @@ import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.util.inflate
 
 class ImageItemAdapter(
-    private val onLikeClicked: (Boolean) -> Unit
+    private val onLikeClicked: (String, Boolean) -> Unit
 ) : RecyclerView.Adapter<ImageItemAdapter.Holder>() {
+    private var differ = AsyncListDiffer(this, ImageDiffUtilCallback())
 
-    private var images: List<ImageItem> = emptyList()
-
-    override fun getItemCount() = images.size
+    override fun getItemCount() = differ.currentList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(parent.inflate(ItemImageBinding::inflate), onLikeClicked)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val imageItem = images[position]
+        val imageItem = differ.currentList[position]
         holder.bind(imageItem)
     }
 
     fun setImages(newImages: List<ImageItem>) {
-        this.images = newImages
-        notifyDataSetChanged()
+        differ.submitList(newImages)
+    }
+
+    class ImageDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
+        override fun areItemsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
+            return oldItem == newItem
+        }
     }
 
     class Holder(
         private val binding: ItemImageBinding,
-        onLikeClicked: (Boolean) -> Unit
+        onLikeClicked: (String, Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        private var currentImageId: String? = null
 
         init {
             binding.activeLikesIconView.setOnClickListener {
-                onLikeClicked(false)
-                binding.activeLikesIconView.visibility = View.GONE
-                binding.inactiveLikesIconView.visibility = View.VISIBLE
-
+                currentImageId?.let { onLikeClicked(it, false) }
             }
 
             binding.inactiveLikesIconView.setOnClickListener {
-                onLikeClicked(true)
-                binding.inactiveLikesIconView.visibility = View.GONE
-                binding.activeLikesIconView.visibility = View.VISIBLE
+                currentImageId?.let { onLikeClicked(it, true) }
             }
         }
 
         fun bind(imageItem: ImageItem) {
+            this.currentImageId = imageItem.id
             with(binding) {
                 authorName.text = imageItem.authorName
                 authorNickName.text = imageItem.authorNickname

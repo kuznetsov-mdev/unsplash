@@ -9,6 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.skillbox.unsplash.common.util.AutoClearedValue
 
 fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
     return apply {
@@ -35,3 +36,5 @@ fun <T : ViewBinding> ViewGroup.inflate(
     val inflater = LayoutInflater.from(context)
     return inflateBinding(inflater, this, attachToRoot)
 }
+
+fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
