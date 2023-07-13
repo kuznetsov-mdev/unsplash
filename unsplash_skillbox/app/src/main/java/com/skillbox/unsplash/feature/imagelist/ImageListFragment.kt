@@ -22,12 +22,11 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
+        observeImageList()
     }
 
     private fun initList() {
-        imageListAdapter = ImageItemAdapter(::markPhoto).apply {
-            setImages(viewModel.getImages() + viewModel.getImages() + viewModel.getImages())
-        }
+        imageListAdapter = ImageItemAdapter(::markPhoto)
 
         with(viewBinding.imagesList) {
             adapter = imageListAdapter
@@ -48,5 +47,11 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         var updatedList = list.filter { it.id != imageId }.toMutableList()
         updatedList.add(elem)
         imageListAdapter.setImages(updatedList)
+    }
+
+    private fun observeImageList() {
+        viewModel.images.observe(viewLifecycleOwner) { newImages ->
+            imageListAdapter.setImages(newImages)
+        }
     }
 }

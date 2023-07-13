@@ -1,5 +1,7 @@
 package com.skillbox.unsplash.feature.imagelist
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.skillbox.unsplash.data.images.ImageListRepositoryApi
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
@@ -10,6 +12,12 @@ import javax.inject.Inject
 class ImageListViewModel @Inject constructor(
     private val repository: ImageListRepositoryApi
 ) : ViewModel() {
+
+    private val imagesLiveData = MutableLiveData<List<ImageItem>>(getImages())
+
+    val images: LiveData<List<ImageItem>>
+        get() = imagesLiveData
+
 
     fun getImages(): List<ImageItem> {
         return listOf(

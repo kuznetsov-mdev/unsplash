@@ -12,7 +12,7 @@ class ImageListRepositoryImpl @Inject constructor(
     private val network: Network
 ) : ImageListRepositoryApi {
 
-    override fun getAll(onComplete: (List<RemoteImage>) -> Unit, onError: (Throwable) -> Unit) {
+    override fun getImageList(onComplete: (List<RemoteImage>) -> Unit, onError: (Throwable) -> Unit) {
         network.unsplashApi.searchImages().enqueue(
             object : Callback<ServerItemsWrapper<RemoteImage>> {
                 override fun onResponse(
@@ -29,7 +29,6 @@ class ImageListRepositoryImpl @Inject constructor(
                 override fun onFailure(call: Call<ServerItemsWrapper<RemoteImage>>, t: Throwable) {
                     onError(t)
                 }
-
             }
         )
     }
