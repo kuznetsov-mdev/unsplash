@@ -9,6 +9,8 @@ data class RemoteUser(
     val id: String,
     @Json(name = "name")
     val name: String,
-    @Json(name = "portfolio_url")
-    val portfolioUrl: String
+    @Json(name = "username")
+    val nickname: String,
+    @Json(name = "profile_image")
+    val profileImage: ProfileImage
 )

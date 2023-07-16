@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface UnsplashApi {
     @GET("photos")
-    fun searchImages(): Call<ServerItemsWrapper<RemoteImage>>
+    fun searchImages(): Call<List<RemoteImage>>
 }

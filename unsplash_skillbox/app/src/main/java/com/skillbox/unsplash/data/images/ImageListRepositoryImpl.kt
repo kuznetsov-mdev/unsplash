@@ -1,7 +1,6 @@
 package com.skillbox.unsplash.data.images
 
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.common.network.ServerItemsWrapper
 import com.skillbox.unsplash.data.images.model.RemoteImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,19 +13,19 @@ class ImageListRepositoryImpl @Inject constructor(
 
     override fun getImageList(onComplete: (List<RemoteImage>) -> Unit, onError: (Throwable) -> Unit) {
         network.unsplashApi.searchImages().enqueue(
-            object : Callback<ServerItemsWrapper<RemoteImage>> {
+            object : Callback<List<RemoteImage>> {
                 override fun onResponse(
-                    call: Call<ServerItemsWrapper<RemoteImage>>,
-                    response: Response<ServerItemsWrapper<RemoteImage>>
+                    call: Call<List<RemoteImage>>,
+                    response: Response<List<RemoteImage>>
                 ) {
                     if (response.isSuccessful) {
-                        onComplete(response.body()?.items.orEmpty())
+                        onComplete(response.body()?.toList().orEmpty())
                     } else {
                         onError(Error(response.errorBody().toString()))
                     }
                 }
 
-                override fun onFailure(call: Call<ServerItemsWrapper<RemoteImage>>, t: Throwable) {
+                override fun onFailure(call: Call<List<RemoteImage>>, t: Throwable) {
                     onError(t)
                 }
             }

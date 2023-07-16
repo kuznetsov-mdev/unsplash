@@ -22,7 +22,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
-        observeImageList()
+        observeData()
     }
 
     private fun initList() {
@@ -41,17 +41,28 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun markPhoto(imageId: String, isLiked: Boolean) {
-        val list = viewModel.getImages().toList()
-        val elem = list.first { it.id == imageId }
-        elem.likedByUser = isLiked;
-        var updatedList = list.filter { it.id != imageId }.toMutableList()
-        updatedList.add(elem)
-        imageListAdapter.setImages(updatedList)
+//        val list = viewModel.getImages().toList()
+//        val elem = list.first { it.id == imageId }
+//        elem.likedByUser = isLiked;
+//        var updatedList = list.filter { it.id != imageId }.toMutableList()
+//        updatedList.add(elem)
+//        imageListAdapter.setImages(updatedList)
     }
 
-    private fun observeImageList() {
+    private fun observeData() {
         viewModel.images.observe(viewLifecycleOwner) { newImages ->
             imageListAdapter.setImages(newImages)
         }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                viewBinding.imagesList.visibility = View.GONE
+                viewBinding.imagesLoginProgress.visibility = View.VISIBLE
+            } else {
+                viewBinding.imagesList.visibility = View.VISIBLE
+                viewBinding.imagesLoginProgress.visibility = View.GONE
+            }
+        }
+        viewModel.getImageList()
     }
 }

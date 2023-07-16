@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.skillbox.unsplash"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -79,7 +79,7 @@ dependencies {
     //OkHttp
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
     //Coroutines
-    def coroutinesVersion = "1.7.1"
+    def coroutinesVersion = '1.7.2'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     //Timber

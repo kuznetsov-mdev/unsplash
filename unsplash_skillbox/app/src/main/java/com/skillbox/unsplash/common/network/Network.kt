@@ -22,7 +22,7 @@ class Network @Inject constructor(
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://unsplash.com/")
+        .baseUrl("https://api.unsplash.com/")
         .addConverterFactory(MoshiConverterFactory.create())
         .client(okHttpClient)
         .build()
