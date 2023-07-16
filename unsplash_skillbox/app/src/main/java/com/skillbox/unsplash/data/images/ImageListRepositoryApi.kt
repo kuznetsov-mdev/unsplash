@@ -8,4 +8,16 @@ interface ImageListRepositoryApi {
         onComplete: (List<RemoteImage>) -> Unit,
         onError: (Throwable) -> Unit
     )
+
+    fun setLike(
+        imageId: String,
+        onComplete: () -> Unit,
+        onError: (Throwable) -> Unit
+    )
+
+    fun removeLike(
+        imageId: String,
+        onComplete: () -> Unit,
+        onError: (Throwable) -> Unit
+    )
 }

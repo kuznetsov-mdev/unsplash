@@ -2,6 +2,7 @@ package com.skillbox.unsplash.data.images
 
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.model.RemoteImage
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +28,34 @@ class ImageListRepositoryImpl @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<List<RemoteImage>>, t: Throwable) {
+                    onError(t)
+                }
+            }
+        )
+    }
+
+    override fun setLike(imageId: String, onComplete: () -> Unit, onError: (Throwable) -> Unit) {
+        network.unsplashApi.setLike(imageId).enqueue(
+            object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    onComplete()
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    onError(t)
+                }
+            }
+        )
+    }
+
+    override fun removeLike(imageId: String, onComplete: () -> Unit, onError: (Throwable) -> Unit) {
+        network.unsplashApi.removeLike(imageId).enqueue(
+            object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    onComplete()
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     onError(t)
                 }
             }

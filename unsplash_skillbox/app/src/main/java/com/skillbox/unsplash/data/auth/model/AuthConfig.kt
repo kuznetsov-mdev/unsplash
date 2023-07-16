@@ -7,10 +7,10 @@ object AuthConfig {
     const val TOKEN_URI = "https://unsplash.com/oauth/token"
     const val END_SESSION_URI = ""
     const val RESPONSE_TYPE = ResponseTypeValues.CODE
-    const val SCOPE = "public read_user read_photos read_collections"
+    const val SCOPE = "public read_user read_photos read_collections write_likes"
 
-    const val CLIENT_ID = "NRZ6_0bADaBNd-O9g6luCXiwxu7kCD43uI-5LC_iuQ8"
-    const val CLIENT_SECRET = "O_JtOEmApbbkc66r8P7LlovK25IC2masLAP3uNBTBj8"
+    const val CLIENT_ID = "9ewwu1hGsu9JQtZlpPONImKo7QNfQZc4RCk_rmgghQw"
+    const val CLIENT_SECRET = "M_0uyC3KmjL5f1Gc5_VRSAnxSFBY9RcAx2RzgG5A_Ic"
     const val CALLBACK_URL = "unsplash://com.skillbox.unsplash/callback"
     const val LOGOUT_CALLBACK_URL = "unsplash://com.skillbox.unsplash/logout_callback"
 }

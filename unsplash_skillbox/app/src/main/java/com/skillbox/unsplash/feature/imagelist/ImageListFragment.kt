@@ -41,12 +41,11 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun markPhoto(imageId: String, isLiked: Boolean) {
-//        val list = viewModel.getImages().toList()
-//        val elem = list.first { it.id == imageId }
-//        elem.likedByUser = isLiked;
-//        var updatedList = list.filter { it.id != imageId }.toMutableList()
-//        updatedList.add(elem)
-//        imageListAdapter.setImages(updatedList)
+        if (isLiked) {
+            viewModel.setLike(imageId)
+        } else {
+            viewModel.removeLike(imageId)
+        }
     }
 
     private fun observeData() {
