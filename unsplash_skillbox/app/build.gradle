@@ -98,6 +98,12 @@ dependencies {
     //LiveData
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-
+    //Flipper
+    def flipperVersion = '0.198.0'
+    debugImplementation "com.facebook.flipper:flipper:$flipperVersion"
+    releaseImplementation "com.facebook.flipper:flipper-noop:$flipperVersion"
+    debugImplementation "com.facebook.flipper:flipper-network-plugin:$flipperVersion"
+    debugImplementation 'com.facebook.soloader:soloader:0.10.5'
+    releaseImplementation 'com.github.theGlenn:flipper-android-no-op:0.3.0'
 }
 

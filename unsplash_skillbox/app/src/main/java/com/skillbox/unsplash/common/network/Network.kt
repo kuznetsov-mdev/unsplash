@@ -1,5 +1,7 @@
 package com.skillbox.unsplash.common.network
 
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
 import okhttp3.OkHttpClient
@@ -16,6 +18,7 @@ class Network @Inject constructor(
         .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .addNetworkInterceptor(AuthInterceptor())
         .addNetworkInterceptor(AuthFailedInterceptor(TokenStorage, authServiceApi))
+        .addNetworkInterceptor(FlipperOkhttpInterceptor(NETWORK_FLIPPER_PLUGIN))
         .build()
 
     private val retrofit = Retrofit.Builder()
@@ -27,4 +30,7 @@ class Network @Inject constructor(
     val unsplashApi: UnsplashApi
         get() = retrofit.create()
 
+    companion object {
+        val NETWORK_FLIPPER_PLUGIN = NetworkFlipperPlugin()
+    }
 }
