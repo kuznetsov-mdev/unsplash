@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.feature.imagelist.adapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -12,7 +13,7 @@ import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.util.inflate
 
 class ImageItemAdapter(
-    private val onLikeClicked: (String, Boolean) -> Unit
+    private val onLikeClicked: (String, Boolean, () -> Unit) -> Unit,
 ) : RecyclerView.Adapter<ImageItemAdapter.Holder>() {
     private var differ = AsyncListDiffer(this, ImageDiffUtilCallback())
 
@@ -41,19 +42,32 @@ class ImageItemAdapter(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     class Holder(
         private val binding: ItemImageBinding,
-        onLikeClicked: (String, Boolean) -> Unit
+        onLikeClicked: (String, Boolean, callback: () -> Unit) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var currentImageId: String? = null
 
         init {
             binding.activeLikesIconView.setOnClickListener {
-                currentImageId?.let { onLikeClicked(it, false) }
+                currentImageId?.let {
+                    onLikeClicked(it, false) {
+                        binding.activeLikesIconView.visibility = View.GONE
+                        binding.inactiveLikesIconView.visibility = View.VISIBLE
+                        binding.likesCountView.text = (binding.likesCountView.text.toString().toInt() - 1).toString()
+                    }
+                }
             }
 
             binding.inactiveLikesIconView.setOnClickListener {
-                currentImageId?.let { onLikeClicked(it, true) }
+                currentImageId?.let {
+                    onLikeClicked(it, true) {
+                        binding.activeLikesIconView.visibility = View.VISIBLE
+                        binding.inactiveLikesIconView.visibility = View.GONE
+                        binding.likesCountView.text = (binding.likesCountView.text.toString().toInt() + 1).toString()
+                    }
+                }
             }
         }
 

@@ -7,6 +7,7 @@ import com.skillbox.unsplash.data.images.ImageListRepositoryApi
 import com.skillbox.unsplash.data.images.model.RemoteImage
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,19 +35,19 @@ class ImageListViewModel @Inject constructor(
             })
     }
 
-    fun setLike(imageId: String) {
+    fun setLike(imageId: String, onComplete: () -> Unit) {
         repository.setLike(
             imageId = imageId,
-            { getImageList() },
-            { imagesLiveData.postValue(emptyList()) }
+            onComplete,
+            { Timber.d("Something wrong") }
         )
     }
 
-    fun removeLike(imageId: String) {
+    fun removeLike(imageId: String, onComplete: () -> Unit) {
         repository.removeLike(
             imageId = imageId,
-            { getImageList() },
-            { imagesLiveData.postValue(emptyList()) }
+            onComplete,
+            { Timber.d("Something wrong") }
         )
     }
 

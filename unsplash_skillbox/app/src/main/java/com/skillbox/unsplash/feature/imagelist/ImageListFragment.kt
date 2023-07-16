@@ -40,11 +40,11 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
     }
 
-    private fun markPhoto(imageId: String, isLiked: Boolean) {
+    private fun markPhoto(imageId: String, isLiked: Boolean, callback: () -> Unit) {
         if (isLiked) {
-            viewModel.setLike(imageId)
+            viewModel.setLike(imageId) { callback() }
         } else {
-            viewModel.removeLike(imageId)
+            viewModel.removeLike(imageId) { callback() }
         }
     }
 
