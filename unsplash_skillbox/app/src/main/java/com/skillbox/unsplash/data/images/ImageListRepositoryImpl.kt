@@ -10,9 +10,10 @@ import javax.inject.Inject
 class ImageListRepositoryImpl @Inject constructor(
     private val network: Network
 ) : ImageListRepositoryApi {
+    private val imagePerPage = 40
 
     override fun getImageList(onComplete: (List<RemoteImage>) -> Unit, onError: (Throwable) -> Unit) {
-        network.unsplashApi.searchImages().enqueue(
+        network.unsplashApi.searchImages(imagePerPage).enqueue(
             object : Callback<List<RemoteImage>> {
                 override fun onResponse(
                     call: Call<List<RemoteImage>>,
