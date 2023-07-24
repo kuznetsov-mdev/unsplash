@@ -98,6 +98,8 @@ dependencies {
     //LiveData
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    //Paging
+    implementation "androidx.paging:paging-runtime:3.1.1"
     //Flipper
     def flipperVersion = '0.198.0'
     debugImplementation "com.facebook.flipper:flipper:$flipperVersion"

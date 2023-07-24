@@ -4,20 +4,9 @@ import com.skillbox.unsplash.data.images.model.RemoteImage
 
 interface ImageListRepositoryApi {
 
-    fun getImageList(
-        onComplete: (List<RemoteImage>) -> Unit,
-        onError: (Throwable) -> Unit
-    )
+    suspend fun getImageList(imgsPerPage: Int): List<RemoteImage>
 
-    fun setLike(
-        imageId: String,
-        onComplete: () -> Unit,
-        onError: (Throwable) -> Unit
-    )
+    suspend fun setLike(imageId: String)
 
-    fun removeLike(
-        imageId: String,
-        onComplete: () -> Unit,
-        onError: (Throwable) -> Unit
-    )
+    suspend fun removeLike(imageId: String)
 }

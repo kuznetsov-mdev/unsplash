@@ -3,10 +3,12 @@ package com.skillbox.unsplash.feature.imagelist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.data.images.ImageListRepositoryApi
 import com.skillbox.unsplash.data.images.model.RemoteImage
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,6 +18,7 @@ class ImageListViewModel @Inject constructor(
 ) : ViewModel() {
     private val imagesLiveData = MutableLiveData<List<ImageItem>>()
     private val isLoadingLiveData = MutableLiveData<Boolean>()
+    private val imagePerPage: Int = 20
 
     val images: LiveData<List<ImageItem>>
         get() = imagesLiveData
@@ -24,31 +27,40 @@ class ImageListViewModel @Inject constructor(
         get() = isLoadingLiveData
 
     fun getImageList() {
-        isLoadingLiveData.postValue(true)
-        return repository.getImageList({ images ->
-            imagesLiveData.postValue(getImageItemList(images))
-            isLoadingLiveData.postValue(false)
-        },
-            {
+        viewModelScope.launch {
+            isLoadingLiveData.postValue(true)
+            try {
+                val images = repository.getImageList(imagePerPage)
+                imagesLiveData.postValue(getImageItemList(images))
+            } catch (e: Throwable) {
                 imagesLiveData.postValue(emptyList())
+            } finally {
                 isLoadingLiveData.postValue(false)
-            })
+            }
+
+        }
     }
 
     fun setLike(imageId: String, onComplete: () -> Unit) {
-        repository.setLike(
-            imageId = imageId,
-            onComplete,
-            { Timber.d("Something wrong") }
-        )
+        viewModelScope.launch {
+            try {
+                repository.setLike(imageId)
+                onComplete()
+            } catch (t: Throwable) {
+                Timber.d("Something wrong")
+            }
+        }
     }
 
     fun removeLike(imageId: String, onComplete: () -> Unit) {
-        repository.removeLike(
-            imageId = imageId,
-            onComplete,
-            { Timber.d("Something wrong") }
-        )
+        viewModelScope.launch {
+            try {
+                repository.removeLike(imageId)
+                onComplete()
+            } catch (t: Throwable) {
+                Timber.d("Something wrong")
+            }
+        }
     }
 
     private fun getImageItemList(remoteImageList: List<RemoteImage>): List<ImageItem> {
@@ -67,6 +79,4 @@ class ImageListViewModel @Inject constructor(
         }
         return result;
     }
-
-
 }
