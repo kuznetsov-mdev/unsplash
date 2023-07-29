@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.feature.imagelist.adapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -12,12 +13,12 @@ import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.util.inflate
 
 class ImageAdapter(
-    private val onLikeClicked: (String, Boolean, () -> Unit) -> Unit,
+    private val onLikeClicked: (String, Int, Boolean) -> Unit,
 ) : PagingDataAdapter<ImageItem, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val imageItem = getItem(position) ?: return
-        holder.bind(imageItem)
+        holder.bind(imageItem, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -34,43 +35,45 @@ class ImageAdapter(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     class Holder(
         private val binding: ItemImageBinding,
-        onLikeClicked: (String, Boolean, callback: () -> Unit) -> Unit
+        onLikeClicked: (String, Int, Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        private var currentImageId: String? = null
+        private var currentImage: ImageItem? = null
+        private var imagePosition: Int? = null
 
         init {
             binding.activeLikesIconView.setOnClickListener {
-                currentImageId?.let {
-                    onLikeClicked(it, false) {
-                        binding.activeLikesIconView.visibility = View.GONE
-                        binding.inactiveLikesIconView.visibility = View.VISIBLE
-                        binding.likesCountView.text = (binding.likesCountView.text.toString().toInt() - 1).toString()
+                currentImage?.let { image ->
+                    imagePosition?.let { imgPosition ->
+                        image.likedByUser = false
+                        image.likes = image.likes - 1
+                        onLikeClicked(image.id, imgPosition, false)
                     }
                 }
             }
 
             binding.inactiveLikesIconView.setOnClickListener {
-                currentImageId?.let {
-                    onLikeClicked(it, true) {
-                        binding.activeLikesIconView.visibility = View.VISIBLE
-                        binding.inactiveLikesIconView.visibility = View.GONE
-                        binding.likesCountView.text = (binding.likesCountView.text.toString().toInt() + 1).toString()
+                currentImage?.let { image ->
+                    imagePosition?.let { imgPosition ->
+                        image.likedByUser = true
+                        image.likes = image.likes + 1
+                        onLikeClicked(image.id, imgPosition, true)
                     }
                 }
             }
         }
 
-        fun bind(imageItem: ImageItem) {
-            this.currentImageId = imageItem.id
+        fun bind(imageItem: ImageItem, position: Int) {
+            this.currentImage = imageItem
+            this.imagePosition = position
             with(binding) {
                 authorName.text = imageItem.authorName
                 authorNickName.text = imageItem.authorNickname
                 likesCountView.text = imageItem.likes.toString()
                 activeLikesIconView.visibility = if (imageItem.likedByUser) View.VISIBLE else View.GONE
                 inactiveLikesIconView.visibility = if (!imageItem.likedByUser) View.VISIBLE else View.GONE
-
 
                 Glide.with(itemView)
                     .load(imageItem.authorAvatarUrl)

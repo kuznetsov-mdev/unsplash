@@ -14,16 +14,16 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.feature.imagelist.adapter.ImageAdapter
-import com.skillbox.unsplash.util.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val viewModel: ImageListViewModel by viewModels()
-    private var imageAdapter: ImageAdapter by autoCleared()
+    private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) { ImageAdapter(::markPhoto) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,7 +32,6 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun initList() {
-        imageAdapter = ImageAdapter(::markPhoto)
         with(viewBinding.imagesList) {
             adapter = imageAdapter
             setHasFixedSize(true)
@@ -45,19 +44,18 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
     }
 
-    private fun markPhoto(imageId: String, isLiked: Boolean, callback: () -> Unit) {
+    private fun markPhoto(imageId: String, imagePosition: Int, isLiked: Boolean) {
         if (isLiked) {
-            viewModel.setLike(imageId) { callback() }
+            viewModel.setLike(imageId)
         } else {
-            viewModel.removeLike(imageId) { callback() }
+            viewModel.removeLike(imageId)
         }
+        imageAdapter.notifyItemChanged(imagePosition)
     }
 
     private fun observeImages() {
         lifecycleScope.launch {
-            viewModel.imageList.collectLatest { pagingData ->
-                imageAdapter.submitData(pagingData)
-            }
+            viewModel.imageList.collectLatest(imageAdapter::submitData)
         }
 
         imageAdapter.addLoadStateListener { state: CombinedLoadStates ->

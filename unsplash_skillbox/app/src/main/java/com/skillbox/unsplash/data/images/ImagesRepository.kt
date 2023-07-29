@@ -1,8 +1,6 @@
 package com.skillbox.unsplash.data.images
 
-import androidx.paging.PagingData
-import com.skillbox.unsplash.feature.imagelist.data.ImageItem
-import kotlinx.coroutines.flow.Flow
+import com.skillbox.unsplash.data.images.model.RemoteImage
 
 interface ImagesRepository {
 
@@ -10,5 +8,5 @@ interface ImagesRepository {
 
     suspend fun removeLike(imageId: String)
 
-    fun getPagedImages(): Flow<PagingData<ImageItem>>
+    suspend fun getImageList(pageNumber: Int, pageSize: Int): List<RemoteImage>
 }
