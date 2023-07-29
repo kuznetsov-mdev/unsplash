@@ -11,7 +11,8 @@ import retrofit2.http.Query
 interface UnsplashApi {
     @GET("photos")
     suspend fun searchImages(
-        @Query("per_page") imageCount: Int
+        @Query("page") pageNumber: Int,
+        @Query("per_page") pageSize: Int
     ): List<RemoteImage>
 
     @POST("/photos/{id}/like")

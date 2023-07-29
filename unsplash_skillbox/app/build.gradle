@@ -107,5 +107,7 @@ dependencies {
     debugImplementation "com.facebook.flipper:flipper-network-plugin:$flipperVersion"
     debugImplementation 'com.facebook.soloader:soloader:0.10.5'
     releaseImplementation 'com.github.theGlenn:flipper-android-no-op:0.3.0'
+    //SwipeRefresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
 

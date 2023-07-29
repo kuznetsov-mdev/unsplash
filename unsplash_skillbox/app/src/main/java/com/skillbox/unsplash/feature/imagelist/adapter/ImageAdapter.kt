@@ -1,9 +1,8 @@
 package com.skillbox.unsplash.feature.imagelist.adapter
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,24 +11,17 @@ import com.skillbox.unsplash.databinding.ItemImageBinding
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.util.inflate
 
-class ImageItemAdapter(
+class ImageAdapter(
     private val onLikeClicked: (String, Boolean, () -> Unit) -> Unit,
-) : RecyclerView.Adapter<ImageItemAdapter.Holder>() {
-    private var differ = AsyncListDiffer(this, ImageDiffUtilCallback())
-
-    override fun getItemCount() = differ.currentList.size
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(parent.inflate(ItemImageBinding::inflate), onLikeClicked)
-    }
+) : PagingDataAdapter<ImageItem, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val imageItem = differ.currentList[position]
+        val imageItem = getItem(position) ?: return
         holder.bind(imageItem)
     }
 
-    fun setImages(newImages: List<ImageItem>) {
-        differ.submitList(newImages)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        return Holder(parent.inflate(ItemImageBinding::inflate), onLikeClicked)
     }
 
     class ImageDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
@@ -42,7 +34,6 @@ class ImageItemAdapter(
         }
     }
 
-    @SuppressLint("SetTextI18n")
     class Holder(
         private val binding: ItemImageBinding,
         onLikeClicked: (String, Boolean, callback: () -> Unit) -> Unit
