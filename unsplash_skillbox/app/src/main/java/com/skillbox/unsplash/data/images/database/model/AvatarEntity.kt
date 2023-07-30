@@ -5,16 +5,15 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.skillbox.unsplash.data.images.database.contract.AvatarContract
-import kotlinx.android.parcel.Parcelize
-import org.jetbrains.annotations.NotNull
+import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
 @Entity(tableName = AvatarContract.TABLE_NAME)
 @Parcelize
 data class AvatarEntity(
     @PrimaryKey
-    @NotNull
     @ColumnInfo(name = AvatarContract.Columns.ID)
-    val id: String,
+    val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = AvatarContract.Columns.LARGE)
     val large: String,
     @ColumnInfo(name = AvatarContract.Columns.MEDIUM)

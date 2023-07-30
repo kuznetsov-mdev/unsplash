@@ -5,16 +5,15 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.skillbox.unsplash.data.images.database.contract.PreviewContact
-import kotlinx.android.parcel.Parcelize
-import org.jetbrains.annotations.NotNull
+import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
 @Entity(tableName = PreviewContact.TABLE_NAME)
 @Parcelize
 data class PreviewEntity(
     @PrimaryKey
-    @NotNull
     @ColumnInfo(name = PreviewContact.Columns.ID)
-    val id: String,
+    val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = PreviewContact.Columns.RAW)
     val raw: String,
     @ColumnInfo(name = PreviewContact.Columns.FULL)

@@ -3,16 +3,25 @@ package com.skillbox.unsplash.data.images.database.model
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.skillbox.unsplash.data.images.database.contract.AuthorContract
-import kotlinx.android.parcel.Parcelize
-import org.jetbrains.annotations.NotNull
+import com.skillbox.unsplash.data.images.database.contract.AvatarContract
+import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = AuthorContract.TABLE_NAME)
+@Entity(
+    tableName = AuthorContract.TABLE_NAME,
+    foreignKeys = [
+        ForeignKey(
+            entity = AvatarEntity::class,
+            parentColumns = [AvatarContract.Columns.ID],
+            childColumns = [AuthorContract.Columns.AVATAR_ID]
+        )
+    ]
+)
 @Parcelize
 data class AuthorEntity(
     @PrimaryKey
-    @NotNull
     @ColumnInfo(name = AuthorContract.Columns.ID)
     val id: String,
     @ColumnInfo(name = AuthorContract.Columns.AVATAR_ID)
