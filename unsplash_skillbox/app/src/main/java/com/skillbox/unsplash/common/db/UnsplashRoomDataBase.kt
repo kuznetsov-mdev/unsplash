@@ -2,7 +2,7 @@ package com.skillbox.unsplash.common.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.skillbox.unsplash.common.db.UnsplashProjectDataBase.Companion.DB_VERSION
+import com.skillbox.unsplash.common.db.UnsplashRoomDataBase.Companion.DB_VERSION
 import com.skillbox.unsplash.data.images.room.dao.ImageDao
 import com.skillbox.unsplash.data.images.room.model.AuthorEntity
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
@@ -12,9 +12,10 @@ import com.skillbox.unsplash.data.images.room.model.ImageEntity
         ImageEntity::class,
         AuthorEntity::class
     ],
-    version = DB_VERSION
+    version = DB_VERSION,
+    exportSchema = true
 )
-abstract class UnsplashProjectDataBase : RoomDatabase() {
+abstract class UnsplashRoomDataBase : RoomDatabase() {
 
     abstract fun imageDao(): ImageDao
 
