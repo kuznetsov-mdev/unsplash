@@ -4,22 +4,35 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
+import com.skillbox.unsplash.data.images.room.model.AuthorEntity
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
+import com.skillbox.unsplash.util.toAuthorEntity
+import com.skillbox.unsplash.util.toImageEntity
 
 @Dao
 interface ImageDao {
-
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME}")
     fun getImages(): List<ImageEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addImages(images: List<ImageEntity>)
+    fun insertImages(images: List<ImageEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAuthors(authors: List<AuthorEntity>)
+
+    @Transaction
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME}")
     fun getImagesWithAuthor(): List<ImageWithAuthorEntity>
 
     @Query("DELETE FROM ${ImageContract.TABLE_NAME}")
     fun deleteImages()
+
+    fun insertImagesWithAuthor(remoteImage: List<RemoteImage>) {
+        insertAuthors(remoteImage.map { it.toAuthorEntity() })
+        insertImages(remoteImage.map { it.toImageEntity() })
+    }
 }

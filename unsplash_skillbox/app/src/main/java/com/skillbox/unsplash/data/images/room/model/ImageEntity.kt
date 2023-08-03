@@ -21,7 +21,7 @@ import kotlinx.parcelize.Parcelize
 )
 @Parcelize
 data class ImageEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ImageContract.Columns.ID)
     val id: String,
     @ColumnInfo(name = ImageContract.Columns.AUTHOR_ID)

@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = AuthorContract.TABLE_NAME)
 @Parcelize
 data class AuthorEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = AuthorContract.Columns.ID)
     val id: String,
     @ColumnInfo(name = AuthorContract.Columns.NAME)

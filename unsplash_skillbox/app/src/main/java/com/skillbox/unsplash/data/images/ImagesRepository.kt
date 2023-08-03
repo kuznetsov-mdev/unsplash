@@ -9,6 +9,9 @@ class ImagesRepository(
 
     suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<RemoteImage> =
         imagesRemoteDataSource.fetchImages(pageNumber, pageSize)
+            .also {
+                imagesLocalDataSource.saveRemoteImages(it)
+            }
 
     suspend fun setLike(imageId: String) {
         imagesRemoteDataSource.setLike(imageId)

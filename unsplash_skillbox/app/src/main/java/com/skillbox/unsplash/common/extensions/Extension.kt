@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.skillbox.unsplash.common.util.AutoClearedValue
 import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
+import com.skillbox.unsplash.data.images.room.model.AuthorEntity
+import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 
 fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
@@ -51,5 +53,24 @@ fun RemoteImage.toImageItem(): ImageItem {
         this.user.nickname,
         this.user.profileImage.small,
         this.urls.small
+    )
+}
+
+fun RemoteImage.toImageEntity(): ImageEntity {
+    return ImageEntity(
+        this.id,
+        this.user.id,
+        this.likes,
+        this.likedByUser,
+        this.urls.thumb
+    )
+}
+
+fun RemoteImage.toAuthorEntity(): AuthorEntity {
+    return AuthorEntity(
+        this.user.id,
+        this.user.name,
+        this.user.nickname,
+        this.user.profileImage.small
     )
 }
