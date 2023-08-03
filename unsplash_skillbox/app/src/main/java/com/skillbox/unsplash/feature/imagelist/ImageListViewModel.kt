@@ -53,7 +53,7 @@ class ImageListViewModel @Inject constructor(
 
     private fun getPagedImages(): Flow<PagingData<ImageItem>> {
         val loader: ImagesPageLoader = { pageIndex, pageSize ->
-            repository.getImageList(pageIndex, pageSize).map { it.toImageItem() }
+            repository.fetchImages(pageIndex, pageSize).map { it.toImageItem() }
         }
         return Pager(
             config = PagingConfig(

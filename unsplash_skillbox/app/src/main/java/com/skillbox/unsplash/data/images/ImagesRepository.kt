@@ -1,12 +1,20 @@
 package com.skillbox.unsplash.data.images
 
-import com.skillbox.unsplash.data.images.model.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
 
-interface ImagesRepository {
+class ImagesRepository(
+    private val imagesLocalDataSource: ImagesLocalDataSource,
+    private val imagesRemoteDataSource: ImagesRemoteDataSource
+) {
 
-    suspend fun setLike(imageId: String)
+    suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<RemoteImage> =
+        imagesRemoteDataSource.fetchImages(pageNumber, pageSize)
 
-    suspend fun removeLike(imageId: String)
+    suspend fun setLike(imageId: String) {
+        imagesRemoteDataSource.setLike(imageId)
+    }
 
-    suspend fun getImageList(pageNumber: Int, pageSize: Int): List<RemoteImage>
+    suspend fun removeLike(imageId: String) {
+        imagesRemoteDataSource.removeLike(imageId)
+    }
 }

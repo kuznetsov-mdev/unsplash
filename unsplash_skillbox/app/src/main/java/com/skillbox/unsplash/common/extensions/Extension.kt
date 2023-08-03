@@ -10,7 +10,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.skillbox.unsplash.common.util.AutoClearedValue
-import com.skillbox.unsplash.data.images.model.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 
 fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {

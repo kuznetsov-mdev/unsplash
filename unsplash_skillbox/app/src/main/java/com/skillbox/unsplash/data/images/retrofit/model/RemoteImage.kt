@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.images.model
+package com.skillbox.unsplash.data.images.retrofit.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -14,5 +14,5 @@ data class RemoteImage(
     @Json(name = "user")
     val user: RemoteUser,
     @Json(name = "urls")
-    val urls: RemoteImageUrls
+    val urls: RemoteImagePreviewUrls
 )

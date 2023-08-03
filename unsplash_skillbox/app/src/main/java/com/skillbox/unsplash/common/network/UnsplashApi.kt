@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.common.network
 
-import com.skillbox.unsplash.data.images.model.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
 import okhttp3.ResponseBody
 import retrofit2.http.DELETE
 import retrofit2.http.GET

@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.images.model
+package com.skillbox.unsplash.data.images.retrofit.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class RemoteImageUrls(
+data class RemoteImagePreviewUrls(
     @Json(name = "raw")
     val raw: String,
     @Json(name = "full")
