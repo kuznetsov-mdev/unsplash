@@ -20,4 +20,6 @@ interface ImageDao {
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME}")
     fun getImagesWithAuthor(): List<ImageWithAuthorEntity>
 
+    @Query("DELETE FROM ${ImageContract.TABLE_NAME}")
+    fun deleteImages()
 }

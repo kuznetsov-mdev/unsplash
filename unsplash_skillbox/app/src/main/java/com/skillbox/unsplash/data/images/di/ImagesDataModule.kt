@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.data.images.di
 
+import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.ImagesLocalDataSource
 import com.skillbox.unsplash.data.images.ImagesRemoteDataSource
@@ -18,7 +19,8 @@ class ImagesDataModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(): ImagesLocalDataSource = RoomImagesDataSource()
+    fun provideLocalDataSource(roomDatabase: UnsplashRoomDataBase): ImagesLocalDataSource =
+        RoomImagesDataSource(roomDatabase.imageDao())
 
     @Provides
     @Singleton
