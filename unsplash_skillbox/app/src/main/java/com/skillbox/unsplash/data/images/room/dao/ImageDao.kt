@@ -10,8 +10,6 @@ import com.skillbox.unsplash.data.images.room.contract.ImageContract
 import com.skillbox.unsplash.data.images.room.model.AuthorEntity
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
-import com.skillbox.unsplash.util.toAuthorEntity
-import com.skillbox.unsplash.util.toImageEntity
 
 @Dao
 interface ImageDao {
@@ -32,7 +30,6 @@ interface ImageDao {
     fun deleteImages()
 
     fun insertImagesWithAuthor(remoteImage: List<RemoteImage>) {
-        insertAuthors(remoteImage.map { it.toAuthorEntity() })
-        insertImages(remoteImage.map { it.toImageEntity() })
+
     }
 }
