@@ -3,6 +3,7 @@ package com.skillbox.unsplash
 import android.app.Application
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
@@ -22,6 +23,7 @@ class UnsplashApp : Application() {
             AndroidFlipperClient.getInstance(this).apply {
                 addPlugin(InspectorFlipperPlugin(this@UnsplashApp, DescriptorMapping.withDefaults()))
                 addPlugin(Network.NETWORK_FLIPPER_PLUGIN)
+                addPlugin(DatabasesFlipperPlugin(this@UnsplashApp))
             }.start()
         }
     }
