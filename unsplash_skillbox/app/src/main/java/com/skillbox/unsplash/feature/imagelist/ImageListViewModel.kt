@@ -53,7 +53,7 @@ class ImageListViewModel @Inject constructor(
 
     private fun getPagedImages(): Flow<PagingData<ImageItem>> {
         val loader: ImagesPageLoader = { pageIndex, pageSize ->
-            repository.fetchImages(pageIndex, pageSize, isThereInternetConnection()).map { it.toImageItem() }
+            repository.fetchImages(pageIndex, pageSize).map { it.toImageItem() }
         }
         return Pager(
             config = PagingConfig(
@@ -66,10 +66,5 @@ class ImageListViewModel @Inject constructor(
 
     private companion object {
         const val PAGE_SIZE = 10
-    }
-
-    private fun isThereInternetConnection(): Boolean {
-        //todo: need realize internet connection checking
-        return false
     }
 }

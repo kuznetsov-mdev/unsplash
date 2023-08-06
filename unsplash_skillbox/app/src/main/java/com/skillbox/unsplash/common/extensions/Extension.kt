@@ -64,6 +64,7 @@ fun RemoteImage.toImageEntity(): ImageEntity {
     return ImageEntity(
         this.id,
         this.user.id,
+        this.description ?: "",
         this.likes,
         this.likedByUser,
         this.urls.thumb
@@ -92,6 +93,7 @@ fun ImageWithAuthorEntity.toRemoteImage(): RemoteImage {
     )
     return RemoteImage(
         this.image.id,
+        this.image.description,
         this.image.likes,
         this.image.likedByUser,
         remoteUser,

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.skillbox.unsplash.data.images.room.contract.AuthorContract
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
@@ -11,6 +12,7 @@ import kotlinx.parcelize.Parcelize
 
 @Entity(
     tableName = ImageContract.TABLE_NAME,
+    indices = [Index(ImageContract.Columns.DESCRIPTION)],
     foreignKeys = [
         ForeignKey(
             entity = AuthorEntity::class,
@@ -26,6 +28,8 @@ data class ImageEntity(
     val id: String,
     @ColumnInfo(name = ImageContract.Columns.AUTHOR_ID)
     val authorId: String,
+    @ColumnInfo(name = ImageContract.Columns.DESCRIPTION)
+    val description: String,
     @ColumnInfo(name = ImageContract.Columns.LIKES)
     val likes: Int,
     @ColumnInfo(name = ImageContract.Columns.LIKED_BY_USER)

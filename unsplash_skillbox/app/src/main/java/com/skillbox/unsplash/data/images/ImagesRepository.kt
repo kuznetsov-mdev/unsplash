@@ -9,17 +9,15 @@ class ImagesRepository(
     private val imagesRemoteDataSource: ImagesRemoteDataSource
 ) {
 
-    suspend fun fetchImages(pageNumber: Int, pageSize: Int, isThereInternetConnection: Boolean): List<RemoteImage> {
-        return if (isThereInternetConnection) {
-            imagesRemoteDataSource.fetchImages(pageNumber, pageSize)
-                .also {
-                    imagesLocalDataSource.saveRemoteImages(it)
-                }
-        } else {
-            imagesLocalDataSource.loadAllImages().map { it.toRemoteImage() }
-        }
+    suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<RemoteImage> {
+        return imagesRemoteDataSource.fetchImages(pageNumber, pageSize)
+            .also {
+                imagesLocalDataSource.saveRemoteImages(it)
+            }
+//            .let {
+//                imagesLocalDataSource.loadAllImages().map { it.toRemoteImage() }
+//            }
     }
-
 
     suspend fun setLike(imageId: String) {
         imagesRemoteDataSource.setLike(imageId)

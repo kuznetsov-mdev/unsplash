@@ -5,6 +5,7 @@ object ImageContract {
 
     object Columns {
         const val ID = "id"
+        const val DESCRIPTION = "description"
         const val AUTHOR_ID = "author_id"
         const val LIKES = "likes"
         const val LIKED_BY_USER = "liked_by_user"
