@@ -24,7 +24,7 @@ class AppFragment : Fragment(R.layout.fragment_app) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
-            viewModel.connectivityObserver.observe().collectLatest { status ->
+            viewModel.connectivityStateFlow.collectLatest { status ->
                 if (status.name == (ConnectivityStatus.Available.name)) {
                     binding.offlineModeView.visibility = View.GONE
                 } else {

@@ -14,6 +14,7 @@ import com.skillbox.unsplash.util.inflate
 
 class ImageAdapter(
     private val onLikeClicked: (String, Int, Boolean) -> Unit,
+    private val isNetworkAvailable: () -> Boolean
 ) : PagingDataAdapter<ImageItem, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -22,7 +23,7 @@ class ImageAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(parent.inflate(ItemImageBinding::inflate), onLikeClicked)
+        return Holder(parent.inflate(ItemImageBinding::inflate), isNetworkAvailable, onLikeClicked)
     }
 
     class ImageDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
@@ -38,6 +39,7 @@ class ImageAdapter(
     @SuppressLint("SetTextI18n")
     class Holder(
         private val binding: ItemImageBinding,
+        isNetworkAvailable: () -> Boolean,
         onLikeClicked: (String, Int, Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var currentImage: ImageItem? = null
@@ -45,21 +47,25 @@ class ImageAdapter(
 
         init {
             binding.activeLikesIconView.setOnClickListener {
-                currentImage?.let { image ->
-                    imagePosition?.let { imgPosition ->
-                        image.likedByUser = false
-                        image.likes = image.likes - 1
-                        onLikeClicked(image.id, imgPosition, false)
+                if (isNetworkAvailable()) {
+                    currentImage?.let { image ->
+                        imagePosition?.let { imgPosition ->
+                            image.likedByUser = false
+                            image.likes = image.likes - 1
+                            onLikeClicked(image.id, imgPosition, false)
+                        }
                     }
                 }
             }
 
             binding.inactiveLikesIconView.setOnClickListener {
-                currentImage?.let { image ->
-                    imagePosition?.let { imgPosition ->
-                        image.likedByUser = true
-                        image.likes = image.likes + 1
-                        onLikeClicked(image.id, imgPosition, true)
+                if (isNetworkAvailable()) {
+                    currentImage?.let { image ->
+                        imagePosition?.let { imgPosition ->
+                            image.likedByUser = true
+                            image.likes = image.likes + 1
+                            onLikeClicked(image.id, imgPosition, true)
+                        }
                     }
                 }
             }

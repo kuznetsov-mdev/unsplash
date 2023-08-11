@@ -1,11 +1,17 @@
 package com.skillbox.unsplash.feature
 
 import androidx.lifecycle.ViewModel
+import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
-    val connectivityObserver: ConnectivityObserver
-) : ViewModel()
+    private val connectivityObserver: ConnectivityObserver
+) : ViewModel() {
+
+    val connectivityStateFlow: Flow<ConnectivityStatus>
+        get() = connectivityObserver.observe()
+}

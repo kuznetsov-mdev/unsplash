@@ -16,14 +16,13 @@ import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.feature.imagelist.adapter.ImageAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val viewModel: ImageListViewModel by viewModels()
-    private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) { ImageAdapter(::markPhoto) }
+    private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) { ImageAdapter(::markPhoto, ::isNetworkAvailable) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +51,8 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
         imageAdapter.notifyItemChanged(imagePosition)
     }
+
+    private fun isNetworkAvailable(): Boolean = viewModel.isNetworkAvailableState
 
     private fun observeImages() {
         lifecycleScope.launch {

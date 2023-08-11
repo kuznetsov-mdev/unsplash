@@ -6,6 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.skillbox.unsplash.common.network.ConnectivityStatus
+import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.images.ImagesRepository
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.feature.imagelist.paging.ImagesPageLoader
@@ -15,6 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,21 +25,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImageListViewModel @Inject constructor(
-    private val repository: ImagesRepository
+    private val repository: ImagesRepository,
+    private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
     private val imagesStateFlow: StateFlow<PagingData<ImageItem>> = getPagedImages()
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
+    var isNetworkAvailableState = true
+
     val imageList: StateFlow<PagingData<ImageItem>>
         get() = imagesStateFlow
+
+    private val connectivityStateFlow: Flow<ConnectivityStatus>
+        get() = connectivityObserver.observe()
+
+    init {
+        observeConnectivityState()
+    }
 
     fun setLike(imageId: String) {
         viewModelScope.launch {
             try {
                 repository.setLike(imageId)
             } catch (t: Throwable) {
-                Timber.d("Something wrong")
+                Timber.d("Something wrong when try set like")
             }
         }
     }
@@ -46,7 +59,7 @@ class ImageListViewModel @Inject constructor(
             try {
                 repository.removeLike(imageId)
             } catch (t: Throwable) {
-                Timber.d("Something wrong")
+                Timber.d("Something wrong when try remove like")
             }
         }
     }
@@ -66,5 +79,13 @@ class ImageListViewModel @Inject constructor(
 
     private companion object {
         const val PAGE_SIZE = 10
+    }
+
+    private fun observeConnectivityState() {
+        viewModelScope.launch {
+            connectivityStateFlow.collectLatest {
+                isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
+            }
+        }
     }
 }
