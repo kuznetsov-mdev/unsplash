@@ -21,4 +21,6 @@
     <string name="ic_image_desc">Images</string>
     <string name="collections_desc">Collections</string>
     <string name="user_account">User account</string>
+    <string name="offline_mode">offline mode</string>
+    <string name="empty" />
 </resources>

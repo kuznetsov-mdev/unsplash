@@ -20,4 +20,6 @@
     <string name="ic_image_desc">Las photos</string>
     <string name="collections_desc">Las colecciones</string>
     <string name="user_account">User account</string>
+    <string name="offline_mode">offline modo</string>
+    <string name="empty" />
 </resources>

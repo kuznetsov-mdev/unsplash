@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.common.network
+package com.skillbox.unsplash.common.network.api
 
 import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
 import okhttp3.ResponseBody
