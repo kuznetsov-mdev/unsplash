@@ -84,13 +84,11 @@ class ImageAdapter(
                 Glide.with(itemView)
                     .load(imageItem.authorAvatarUrl)
                     .placeholder(R.drawable.user_icon_place_holder)
-                    .error(R.drawable.user_icon_place_holder)
                     .into(avatarImageView)
 
                 Glide.with(itemView)
                     .load(imageItem.imageUrl)
-                    .placeholder(R.drawable.image_placeholder)
-                    .error(R.drawable.image_placeholder)
+                    .placeholder(R.drawable.ic_img_placeholder_foreground)
                     .into(imageItemView)
             }
         }
