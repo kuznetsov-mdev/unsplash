@@ -8,4 +8,6 @@ interface ImagesLocalDataSource {
     suspend fun loadAllImages(): List<ImageWithAuthorEntity>
 
     suspend fun saveRemoteImages(images: List<RemoteImage>)
+
+    suspend fun removeImages()
 }

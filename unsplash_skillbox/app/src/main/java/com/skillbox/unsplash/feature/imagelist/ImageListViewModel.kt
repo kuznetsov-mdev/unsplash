@@ -41,6 +41,7 @@ class ImageListViewModel @Inject constructor(
         get() = connectivityObserver.observe()
 
     init {
+        viewModelScope.launch { repository.removeImages() }
         observeConnectivityState()
     }
 
@@ -66,7 +67,7 @@ class ImageListViewModel @Inject constructor(
 
     private fun getPagedImages(): Flow<PagingData<ImageItem>> {
         val loader: ImagesPageLoader = { pageIndex, pageSize ->
-            repository.fetchImages(pageIndex, pageSize).map { it.toImageItem() }
+            repository.fetchImages(pageIndex, pageSize, isNetworkAvailableState).map { it.toImageItem() }
         }
         return Pager(
             config = PagingConfig(

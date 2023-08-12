@@ -27,4 +27,9 @@ class RoomImagesDataSource(private val dataBase: UnsplashRoomDataBase) : ImagesL
         }
     }
 
+    override suspend fun removeImages() {
+        withContext(Dispatchers.IO) {
+            dataBase.imageDao().deleteImages()
+        }
+    }
 }
