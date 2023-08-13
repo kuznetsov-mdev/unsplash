@@ -76,7 +76,6 @@ class AuthServiceImpl @Inject constructor(
                     ex != null -> {
                         continuation.resumeWith(Result.failure(ex))
                     }
-
                     else -> error("unreachable")
                 }
             }

@@ -15,9 +15,7 @@ interface AuthServiceApi {
 
     fun getRefreshTokenRequest(refreshToken: String): TokenRequest
 
-    suspend fun performTokenRequestSuspend(
-        tokenRequest: TokenRequest,
-    ): TokensModel
+    suspend fun performTokenRequestSuspend(tokenRequest: TokenRequest): TokensModel
 
     fun getAuthorizationRequestIntent(
         authRequest: AuthorizationRequest,

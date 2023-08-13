@@ -1,6 +1,7 @@
 package com.skillbox.unsplash
 
 import android.app.Application
+import android.os.StrictMode
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
@@ -25,6 +26,18 @@ class UnsplashApp : Application() {
                 addPlugin(Network.NETWORK_FLIPPER_PLUGIN)
                 addPlugin(DatabasesFlipperPlugin(this@UnsplashApp))
             }.start()
+        }
+
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build()
+            )
         }
     }
 }
