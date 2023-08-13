@@ -1,14 +1,15 @@
 package com.skillbox.unsplash.data.images.di
 
+import android.app.Application
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
+import com.skillbox.unsplash.data.images.ImagesInternalStorageDataSource
 import com.skillbox.unsplash.data.images.ImagesLocalDataSource
 import com.skillbox.unsplash.data.images.ImagesRemoteDataSource
 import com.skillbox.unsplash.data.images.ImagesRepository
-import com.skillbox.unsplash.data.images.ImagesScopeStorageDataSource
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImagesDataSource
 import com.skillbox.unsplash.data.images.room.RoomImagesDataSource
-import com.skillbox.unsplash.data.images.scopestorage.ScopeStorageImagesDataSource
+import com.skillbox.unsplash.data.images.scopestorage.InternalStorageImagesDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,8 +22,9 @@ class ImagesDataModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(roomDatabase: UnsplashRoomDataBase): ImagesLocalDataSource =
-        RoomImagesDataSource(roomDatabase)
+    fun provideLocalDataSource(
+        roomDatabase: UnsplashRoomDataBase
+    ): ImagesLocalDataSource = RoomImagesDataSource(roomDatabase)
 
     @Provides
     @Singleton
@@ -31,6 +33,15 @@ class ImagesDataModule {
 
     @Provides
     @Singleton
-    fun providesImagesRepository(local: ImagesLocalDataSource, remote: ImagesRemoteDataSource): ImagesRepository =
-        ImagesRepository(local, remote)
+    fun providesImagesRepository(
+        inMemory: ImagesInternalStorageDataSource,
+        local: ImagesLocalDataSource,
+        remote: ImagesRemoteDataSource
+    ): ImagesRepository =
+        ImagesRepository(inMemory, local, remote)
+
+    @Provides
+    @Singleton
+    fun providesImagesSharedPrefsDataSource(context: Application): ImagesInternalStorageDataSource =
+        InternalStorageImagesDataSource(context)
 }
