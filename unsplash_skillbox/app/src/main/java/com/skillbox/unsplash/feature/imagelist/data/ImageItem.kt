@@ -2,6 +2,7 @@ package com.skillbox.unsplash.feature.imagelist.data
 
 data class ImageItem(
     val id: String,
+    val authorId: String,
     var likes: Int,
     var likedByUser: Boolean,
     val authorName: String,

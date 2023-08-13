@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val viewModel: ImageListViewModel by viewModels()
-    private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) { ImageAdapter(::markPhoto, ::isNetworkAvailable) }
+    private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) { ImageAdapter(requireContext(), ::markPhoto, ::isNetworkAvailable) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

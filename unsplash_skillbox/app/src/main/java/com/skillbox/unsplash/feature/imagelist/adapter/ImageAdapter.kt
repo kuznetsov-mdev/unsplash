@@ -1,8 +1,10 @@
 package com.skillbox.unsplash.feature.imagelist.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +13,10 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.ItemImageBinding
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.util.inflate
+import java.io.File
 
 class ImageAdapter(
+    private val context: Context,
     private val onLikeClicked: (String, Int, Boolean) -> Unit,
     private val isNetworkAvailable: () -> Boolean
 ) : PagingDataAdapter<ImageItem, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
@@ -23,7 +27,7 @@ class ImageAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(parent.inflate(ItemImageBinding::inflate), isNetworkAvailable, onLikeClicked)
+        return Holder(context, parent.inflate(ItemImageBinding::inflate), isNetworkAvailable, onLikeClicked)
     }
 
     class ImageDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
@@ -38,8 +42,9 @@ class ImageAdapter(
 
     @SuppressLint("SetTextI18n")
     class Holder(
+        private val context: Context,
         private val binding: ItemImageBinding,
-        isNetworkAvailable: () -> Boolean,
+        private val isNetworkAvailable: () -> Boolean,
         onLikeClicked: (String, Int, Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var currentImage: ImageItem? = null
@@ -81,16 +86,45 @@ class ImageAdapter(
                 activeLikesIconView.visibility = if (imageItem.likedByUser) View.VISIBLE else View.GONE
                 inactiveLikesIconView.visibility = if (!imageItem.likedByUser) View.VISIBLE else View.GONE
 
-                Glide.with(itemView)
-                    .load(imageItem.authorAvatarUrl)
-                    .placeholder(R.drawable.user_icon_place_holder)
-                    .into(avatarImageView)
-
-                Glide.with(itemView)
-                    .load(imageItem.imageUrl)
-                    .placeholder(R.drawable.ic_img_placeholder_foreground)
-                    .into(imageItemView)
+                if (isNetworkAvailable()) {
+                    loadImagesFromNetwork(imageItem, avatarImageView, imageItemView)
+                } else {
+                    loadImagesFromCache(context, imageItem, avatarImageView, imageItemView)
+                }
             }
+        }
+
+        private fun loadImagesFromNetwork(
+            imageItem: ImageItem,
+            avatarImageView: ImageView,
+            imageItemView: ImageView
+        ) {
+            Glide.with(itemView)
+                .load(imageItem.authorAvatarUrl)
+                .placeholder(R.drawable.user_icon_place_holder)
+                .into(avatarImageView)
+
+            Glide.with(itemView)
+                .load(imageItem.imageUrl)
+                .placeholder(R.drawable.ic_img_placeholder_foreground)
+                .into(imageItemView)
+        }
+
+        private fun loadImagesFromCache(
+            context: Context,
+            imageItem: ImageItem,
+            avatarImageView: ImageView,
+            imageItemView: ImageView
+        ) {
+            Glide.with(itemView)
+                .load(File(context.cacheDir.path).resolve("avatars").resolve("${imageItem.authorId}.jpg"))
+                .placeholder(R.drawable.user_icon_place_holder)
+                .into(avatarImageView)
+
+            Glide.with(itemView)
+                .load(File(context.cacheDir.path).resolve("thumbnails").resolve("${imageItem.id}.jpg"))
+                .placeholder(R.drawable.ic_img_placeholder_foreground)
+                .into(imageItemView)
         }
     }
 }

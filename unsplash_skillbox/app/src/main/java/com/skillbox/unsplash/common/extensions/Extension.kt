@@ -51,6 +51,7 @@ fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
 fun RemoteImage.toImageItem(): ImageItem {
     return ImageItem(
         this.id,
+        this.user.id,
         this.likes,
         this.likedByUser,
         this.user.name,
