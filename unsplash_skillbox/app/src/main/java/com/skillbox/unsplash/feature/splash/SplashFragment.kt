@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.feature.onboarding.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -28,7 +29,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 val isOnBoardingCompleted = onBoardingViewModel.isOnBoardingCompleted(requireContext())
                 Handler(Looper.getMainLooper()).postDelayed({
