@@ -14,3 +14,14 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         }
     }
 }
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        try {
+            database.execSQL("ALTER TABLE images ADD COLUMN cached_preview TEXT NOT NULL DEFAULT ''")
+            database.execSQL("ALTER TABLE images ADD COLUMN cached_profile_image TEXT NOT NULL DEFAULT ''")
+        } catch (t: Throwable) {
+            Timber.e(t.message)
+        }
+    }
+}

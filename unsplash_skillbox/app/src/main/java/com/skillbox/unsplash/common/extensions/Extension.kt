@@ -68,7 +68,8 @@ fun RemoteImage.toImageEntity(): ImageEntity {
         this.description ?: "",
         this.likes,
         this.likedByUser,
-        this.urls.thumb
+        this.urls.thumb,
+        ""
     )
 }
 
@@ -77,7 +78,8 @@ fun RemoteImage.toAuthorEntity(): AuthorEntity {
         this.user.id,
         this.user.name,
         this.user.nickname,
-        this.user.profileImage.small
+        this.user.profileImage.small,
+        ""
     )
 }
 

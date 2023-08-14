@@ -3,6 +3,7 @@ package com.skillbox.unsplash.common.db.di
 import android.content.Context
 import androidx.room.Room
 import com.skillbox.unsplash.common.db.MIGRATION_1_2
+import com.skillbox.unsplash.common.db.MIGRATION_2_3
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import dagger.Module
 import dagger.Provides
@@ -22,6 +23,7 @@ class RoomModule {
             UnsplashRoomDataBase.DB_NAME
         )
             .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
             .build()
     }
 }
