@@ -13,7 +13,6 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.ItemImageBinding
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.util.inflate
-import java.io.File
 
 class ImageAdapter(
     private val context: Context,
@@ -117,12 +116,12 @@ class ImageAdapter(
             imageItemView: ImageView
         ) {
             Glide.with(itemView)
-                .load(File(context.cacheDir.path).resolve("avatars").resolve("${imageItem.authorId}.jpg"))
+                .load(imageItem.cachedAvatarPath)
                 .placeholder(R.drawable.user_icon_place_holder)
                 .into(avatarImageView)
 
             Glide.with(itemView)
-                .load(File(context.cacheDir.path).resolve("thumbnails").resolve("${imageItem.id}.jpg"))
+                .load(imageItem.cachedImagePath)
                 .placeholder(R.drawable.ic_img_placeholder_foreground)
                 .into(imageItemView)
         }

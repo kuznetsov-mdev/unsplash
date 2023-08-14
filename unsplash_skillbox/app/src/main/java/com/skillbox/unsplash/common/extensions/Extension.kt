@@ -11,9 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.skillbox.unsplash.common.util.AutoClearedValue
 import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
-import com.skillbox.unsplash.data.images.retrofit.model.RemoteImagePreviewUrls
-import com.skillbox.unsplash.data.images.retrofit.model.RemoteProfileImage
-import com.skillbox.unsplash.data.images.retrofit.model.RemoteUser
 import com.skillbox.unsplash.data.images.room.model.AuthorEntity
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
@@ -48,64 +45,55 @@ fun <T : ViewBinding> ViewGroup.inflate(
 fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
 
 
-fun RemoteImage.toImageItem(): ImageItem {
+fun RemoteImage.toImageItem(cachedImagePath: String, cachedAvatarPath: String): ImageItem {
     return ImageItem(
-        this.id,
-        this.user.id,
-        this.likes,
-        this.likedByUser,
-        this.user.name,
-        this.user.nickname,
-        this.user.profileImage.small,
-        this.urls.small
-    )
-}
-
-fun RemoteImage.toImageEntity(): ImageEntity {
-    return ImageEntity(
         this.id,
         this.user.id,
         this.description ?: "",
         this.likes,
         this.likedByUser,
-        this.urls.thumb,
-        ""
-    )
-}
-
-fun RemoteImage.toAuthorEntity(): AuthorEntity {
-    return AuthorEntity(
-        this.user.id,
         this.user.name,
         this.user.nickname,
         this.user.profileImage.small,
-        ""
+        cachedAvatarPath,
+        this.urls.small,
+        cachedImagePath
     )
 }
 
-fun ImageWithAuthorEntity.toRemoteImage(): RemoteImage {
-    val remoteUser = RemoteUser(
-        this.author.id,
-        this.author.name,
-        this.author.nickName,
-        RemoteProfileImage(
-            this.author.profileImage,
-            this.author.profileImage,
-            this.author.profileImage
-        )
+fun ImageItem.toImageWithAuthorEntity(): ImageWithAuthorEntity {
+    val authorEntity = AuthorEntity(
+        this.authorId,
+        this.authorName,
+        this.authorNickname,
+        this.authorAvatarUrl,
+        this.cachedAvatarPath
     )
-    return RemoteImage(
+    val imageEntity = ImageEntity(
+        this.id,
+        this.authorId,
+        this.description,
+        this.likes,
+        this.likedByUser,
+        this.imageUrl,
+        this.cachedImagePath
+    )
+
+    return ImageWithAuthorEntity(imageEntity, authorEntity)
+}
+
+fun ImageWithAuthorEntity.toImageItem(): ImageItem {
+    return ImageItem(
         this.image.id,
+        this.author.id,
         this.image.description,
         this.image.likes,
         this.image.likedByUser,
-        remoteUser,
-        RemoteImagePreviewUrls(
-            this.image.preview,
-            this.image.preview,
-            this.image.preview,
-            this.image.preview,
-            this.image.preview
-        )
+        this.author.name,
+        this.author.nickName,
+        this.author.profileImage,
+        this.author.cachedProfileImage,
+        this.image.preview,
+        this.image.cachedPreview
     )
 }
