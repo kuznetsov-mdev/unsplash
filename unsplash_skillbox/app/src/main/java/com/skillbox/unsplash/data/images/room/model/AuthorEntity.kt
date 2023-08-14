@@ -18,5 +18,7 @@ data class AuthorEntity(
     @ColumnInfo(name = AuthorContract.Columns.NICKNAME)
     val nickName: String,
     @ColumnInfo(name = AuthorContract.Columns.PROFILE_IMAGE)
-    val profileImage: String
+    val profileImage: String,
+    @ColumnInfo(name = AuthorContract.Columns.CACHED_PROFILE_IMAGE)
+    val cachedProfileImage: String
 ) : Parcelable

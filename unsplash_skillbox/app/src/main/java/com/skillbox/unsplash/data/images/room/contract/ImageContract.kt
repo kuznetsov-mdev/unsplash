@@ -10,5 +10,6 @@ object ImageContract {
         const val LIKES = "likes"
         const val LIKED_BY_USER = "liked_by_user"
         const val PREVIEW = "preview"
+        const val CACHED_PREVIEW = "cached_preview"
     }
 }

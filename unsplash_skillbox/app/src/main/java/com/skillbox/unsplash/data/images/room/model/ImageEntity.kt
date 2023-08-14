@@ -35,5 +35,7 @@ data class ImageEntity(
     @ColumnInfo(name = ImageContract.Columns.LIKED_BY_USER)
     val likedByUser: Boolean,
     @ColumnInfo(name = ImageContract.Columns.PREVIEW)
-    val preview: String
+    val preview: String,
+    @ColumnInfo(name = ImageContract.Columns.CACHED_PREVIEW)
+    val cachedPreview: String
 ) : Parcelable
