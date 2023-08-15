@@ -6,7 +6,11 @@
     <fragment
         android:id="@+id/imagesFragment"
         android:name="com.skillbox.unsplash.feature.imagelist.ImageListFragment"
-        android:label="ImagesFragment" />
+        android:label="ImagesFragment">
+        <action
+            android:id="@+id/action_imagesFragment_to_imageFragment"
+            app:destination="@id/imageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/collectionsFragment"
         android:name="com.skillbox.unsplash.feature.collections.CollectionsFragment"
@@ -15,4 +19,8 @@
         android:id="@+id/accountFragment"
         android:name="com.skillbox.unsplash.feature.account.AccountFragment"
         android:label="AccountFragment" />
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="com.skillbox.unsplash.feature.imagedetails.ImageFragment"
+        android:label="ImageFragment" />
 </navigation>

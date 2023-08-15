@@ -17,7 +17,8 @@ import com.skillbox.unsplash.util.inflate
 class ImageAdapter(
     private val context: Context,
     private val onLikeClicked: (String, Int, Boolean) -> Unit,
-    private val isNetworkAvailable: () -> Boolean
+    private val isNetworkAvailable: () -> Boolean,
+    private val onImageClicked: () -> Unit,
 ) : PagingDataAdapter<ImageItem, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -26,7 +27,13 @@ class ImageAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(context, parent.inflate(ItemImageBinding::inflate), isNetworkAvailable, onLikeClicked)
+        return Holder(
+            context = context,
+            binding = parent.inflate(ItemImageBinding::inflate),
+            isNetworkAvailable = isNetworkAvailable,
+            onLikeClicked = onLikeClicked,
+            onImageClicked = onImageClicked
+        )
     }
 
     class ImageDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
@@ -44,7 +51,8 @@ class ImageAdapter(
         private val context: Context,
         private val binding: ItemImageBinding,
         private val isNetworkAvailable: () -> Boolean,
-        onLikeClicked: (String, Int, Boolean) -> Unit
+        onLikeClicked: (String, Int, Boolean) -> Unit,
+        private val onImageClicked: () -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         private var currentImage: ImageItem? = null
         private var imagePosition: Int? = null
@@ -73,6 +81,8 @@ class ImageAdapter(
                     }
                 }
             }
+
+            binding.imageItemView.setOnClickListener { onImageClicked() }
         }
 
         fun bind(imageItem: ImageItem, position: Int) {

@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -23,7 +24,14 @@ import kotlinx.coroutines.launch
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val viewModel: ImageListViewModel by viewModels()
-    private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) { ImageAdapter(requireContext(), ::markPhoto, ::isNetworkAvailable) }
+    private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        ImageAdapter(
+            requireContext(),
+            ::markPhoto,
+            ::isNetworkAvailable,
+            ::onImageClicked
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,6 +62,10 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun isNetworkAvailable(): Boolean = viewModel.isNetworkAvailableState
+
+    private fun onImageClicked() {
+        findNavController().navigate(ImageListFragmentDirections.actionImagesFragmentToImageFragment())
+    }
 
     private fun observeImages() {
         lifecycleScope.launch(Dispatchers.IO) {
