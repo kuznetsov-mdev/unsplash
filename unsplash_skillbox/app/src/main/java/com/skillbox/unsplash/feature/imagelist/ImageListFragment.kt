@@ -15,6 +15,7 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.feature.imagelist.adapter.ImageAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -55,7 +56,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private fun isNetworkAvailable(): Boolean = viewModel.isNetworkAvailableState
 
     private fun observeImages() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             viewModel.imageList.collectLatest(imageAdapter::submitData)
         }
 

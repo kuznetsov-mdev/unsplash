@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
 import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.EndSessionRequest
 import net.openid.appauth.TokenRequest
@@ -33,12 +35,14 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun performTokenRequest(tokenRequest: TokenRequest) {
-        val tokens = authService.performTokenRequestSuspend(tokenRequest)
-        TokenStorage.accessToken = tokens.accessToken
-        TokenStorage.refreshToken = tokens.refreshToken
-        TokenStorage.idToken = tokens.idToken
-        Timber.tag("Oauth")
-            .d("5. Tokens accepted:\n access=${tokens.accessToken}\nrefresh=${tokens.refreshToken}\nidToken=${tokens.idToken}")
+        withContext(Dispatchers.IO) {
+            val tokens = authService.performTokenRequestSuspend(tokenRequest)
+            TokenStorage.accessToken = tokens.accessToken
+            TokenStorage.refreshToken = tokens.refreshToken
+            TokenStorage.idToken = tokens.idToken
+            Timber.tag("Oauth")
+                .d("5. Tokens accepted:\n access=${tokens.accessToken}\nrefresh=${tokens.refreshToken}\nidToken=${tokens.idToken}")
+        }
     }
 
     override fun getAuthorizationRequestIntent(

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.data.auth.repository.AuthRepositoryApi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -65,7 +66,7 @@ class AuthViewModel @Inject constructor(
         //Процедура обмена кода на токен
         Timber.tag("Oauth").d("3. Received code = ${tokenRequest.authorizationCode}")
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             loadingMutableStateFlow.value = true
             runCatching {
                 Timber.tag("Oauth")

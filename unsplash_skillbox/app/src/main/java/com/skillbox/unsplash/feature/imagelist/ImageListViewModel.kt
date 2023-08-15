@@ -12,8 +12,8 @@ import com.skillbox.unsplash.data.images.ImagesRepository
 import com.skillbox.unsplash.feature.imagelist.data.ImageItem
 import com.skillbox.unsplash.feature.imagelist.paging.ImagesPageLoader
 import com.skillbox.unsplash.feature.imagelist.paging.ImagesPageSource
-import com.skillbox.unsplash.util.toImageItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -41,12 +41,14 @@ class ImageListViewModel @Inject constructor(
         get() = connectivityObserver.observe()
 
     init {
-        viewModelScope.launch { repository.removeImages() }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.removeImages()
+        }
         observeConnectivityState()
     }
 
     fun setLike(imageId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 repository.setLike(imageId)
             } catch (t: Throwable) {
@@ -56,7 +58,7 @@ class ImageListViewModel @Inject constructor(
     }
 
     fun removeLike(imageId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 repository.removeLike(imageId)
             } catch (t: Throwable) {
@@ -67,7 +69,7 @@ class ImageListViewModel @Inject constructor(
 
     private fun getPagedImages(): Flow<PagingData<ImageItem>> {
         val loader: ImagesPageLoader = { pageIndex, pageSize ->
-            repository.fetchImages(pageIndex, pageSize, isNetworkAvailableState).map { it.toImageItem() }
+            repository.fetchImages(pageIndex, pageSize, isNetworkAvailableState)
         }
         return Pager(
             config = PagingConfig(
@@ -83,7 +85,7 @@ class ImageListViewModel @Inject constructor(
     }
 
     private fun observeConnectivityState() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             connectivityStateFlow.collectLatest {
                 isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
             }

@@ -35,7 +35,7 @@ class UnsplashApp : Application() {
                     .detectDiskWrites()
                     .detectNetwork()
                     .penaltyLog()
-                    .penaltyDeath()
+//                    .penaltyDeath()
                     .build()
             )
         }
