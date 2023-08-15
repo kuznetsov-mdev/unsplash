@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
+import com.skillbox.unsplash.data.images.room.contract.AuthorContract
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
 import com.skillbox.unsplash.data.images.room.model.AuthorEntity
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
@@ -28,6 +29,9 @@ interface ImageDao {
 
     @Query("DELETE FROM ${ImageContract.TABLE_NAME}")
     fun deleteImages()
+
+    @Query("DELETE FROM ${AuthorContract.TABLE_NAME}")
+    fun deleteAuthorsAvatars()
 
     fun insertImagesWithAuthor(remoteImage: List<RemoteImage>) {
 

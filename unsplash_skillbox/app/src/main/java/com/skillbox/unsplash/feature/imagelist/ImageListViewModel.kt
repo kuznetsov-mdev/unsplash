@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,6 +46,13 @@ class ImageListViewModel @Inject constructor(
             repository.removeImages()
         }
         observeConnectivityState()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        runBlocking(Dispatchers.IO) {
+            repository.removeImages()
+        }
     }
 
     fun setLike(imageId: String) {

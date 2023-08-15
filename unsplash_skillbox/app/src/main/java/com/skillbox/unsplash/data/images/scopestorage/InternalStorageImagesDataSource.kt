@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.skillbox.unsplash.data.images.ImagesInternalStorageDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -18,7 +19,7 @@ class InternalStorageImagesDataSource(
     override suspend fun saveImagePreview(imageId: String, imageUri: String) {
         saveImage(
             imageId,
-            context.cacheDir.resolve("thumbnails/"),
+            context.cacheDir.resolve("thumbnails"),
             withContext(Dispatchers.IO) {
                 Glide.with(context)
                     .asBitmap()
@@ -27,16 +28,12 @@ class InternalStorageImagesDataSource(
                     .get()
             }
         )
-    }
-
-    override suspend fun getImagePreview(imageId: String): String {
-        return ""
     }
 
     override suspend fun saveUserAvatar(userId: String, imageUri: String) {
         saveImage(
             userId,
-            context.cacheDir.resolve("avatars/"),
+            context.cacheDir.resolve("avatars"),
             withContext(Dispatchers.IO) {
                 Glide.with(context)
                     .asBitmap()
@@ -47,8 +44,14 @@ class InternalStorageImagesDataSource(
         )
     }
 
-    override suspend fun getUserAvatar(userId: String): String {
-        return ""
+    override suspend fun clearAllImages() {
+        if (context.cacheDir.resolve("avatars").exists()) {
+            val isAvatarsRemoved = File(context.cacheDir, "avatars").deleteRecursively()
+            Timber.d("Is avatar removed = $isAvatarsRemoved")
+        }
+
+        val isImagesRemoved = File(context.cacheDir, "thumbnails").deleteRecursively()
+        Timber.d("Is images removed = $isImagesRemoved")
     }
 
     private fun saveImage(imageId: String, storageDir: File, image: Bitmap): String? {

@@ -40,6 +40,7 @@ class ImagesRepository(
 
     suspend fun removeImages() {
         imagesLocalDataSource.removeImages()
+        imagesInternalStorageDataSource.clearAllImages()
     }
 
     private suspend fun saveImageDataToLocalStorage(imageItemList: List<ImageItem>) {
