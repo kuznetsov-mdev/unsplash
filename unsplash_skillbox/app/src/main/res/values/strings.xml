@@ -23,4 +23,11 @@
     <string name="user_account">User account</string>
     <string name="offline_mode">offline mode</string>
     <string name="empty" />
+    <string name="about">About</string>
+    <string name="camera">Camera</string>
+    <string name="aperture">Aperture</string>
+    <string name="focal_length">Focal length</string>
+    <string name="shutter_speed">Shutter speed</string>
+    <string name="iso">ISO</string>
+    <string name="dimensions">Dimensions</string>
 </resources>

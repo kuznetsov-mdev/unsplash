@@ -2,4 +2,5 @@
 <resources>
     <string name="unsplash_app">Unsplash app</string>
     <string name="sign_in">sign in</string>
+    <string name="iso">ISO</string>
 </resources>
