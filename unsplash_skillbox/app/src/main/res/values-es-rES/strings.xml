@@ -29,4 +29,7 @@
     <string name="iso">ISO</string>
     <string name="shutter_speed">Velocidad de obturación</string>
     <string name="dimensions">Resolución</string>
+    <string name="views">Vistas</string>
+    <string name="downloads">Descargas</string>
+    <string name="likes">Likes</string>
 </resources>

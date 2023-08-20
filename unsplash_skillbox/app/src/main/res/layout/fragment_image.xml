@@ -198,24 +198,21 @@
 
         <include
             android:id="@+id/cameraInfo"
-            layout="@layout/layout_camera_info"
+            layout="@layout/image_layout_camera_info"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/aboutLayout" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
             android:id="@+id/statisticLayout"
+            layout="@layout/image_layout_image_statistic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cameraInfo">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cameraInfo" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tagsLayout"
@@ -226,6 +223,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/statisticLayout">
+
+            <TextView
+                android:id="@+id/tagsTextValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="#burn #nature #animas #hunter #winter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

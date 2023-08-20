@@ -29,5 +29,8 @@
     <string name="shutter_speed">Скорость затвора</string>
     <string name="iso">ISO</string>
     <string name="dimensions">Разрешение</string>
+    <string name="views">Просмотры</string>
+    <string name="downloads">Загрузки</string>
+    <string name="likes">Likes</string>
 
 </resources>
