@@ -2,7 +2,8 @@ package com.skillbox.unsplash.data.images.retrofit
 
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.ImagesRemoteDataSource
-import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.image.detail.RemoteImageDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -23,6 +24,12 @@ class RetrofitImagesDataSource(private val network: Network) : ImagesRemoteDataS
     override suspend fun removeLike(imageId: String) {
         withContext(Dispatchers.IO) {
             network.unsplashApi.removeLike(imageId)
+        }
+    }
+
+    override suspend fun getImageDetailInfo(imageId: String): RemoteImageDetail {
+        return withContext(Dispatchers.IO) {
+            network.unsplashApi.getImageDetailInfo(imageId)
         }
     }
 }

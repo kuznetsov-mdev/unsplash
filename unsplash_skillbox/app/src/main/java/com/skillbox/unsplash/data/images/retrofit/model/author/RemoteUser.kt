@@ -1,5 +1,6 @@
-package com.skillbox.unsplash.data.images.retrofit.model
+package com.skillbox.unsplash.data.images.retrofit.model.author
 
+import com.skillbox.unsplash.data.images.retrofit.model.RemoteProfileImage
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -12,5 +13,7 @@ data class RemoteUser(
     @Json(name = "username")
     val nickname: String,
     @Json(name = "profile_image")
-    val profileImage: RemoteProfileImage
+    val profileImage: RemoteProfileImage,
+    @Json(name = "bio")
+    val biography: String
 )

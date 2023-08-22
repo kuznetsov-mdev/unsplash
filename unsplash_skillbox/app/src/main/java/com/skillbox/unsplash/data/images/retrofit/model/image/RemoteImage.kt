@@ -1,5 +1,7 @@
-package com.skillbox.unsplash.data.images.retrofit.model
+package com.skillbox.unsplash.data.images.retrofit.model.image
 
+import com.skillbox.unsplash.data.images.retrofit.model.RemoteImagePreviewUrls
+import com.skillbox.unsplash.data.images.retrofit.model.author.RemoteUser
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

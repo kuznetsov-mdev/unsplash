@@ -1,6 +1,7 @@
 package com.skillbox.unsplash.common.network.api
 
-import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.image.detail.RemoteImageDetail
 import okhttp3.ResponseBody
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -24,4 +25,9 @@ interface UnsplashApi {
     suspend fun removeLike(
         @Path("id") photoId: String
     ): ResponseBody
+
+    @GET("/photos/{id}")
+    suspend fun getImageDetailInfo(
+        @Path("id") imageId: String
+    ): RemoteImageDetail
 }

@@ -30,6 +30,10 @@ class ImagesRepository(
         }
     }
 
+    suspend fun getImageDetailInfo(imageId: String) {
+        imagesRemoteDataSource.getImageDetailInfo(imageId)
+    }
+
     suspend fun setLike(imageId: String) {
         imagesRemoteDataSource.setLike(imageId)
     }
