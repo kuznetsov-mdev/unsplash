@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.feature.imagelist.adapter
+package com.skillbox.unsplash.feature.images.list.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.ItemImageBinding
-import com.skillbox.unsplash.feature.imagelist.data.ImageItem
+import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import com.skillbox.unsplash.util.inflate
 
 class ImageAdapter(
     private val context: Context,
     private val onLikeClicked: (String, Int, Boolean) -> Unit,
     private val isNetworkAvailable: () -> Boolean,
-    private val onImageClicked: () -> Unit,
+    private val onImageClicked: (String) -> Unit,
 ) : PagingDataAdapter<ImageItem, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -38,7 +38,7 @@ class ImageAdapter(
 
     class ImageDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
         override fun areItemsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.image.id == newItem.image.id
         }
 
         override fun areContentsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
@@ -52,7 +52,7 @@ class ImageAdapter(
         private val binding: ItemImageBinding,
         private val isNetworkAvailable: () -> Boolean,
         onLikeClicked: (String, Int, Boolean) -> Unit,
-        private val onImageClicked: () -> Unit,
+        private val onImageClicked: (String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         private var currentImage: ImageItem? = null
         private var imagePosition: Int? = null
@@ -60,11 +60,11 @@ class ImageAdapter(
         init {
             binding.activeLikesIconView.setOnClickListener {
                 if (isNetworkAvailable()) {
-                    currentImage?.let { image ->
+                    currentImage?.let { currentImg ->
                         imagePosition?.let { imgPosition ->
-                            image.likedByUser = false
-                            image.likes = image.likes - 1
-                            onLikeClicked(image.id, imgPosition, false)
+                            currentImg.image.likedByUser = false
+                            currentImg.image.likes = currentImg.image.likes - 1
+                            onLikeClicked(currentImg.image.id, imgPosition, false)
                         }
                     }
                 }
@@ -72,28 +72,28 @@ class ImageAdapter(
 
             binding.inactiveLikesIconView.setOnClickListener {
                 if (isNetworkAvailable()) {
-                    currentImage?.let { image ->
+                    currentImage?.let { currentImg ->
                         imagePosition?.let { imgPosition ->
-                            image.likedByUser = true
-                            image.likes = image.likes + 1
-                            onLikeClicked(image.id, imgPosition, true)
+                            currentImg.image.likedByUser = true
+                            currentImg.image.likes = currentImg.image.likes + 1
+                            onLikeClicked(currentImg.image.id, imgPosition, true)
                         }
                     }
                 }
             }
 
-            binding.imageItemView.setOnClickListener { onImageClicked() }
+            binding.imageItemView.setOnClickListener { onImageClicked(currentImage?.image?.id ?: "") }
         }
 
         fun bind(imageItem: ImageItem, position: Int) {
             this.currentImage = imageItem
             this.imagePosition = position
             with(binding) {
-                authorName.text = imageItem.authorName
-                authorNickName.text = imageItem.authorNickname
-                likesCountView.text = imageItem.likes.toString()
-                activeLikesIconView.visibility = if (imageItem.likedByUser) View.VISIBLE else View.GONE
-                inactiveLikesIconView.visibility = if (!imageItem.likedByUser) View.VISIBLE else View.GONE
+                authorName.text = imageItem.author.name
+                authorNickName.text = imageItem.author.nickname
+                likesCountView.text = imageItem.image.likes.toString()
+                activeLikesIconView.visibility = if (imageItem.image.likedByUser) View.VISIBLE else View.GONE
+                inactiveLikesIconView.visibility = if (!imageItem.image.likedByUser) View.VISIBLE else View.GONE
 
                 if (isNetworkAvailable()) {
                     loadImagesFromNetwork(imageItem, avatarImageView, imageItemView)
@@ -109,12 +109,12 @@ class ImageAdapter(
             imageItemView: ImageView
         ) {
             Glide.with(itemView)
-                .load(imageItem.authorAvatarUrl)
+                .load(imageItem.author.avatarUrl)
                 .placeholder(R.drawable.user_icon_place_holder)
                 .into(avatarImageView)
 
             Glide.with(itemView)
-                .load(imageItem.imageUrl)
+                .load(imageItem.image.url)
                 .placeholder(R.drawable.ic_img_placeholder_foreground)
                 .into(imageItemView)
         }
@@ -126,12 +126,12 @@ class ImageAdapter(
             imageItemView: ImageView
         ) {
             Glide.with(itemView)
-                .load(imageItem.cachedAvatarPath)
+                .load(imageItem.author.cachedAvatarLocation)
                 .placeholder(R.drawable.user_icon_place_holder)
                 .into(avatarImageView)
 
             Glide.with(itemView)
-                .load(imageItem.cachedImagePath)
+                .load(imageItem.image.cachedLocation)
                 .placeholder(R.drawable.ic_img_placeholder_foreground)
                 .into(imageItemView)
         }

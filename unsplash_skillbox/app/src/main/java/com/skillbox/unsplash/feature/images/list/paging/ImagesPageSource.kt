@@ -1,8 +1,8 @@
-package com.skillbox.unsplash.feature.imagelist.paging
+package com.skillbox.unsplash.feature.images.list.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.skillbox.unsplash.feature.imagelist.data.ImageItem
+import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber

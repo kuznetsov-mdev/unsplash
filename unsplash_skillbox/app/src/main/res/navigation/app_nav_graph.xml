@@ -5,7 +5,7 @@
     app:startDestination="@id/imagesFragment">
     <fragment
         android:id="@+id/imagesFragment"
-        android:name="com.skillbox.unsplash.feature.imagelist.ImageListFragment"
+        android:name="com.skillbox.unsplash.feature.images.list.ImageListFragment"
         android:label="ImagesFragment">
         <action
             android:id="@+id/action_imagesFragment_to_imageFragment"
@@ -21,6 +21,10 @@
         android:label="AccountFragment" />
     <fragment
         android:id="@+id/imageFragment"
-        android:name="com.skillbox.unsplash.feature.imagedetails.ImageFragment"
-        android:label="ImageFragment" />
+        android:name="com.skillbox.unsplash.feature.images.detail.DetailImageFragment"
+        android:label="ImageFragment">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+    </fragment>
 </navigation>

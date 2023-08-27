@@ -15,5 +15,5 @@ data class RemoteUser(
     @Json(name = "profile_image")
     val profileImage: RemoteProfileImage,
     @Json(name = "bio")
-    val biography: String
+    val biography: String?
 )

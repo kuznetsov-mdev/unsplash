@@ -1,8 +1,10 @@
 package com.skillbox.unsplash.data.images
 
 import android.content.Context
-import com.skillbox.unsplash.data.images.retrofit.model.RemoteImage
-import com.skillbox.unsplash.feature.imagelist.data.ImageItem
+import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
+import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
+import com.skillbox.unsplash.feature.images.list.data.ImageItem
+import com.skillbox.unsplash.util.toDetailImageItem
 import com.skillbox.unsplash.util.toImageItem
 import com.skillbox.unsplash.util.toImageWithAuthorEntity
 import kotlinx.coroutines.CoroutineScope
@@ -30,8 +32,11 @@ class ImagesRepository(
         }
     }
 
-    suspend fun getImageDetailInfo(imageId: String) {
-        imagesRemoteDataSource.getImageDetailInfo(imageId)
+    suspend fun getImageDetailInfo(imageId: String): DetailImageItem {
+        return imagesRemoteDataSource.getImageDetailInfo(imageId).toDetailImageItem(
+            "stub",
+            "stub"
+        )
     }
 
     suspend fun setLike(imageId: String) {
@@ -55,8 +60,8 @@ class ImagesRepository(
     }
 
     private suspend fun saveImageToInternalStorage(imageItem: ImageItem) {
-        imagesInternalStorageDataSource.saveImagePreview(imageItem.id, imageItem.imageUrl)
-        imagesInternalStorageDataSource.saveUserAvatar(imageItem.authorId, imageItem.authorAvatarUrl)
+        imagesInternalStorageDataSource.saveImagePreview(imageItem.image.id, imageItem.image.url)
+        imagesInternalStorageDataSource.saveUserAvatar(imageItem.author.id, imageItem.author.avatarUrl)
     }
 
     private fun convertToImageItem(remoteImageList: List<RemoteImage>): List<ImageItem> {

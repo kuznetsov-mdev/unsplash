@@ -9,4 +9,5 @@ interface ImagesLocalDataSource {
     suspend fun saveImages(images: List<ImageWithAuthorEntity>)
 
     suspend fun removeImages()
+
 }

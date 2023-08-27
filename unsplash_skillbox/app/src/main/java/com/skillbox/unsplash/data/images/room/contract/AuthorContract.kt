@@ -9,5 +9,6 @@ object AuthorContract {
         const val NICKNAME = "nickname"
         const val PROFILE_IMAGE = "profile_image"
         const val CACHED_PROFILE_IMAGE = "cached_profile_image"
+        const val BIO = "biography"
     }
 }

@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.feature.imagelist
+package com.skillbox.unsplash.feature.images.list
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
-import com.skillbox.unsplash.feature.imagelist.adapter.ImageAdapter
+import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -63,8 +63,10 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
     private fun isNetworkAvailable(): Boolean = viewModel.isNetworkAvailableState
 
-    private fun onImageClicked() {
-        findNavController().navigate(ImageListFragmentDirections.actionImagesFragmentToImageFragment())
+    private fun onImageClicked(imageId: String) {
+        findNavController().navigate(
+            ImageListFragmentDirections.actionImagesFragmentToImageFragment(imageId)
+        )
     }
 
     private fun observeImages() {

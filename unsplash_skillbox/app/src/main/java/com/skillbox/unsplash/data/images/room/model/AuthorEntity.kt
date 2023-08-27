@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.skillbox.unsplash.data.images.room.contract.AuthorContract
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = AuthorContract.TABLE_NAME)
 @Parcelize
@@ -20,5 +20,7 @@ data class AuthorEntity(
     @ColumnInfo(name = AuthorContract.Columns.PROFILE_IMAGE)
     val profileImage: String,
     @ColumnInfo(name = AuthorContract.Columns.CACHED_PROFILE_IMAGE)
-    val cachedProfileImage: String
+    val cachedProfileImage: String,
+    @ColumnInfo(name = AuthorContract.Columns.BIO)
+    val biography: String
 ) : Parcelable
