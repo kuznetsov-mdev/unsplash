@@ -14,8 +14,10 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImageBinding
 import com.skillbox.unsplash.databinding.ImageLayoutCameraInfoBinding
 import com.skillbox.unsplash.databinding.ImageLayoutImageStatisticBinding
+import com.skillbox.unsplash.databinding.ImageLayoutLocationBinding
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 import com.skillbox.unsplash.feature.images.detail.data.Exif
+import com.skillbox.unsplash.feature.images.detail.data.Location
 import com.skillbox.unsplash.feature.images.detail.data.Statistic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -28,6 +30,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
     private val imageDetailBinding: FragmentImageBinding by viewBinding()
     private val cameraInfoBinding: ImageLayoutCameraInfoBinding by viewBinding()
     private val imageStatisticBinding: ImageLayoutImageStatisticBinding by viewBinding()
+    private val imageLocationBinding: ImageLayoutLocationBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +55,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
                     bindImageDetail(detailImgItem)
                     bindCameraInfo(detailImgItem.exif)
                     bindStatisticInfo(detailImgItem.statistic)
+                    bindLocation(detailImgItem.location)
                 }
             }
         }
@@ -75,11 +79,6 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
             activeLikesIconView.isVisible = detailImgItem.image.likedByUser
             inactiveLikesIconView.isVisible = !detailImgItem.image.likedByUser
 
-            if (detailImgItem.location.latitude == 0.0 && detailImgItem.location.longitude == 0.0) {
-                locationDescView.text = "Unknown"
-            } else {
-                locationDescView.text = "${detailImgItem.location.city} ${detailImgItem.location.country}"
-            }
             aboutAuthorNickname.text = "@${detailImgItem.author.nickname} ${detailImgItem.author.biography}"
 
             cameraInfoBinding.dimensionsValue.text = "${detailImgItem.width} x ${detailImgItem.height}"
@@ -119,6 +118,35 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
             viewsTextValue.text = statistics.views.toString()
             downloadsTextValue.text = statistics.downloads.toString()
             likesTextValue.text = statistics.likes.toString()
+        }
+    }
+
+    private fun bindLocation(location: Location) {
+        val isLocationInfoAbsent = location.country == null && location.city == null && location.name == null
+        val isAnyLocationInfoPresent = location.country != null || location.city != null
+        val isLocationNamePresent = location.name != null
+        val isPositionPresent = location.longitude != null && location.longitude != 0.0
+                && location.latitude != null && location.latitude != 0.0
+
+        if (isLocationInfoAbsent) {
+            imageDetailBinding.locationLayout.locationView.isVisible = false
+        } else if ((isAnyLocationInfoPresent || isLocationNamePresent) && !isPositionPresent) {
+            imageLocationBinding.inactiveLocationIconView.isVisible = true
+            imageLocationBinding.locationIconView.isVisible = false
+            setLocationText(location)
+        } else if (isPositionPresent && isAnyLocationInfoPresent) {
+            imageLocationBinding.inactiveLocationIconView.isVisible = false
+            imageLocationBinding.locationIconView.isVisible = true
+            setLocationText(location)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setLocationText(location: Location) {
+        if (location.city != null || location.country != null) {
+            imageLocationBinding.locationDescView.text = "${location.city ?: ""} ${location.country ?: ""}"
+        } else {
+            imageLocationBinding.locationDescView.text = location.name
         }
     }
 

@@ -141,36 +141,14 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <include
                     android:id="@+id/locationLayout"
+                    layout="@layout/image_layout_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userCardLayout">
-
-                    <ImageView
-                        android:id="@+id/locationIconView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/locationLayout"
-                        app:layout_constraintStart_toStartOf="@id/locationLayout"
-                        app:layout_constraintTop_toTopOf="@id/locationLayout"
-                        app:srcCompat="@drawable/ic_location" />
-
-                    <TextView
-                        android:id="@+id/locationDescView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/locationIconView"
-                        app:layout_constraintStart_toEndOf="@+id/locationIconView"
-                        app:layout_constraintTop_toTopOf="@+id/locationIconView"
-                        tools:text="San Francisco CA" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toBottomOf="@id/userCardLayout" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/aboutLayout"
@@ -259,13 +237,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/userCardLayout" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@drawable/gray_divider"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/locationLayout" />
 
                 <View
                     android:layout_width="match_parent"

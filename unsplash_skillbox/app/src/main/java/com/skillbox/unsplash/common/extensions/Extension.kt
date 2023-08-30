@@ -138,8 +138,9 @@ fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAva
         ),
         this.tags.map { it.title },
         Location(
-            this.location.city ?: "",
-            this.location.country ?: "",
+            this.location.city,
+            this.location.country,
+            this.location.name,
             this.location.position.latitude,
             this.location.position.longitude
         ),
