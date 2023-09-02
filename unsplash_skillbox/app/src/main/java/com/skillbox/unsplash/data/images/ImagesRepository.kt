@@ -17,7 +17,7 @@ import java.io.File
 
 class ImagesRepository(
     private val context: Context,
-    private val imagesInternalStorageDataSource: ImagesInternalStorageDataSource,
+    private val imageStorageDataSource: ImageStorageDataSource,
     private val imagesLocalDataSource: ImagesLocalDataSource,
     private val imagesRemoteDataSource: ImagesRemoteDataSource
 ) {
@@ -49,19 +49,23 @@ class ImagesRepository(
 
     suspend fun removeImages() {
         imagesLocalDataSource.removeImages()
-        imagesInternalStorageDataSource.clearAllImages()
+        imageStorageDataSource.removeAllFromInternalStorage()
     }
 
     private suspend fun saveImageDataToLocalStorage(imageItemList: List<ImageItem>) {
         CoroutineScope(Dispatchers.IO).launch {
-            imageItemList.forEach { saveImageToInternalStorage(it) }
+            imageItemList.forEach { saveImageToStorage(it) }
             imagesLocalDataSource.saveImages(imageItemList.map { it.toImageWithAuthorEntity() })
         }
     }
 
-    private suspend fun saveImageToInternalStorage(imageItem: ImageItem) {
-        imagesInternalStorageDataSource.saveImagePreview(imageItem.image.id, imageItem.image.url)
-        imagesInternalStorageDataSource.saveUserAvatar(imageItem.author.id, imageItem.author.avatarUrl)
+    private suspend fun saveImageToStorage(imageItem: ImageItem) {
+        imageStorageDataSource.saveImageToInternalStorage(imageItem.image.id, imageItem.image.url, "thumbnails")
+        imageStorageDataSource.saveImageToInternalStorage(imageItem.author.id, imageItem.author.avatarUrl, "avatars")
+    }
+
+    suspend fun saveImageToGallery(name: String, url: String) {
+        imageStorageDataSource.saveImageToExternalStorage(name, url)
     }
 
     private fun convertToImageItem(remoteImageList: List<RemoteImage>): List<ImageItem> {

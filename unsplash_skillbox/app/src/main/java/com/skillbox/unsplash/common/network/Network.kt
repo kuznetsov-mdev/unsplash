@@ -3,6 +3,7 @@ package com.skillbox.unsplash.common.network
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.skillbox.unsplash.common.network.api.UnsplashApi
+import com.skillbox.unsplash.common.network.api.UploaderApi
 import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
 import okhttp3.OkHttpClient
@@ -29,6 +30,9 @@ class Network @Inject constructor(
         .build()
 
     val unsplashApi: UnsplashApi
+        get() = retrofit.create()
+
+    val uploaderApi: UploaderApi
         get() = retrofit.create()
 
     companion object {

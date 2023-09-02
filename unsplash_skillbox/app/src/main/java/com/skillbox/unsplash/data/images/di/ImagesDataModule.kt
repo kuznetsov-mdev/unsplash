@@ -3,13 +3,16 @@ package com.skillbox.unsplash.data.images.di
 import android.app.Application
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.images.ImagesInternalStorageDataSource
+import com.skillbox.unsplash.data.images.ImageStorageDataSource
 import com.skillbox.unsplash.data.images.ImagesLocalDataSource
 import com.skillbox.unsplash.data.images.ImagesRemoteDataSource
 import com.skillbox.unsplash.data.images.ImagesRepository
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImagesDataSource
 import com.skillbox.unsplash.data.images.room.RoomImagesDataSource
-import com.skillbox.unsplash.data.images.scopestorage.InternalStorageImagesDataSource
+import com.skillbox.unsplash.data.images.storage.ImageExternalStorage
+import com.skillbox.unsplash.data.images.storage.ImageInternalStorage
+import com.skillbox.unsplash.data.images.storage.external.ImageInternalStorageImpl
+import com.skillbox.unsplash.data.images.storage.internal.ImageExternalStorageImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,13 +38,23 @@ class ImagesDataModule {
     @Singleton
     fun providesImagesRepository(
         context: Application,
-        inMemory: ImagesInternalStorageDataSource,
+        inMemory: ImageStorageDataSource,
         local: ImagesLocalDataSource,
         remote: ImagesRemoteDataSource
     ): ImagesRepository = ImagesRepository(context, inMemory, local, remote)
 
     @Provides
     @Singleton
-    fun providesImagesSharedPrefsDataSource(context: Application): ImagesInternalStorageDataSource =
-        InternalStorageImagesDataSource(context)
+    fun providesImageInternalStorage(context: Application, network: Network): ImageInternalStorage =
+        ImageInternalStorageImpl(context, network)
+
+    @Provides
+    @Singleton
+    fun providesImageExternalStorage(context: Application, network: Network): ImageExternalStorage =
+        ImageExternalStorageImpl(context, network)
+
+    @Provides
+    @Singleton
+    fun providesImageStorage(internalStorage: ImageInternalStorage, externalStorageImpl: ImageExternalStorage): ImageStorageDataSource =
+        ImageStorageDataSource(internalStorage, externalStorageImpl)
 }
