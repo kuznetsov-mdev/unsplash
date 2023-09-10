@@ -11,5 +11,6 @@ data class DetailImageItem(
     val exif: Exif,
     val tags: List<String>,
     val location: Location,
-    val statistic: Statistic
+    val statistic: Statistic,
+    val downloadLink: String
 )

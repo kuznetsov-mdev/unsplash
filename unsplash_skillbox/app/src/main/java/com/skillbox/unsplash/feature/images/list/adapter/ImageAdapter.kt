@@ -40,7 +40,6 @@ class ImageAdapter(
         override fun areItemsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
             return oldItem.image.id == newItem.image.id
         }
-
         override fun areContentsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
             return oldItem == newItem
         }
@@ -98,7 +97,7 @@ class ImageAdapter(
                 if (isNetworkAvailable()) {
                     loadImagesFromNetwork(imageItem, avatarImageView, imageItemView)
                 } else {
-                    loadImagesFromCache(context, imageItem, avatarImageView, imageItemView)
+                    loadImagesFromCache(imageItem, avatarImageView, imageItemView)
                 }
             }
         }
@@ -120,7 +119,6 @@ class ImageAdapter(
         }
 
         private fun loadImagesFromCache(
-            context: Context,
             imageItem: ImageItem,
             avatarImageView: ImageView,
             imageItemView: ImageView

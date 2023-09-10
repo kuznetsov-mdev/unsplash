@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.util
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,10 @@ fun <T : ViewBinding> ViewGroup.inflate(
 }
 
 fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
+
+fun haveQ(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+}
 
 fun RemoteImage.toImageItem(cachedImagePath: String, cachedAvatarPath: String): ImageItem {
     return ImageItem(
@@ -148,6 +153,7 @@ fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAva
             this.downloads,
             0,
             this.likes
-        )
+        ),
+        this.links.download
     )
 }

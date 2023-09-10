@@ -3,7 +3,10 @@ package com.skillbox.unsplash.data.images.storage.internal
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.storage.ImageExternalStorage
 import com.skillbox.unsplash.util.haveQ
@@ -16,6 +19,7 @@ class ImageExternalStorageImpl @Inject constructor(
     private val network: Network,
 ) : ImageExternalStorage {
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override suspend fun saveImage(name: String, url: String) {
         withContext(Dispatchers.IO) {
             val saveImageUri = saveImageInfo(name)
@@ -34,6 +38,7 @@ class ImageExternalStorageImpl @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun saveImageInfo(name: String): Uri {
         val volume = if (haveQ()) {
             MediaStore.VOLUME_EXTERNAL_PRIMARY
@@ -44,7 +49,8 @@ class ImageExternalStorageImpl @Inject constructor(
         val imageCollectionUri = MediaStore.Images.Media.getContentUri(volume)
         val imageInfo = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, name)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/*")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
 
             if (haveQ()) {
                 put(MediaStore.Images.Media.IS_PENDING, 1)

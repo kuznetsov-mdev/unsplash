@@ -32,5 +32,7 @@ data class RemoteImageDetail(
     @Json(name = "location")
     val location: RemoteLocation,
     @Json(name = "tags")
-    val tags: List<RemoteTag>
+    val tags: List<RemoteTag>,
+    @Json(name = "links")
+    val links: RemoteLinks
 )

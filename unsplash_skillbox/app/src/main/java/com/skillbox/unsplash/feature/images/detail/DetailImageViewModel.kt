@@ -23,6 +23,7 @@ class DetailImageViewModel @Inject constructor(
 ) : ViewModel() {
     private val imageDetailMutableFlow: MutableStateFlow<DetailImageItem?> = MutableStateFlow(null)
     private val isDataLoadingMutableFlow: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    private val permissionGrantedMutableStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     var isNetworkAvailableState = true
 
@@ -34,6 +35,9 @@ class DetailImageViewModel @Inject constructor(
 
     val isDataLoadingFlow: StateFlow<Boolean>
         get() = isDataLoadingMutableFlow
+
+    val permissionGrantedStateFlow: StateFlow<Boolean>
+        get() = permissionGrantedMutableStateFlow
 
     init {
         observeConnectivityState()
@@ -66,11 +70,25 @@ class DetailImageViewModel @Inject constructor(
         }
     }
 
+    fun saveImageToGallery(id: String, downloadImageUrl: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveImageToGallery(id, downloadImageUrl)
+        }
+    }
+
     private fun observeConnectivityState() {
         viewModelScope.launch(Dispatchers.IO) {
             connectivityStateFlow.collectLatest {
                 isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
             }
         }
+    }
+
+    fun permissionGranted() {
+        permissionGrantedMutableStateFlow.value = true
+    }
+
+    fun permissionDenied() {
+        permissionGrantedMutableStateFlow.value = false
     }
 }

@@ -1,8 +1,13 @@
 package com.skillbox.unsplash.feature.images.detail
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,9 +24,13 @@ import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 import com.skillbox.unsplash.feature.images.detail.data.Exif
 import com.skillbox.unsplash.feature.images.detail.data.Location
 import com.skillbox.unsplash.feature.images.detail.data.Statistic
+import com.skillbox.unsplash.util.haveQ
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
+
+typealias ImageDownloader = () -> Unit
 
 @AndroidEntryPoint
 class DetailImageFragment : Fragment(R.layout.fragment_image) {
@@ -31,11 +40,19 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
     private val cameraInfoBinding: ImageLayoutCameraInfoBinding by viewBinding()
     private val imageStatisticBinding: ImageLayoutImageStatisticBinding by viewBinding()
     private val imageLocationBinding: ImageLayoutLocationBinding by viewBinding()
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
+    private lateinit var imageDownloader: ImageDownloader
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initPermissionRequestListener()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeImageDetailInfo()
         observeDataLoading()
+        observePermissionGranted()
         viewModel.getImageDetailInfo(args.imageId)
     }
 
@@ -52,10 +69,24 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
         lifecycleScope.launch {
             viewModel.imageDetailFlow.collectLatest { detailImgItem: DetailImageItem? ->
                 detailImgItem?.let {
+                    imageDownloader = {
+                        viewModel.saveImageToGallery(args.imageId, detailImgItem.downloadLink)
+                    }
                     bindImageDetail(detailImgItem)
                     bindCameraInfo(detailImgItem.exif)
                     bindStatisticInfo(detailImgItem.statistic)
                     bindLocation(detailImgItem.location)
+                }
+            }
+        }
+    }
+
+    private fun observePermissionGranted() {
+        lifecycleScope.launch {
+            viewModel.permissionGrantedStateFlow.collectLatest { isGranted ->
+                if (isGranted) {
+                    imageDownloader.invoke()
+                    Timber.d("Save image to gallery")
                 }
             }
         }
@@ -98,6 +129,14 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
                     viewModel.setLike(detailImgItem.image.id)
                     activeLikesIconView.isVisible = true
                     inactiveLikesIconView.isVisible = false
+                }
+            }
+
+            downloadIcon.setOnClickListener {
+                if (hasPermission().not()) {
+                    requestPermission()
+                } else {
+                    imageDownloader.invoke()
                 }
             }
         }
@@ -148,6 +187,36 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
         } else {
             imageLocationBinding.locationDescView.text = location.name
         }
+    }
+
+    private fun hasPermission(): Boolean {
+        return PERMISSIONS.all {
+            ActivityCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun requestPermission() {
+        requestPermissionLauncher.launch(PERMISSIONS.toTypedArray())
+    }
+
+    private fun initPermissionRequestListener() {
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissionToGrantedMap: Map<String, Boolean> ->
+            if (permissionToGrantedMap.values.all { it }) {
+                viewModel.permissionGranted()
+            } else {
+                viewModel.permissionDenied()
+            }
+        }
+    }
+
+    companion object {
+        private val PERMISSIONS = listOfNotNull(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                .takeIf { haveQ().not() }
+        )
     }
 
 }
