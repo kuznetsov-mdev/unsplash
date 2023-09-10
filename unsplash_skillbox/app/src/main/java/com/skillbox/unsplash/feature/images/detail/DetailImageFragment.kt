@@ -2,7 +2,9 @@ package com.skillbox.unsplash.feature.images.detail
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
@@ -29,6 +31,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.Locale
+
 
 typealias ImageDownloader = () -> Unit
 
@@ -75,7 +79,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
                     bindImageDetail(detailImgItem)
                     bindCameraInfo(detailImgItem.exif)
                     bindStatisticInfo(detailImgItem.statistic)
-                    bindLocation(detailImgItem.location)
+                    bindLocation(detailImgItem)
                 }
             }
         }
@@ -160,7 +164,8 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
         }
     }
 
-    private fun bindLocation(location: Location) {
+    private fun bindLocation(detailImgItem: DetailImageItem) {
+        val location: Location = detailImgItem.location;
         val isLocationInfoAbsent = location.country == null && location.city == null && location.name == null
         val isAnyLocationInfoPresent = location.country != null || location.city != null
         val isLocationNamePresent = location.name != null
@@ -177,6 +182,17 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
             imageLocationBinding.inactiveLocationIconView.isVisible = false
             imageLocationBinding.locationIconView.isVisible = true
             setLocationText(location)
+
+            imageLocationBinding.locationBox.setOnClickListener {
+                val uri: String = String.format(
+                    Locale.ENGLISH,
+                    "geo:%f,%f",
+                    detailImgItem.location.latitude,
+                    detailImgItem.location.longitude
+                )
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                requireContext().startActivity(intent)
+            }
         }
     }
 
