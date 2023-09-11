@@ -81,7 +81,11 @@ class ImageAdapter(
                 }
             }
 
-            binding.imageItemView.setOnClickListener { onImageClicked(currentImage?.image?.id ?: "") }
+            binding.imageItemView.setOnClickListener {
+                if (isNetworkAvailable()) {
+                    onImageClicked(currentImage?.image?.id ?: "")
+                }
+            }
         }
 
         fun bind(imageItem: ImageItem, position: Int) {
