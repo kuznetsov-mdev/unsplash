@@ -31,7 +31,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.Locale
 
 
 typealias ImageDownloader = () -> Unit
@@ -184,14 +183,14 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
             setLocationText(location)
 
             imageLocationBinding.locationBox.setOnClickListener {
-                val uri: String = String.format(
-                    Locale.ENGLISH,
-                    "geo:%f,%f",
-                    detailImgItem.location.latitude,
-                    detailImgItem.location.longitude
-                )
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                val uri = Uri.parse("geo:${detailImgItem.location.latitude},${detailImgItem.location.longitude}?z=10")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                intent.setPackage("com.google.android.apps.maps")
                 requireContext().startActivity(intent)
+
+                intent.resolveActivity(requireContext().packageManager)?.let {
+                    startActivity(intent)
+                }
             }
         }
     }
