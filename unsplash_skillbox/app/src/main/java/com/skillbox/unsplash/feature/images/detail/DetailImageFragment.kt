@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -73,7 +74,17 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
             viewModel.imageDetailFlow.collectLatest { detailImgItem: DetailImageItem? ->
                 detailImgItem?.let {
                     imageDownloader = {
-                        viewModel.saveImageToGallery(args.imageId, detailImgItem.downloadLink)
+                        viewModel.startImageSavingToGalleryWork(args.imageId, detailImgItem.downloadLink)
+                            .observe(viewLifecycleOwner) { workInfo ->
+                                Timber.d("Image downloading state is ${workInfo.state.name}")
+                                if (workInfo.state.isFinished) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Download is finished with state ${workInfo.state.name}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
                     }
                     bindImageDetail(detailImgItem)
                     bindCameraInfo(detailImgItem.exif)

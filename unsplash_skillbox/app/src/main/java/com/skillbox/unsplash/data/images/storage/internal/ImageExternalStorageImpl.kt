@@ -7,11 +7,19 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
+import androidx.work.workDataOf
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.images.storage.ImageExternalStorage
+import com.skillbox.unsplash.data.images.service.DownloadWorker
+import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
 import com.skillbox.unsplash.util.haveQ
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 class ImageExternalStorageImpl @Inject constructor(
@@ -22,14 +30,34 @@ class ImageExternalStorageImpl @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.Q)
     override suspend fun saveImage(name: String, url: String) {
         withContext(Dispatchers.IO) {
-            val saveImageUri = saveImageInfo(name)
+            if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) throw IOException("File store not available")
+            val saveImageUri: Uri = saveImageInfo(name)
             try {
                 downloadImage(url, saveImageUri)
                 makeImageVisible(saveImageUri)
             } catch (t: Throwable) {
                 remove(saveImageUri)
+                throw t
             }
         }
+    }
+
+    override fun startSavingWork(name: String, url: String): LiveData<WorkInfo> {
+        val workData = workDataOf(
+            DownloadWorker.IMAGE_NAME_KEY to name,
+            DownloadWorker.IMAGER_URL_KEY to url
+        )
+
+        val workRequest = OneTimeWorkRequestBuilder<DownloadWorker>()
+            .setInputData(workData)
+            .build()
+
+        WorkManager.getInstance(context)
+            .enqueue(workRequest)
+
+        return WorkManager.getInstance(context)
+            .getWorkInfoByIdLiveData(workRequest.id)
+
     }
 
     override suspend fun remove(uri: Uri) {
@@ -77,5 +105,12 @@ class ImageExternalStorageImpl @Inject constructor(
             put(MediaStore.Images.Media.IS_PENDING, 0)
         }
         context.contentResolver.update(uri, imageInfo, null, null)
+    }
+
+    private fun getWorkRequest(url: String): WorkRequest {
+        val workData = workDataOf(DownloadWorker.IMAGER_URL_KEY to url)
+        return OneTimeWorkRequestBuilder<DownloadWorker>()
+            .setInputData(workData)
+            .build()
     }
 }

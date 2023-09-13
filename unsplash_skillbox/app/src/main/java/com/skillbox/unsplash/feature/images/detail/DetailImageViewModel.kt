@@ -1,7 +1,9 @@
 package com.skillbox.unsplash.feature.images.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.images.ImagesRepository
@@ -70,10 +72,8 @@ class DetailImageViewModel @Inject constructor(
         }
     }
 
-    fun saveImageToGallery(id: String, downloadImageUrl: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveImageToGallery(id, downloadImageUrl)
-        }
+    fun startImageSavingToGalleryWork(id: String, downloadImageUrl: String): LiveData<WorkInfo> {
+        return repository.startImageSavingToGalleryWork(id, downloadImageUrl)
     }
 
     private fun observeConnectivityState() {

@@ -1,7 +1,12 @@
 package com.skillbox.unsplash.data.images
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.work.WorkInfo
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
+import com.skillbox.unsplash.data.images.storage.ImageStorageDataSource
+import com.skillbox.unsplash.data.images.storage.ImagesLocalDataSource
+import com.skillbox.unsplash.data.images.storage.ImagesRemoteDataSource
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import com.skillbox.unsplash.util.toDetailImageItem
@@ -64,8 +69,8 @@ class ImagesRepository(
         imageStorageDataSource.saveImageToInternalStorage(imageItem.author.id, imageItem.author.avatarUrl, "avatars")
     }
 
-    suspend fun saveImageToGallery(name: String, url: String) {
-        imageStorageDataSource.saveImageToExternalStorage(name, url)
+    fun startImageSavingToGalleryWork(name: String, url: String): LiveData<WorkInfo> {
+        return imageStorageDataSource.startImageSavingToExternalStorageWork(name, url)
     }
 
     private fun convertToImageItem(remoteImageList: List<RemoteImage>): List<ImageItem> {

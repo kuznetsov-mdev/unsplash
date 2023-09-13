@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.images
+package com.skillbox.unsplash.data.images.storage
 
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
 import com.skillbox.unsplash.data.images.retrofit.model.image.detail.RemoteImageDetail

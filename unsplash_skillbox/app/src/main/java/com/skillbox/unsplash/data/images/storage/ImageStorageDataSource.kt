@@ -1,7 +1,9 @@
-package com.skillbox.unsplash.data.images
+package com.skillbox.unsplash.data.images.storage
 
-import com.skillbox.unsplash.data.images.storage.ImageExternalStorage
-import com.skillbox.unsplash.data.images.storage.ImageInternalStorage
+import androidx.lifecycle.LiveData
+import androidx.work.WorkInfo
+import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
+import com.skillbox.unsplash.data.images.storage.internal.ImageInternalStorage
 import javax.inject.Inject
 
 class ImageStorageDataSource @Inject constructor(
@@ -13,8 +15,8 @@ class ImageStorageDataSource @Inject constructor(
         internalStorage.saveImage(id, uri, dir)
     }
 
-    suspend fun saveImageToExternalStorage(name: String, uri: String) {
-        externalStorage.saveImage(name, uri)
+    fun startImageSavingToExternalStorageWork(name: String, uri: String): LiveData<WorkInfo> {
+        return externalStorage.startSavingWork(name, uri)
     }
 
     suspend fun removeAllFromInternalStorage() {
