@@ -2,8 +2,8 @@ package com.skillbox.unsplash.data.images.room
 
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
-import com.skillbox.unsplash.data.images.ImagesLocalDataSource
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
+import com.skillbox.unsplash.data.images.storage.ImagesLocalDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

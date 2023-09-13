@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.images.storage.ImageInternalStorage
+import com.skillbox.unsplash.data.images.storage.internal.ImageInternalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
