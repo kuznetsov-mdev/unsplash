@@ -13,7 +13,6 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import androidx.work.workDataOf
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.service.DownloadWorker
@@ -50,7 +49,10 @@ class ImageExternalStorageImpl @Inject constructor(
             DownloadWorker.IMAGER_URL_KEY to url
         )
 
-        val workRequest = getWorkRequest(url)
+        val workRequest = OneTimeWorkRequestBuilder<DownloadWorker>()
+            .setInputData(workData)
+            .setConstraints(getWorkConstrains())
+            .build()
 
         WorkManager.getInstance(context)
             .enqueue(workRequest)
@@ -105,14 +107,6 @@ class ImageExternalStorageImpl @Inject constructor(
             put(MediaStore.Images.Media.IS_PENDING, 0)
         }
         context.contentResolver.update(uri, imageInfo, null, null)
-    }
-
-    private fun getWorkRequest(url: String): WorkRequest {
-        val workData = workDataOf(DownloadWorker.IMAGER_URL_KEY to url)
-        return OneTimeWorkRequestBuilder<DownloadWorker>()
-            .setInputData(workData)
-            .setConstraints(getWorkConstrains())
-            .build()
     }
 
     private fun getWorkConstrains() =
