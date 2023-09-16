@@ -8,6 +8,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
@@ -48,9 +50,7 @@ class ImageExternalStorageImpl @Inject constructor(
             DownloadWorker.IMAGER_URL_KEY to url
         )
 
-        val workRequest = OneTimeWorkRequestBuilder<DownloadWorker>()
-            .setInputData(workData)
-            .build()
+        val workRequest = getWorkRequest(url)
 
         WorkManager.getInstance(context)
             .enqueue(workRequest)
@@ -111,6 +111,12 @@ class ImageExternalStorageImpl @Inject constructor(
         val workData = workDataOf(DownloadWorker.IMAGER_URL_KEY to url)
         return OneTimeWorkRequestBuilder<DownloadWorker>()
             .setInputData(workData)
+            .setConstraints(getWorkConstrains())
             .build()
     }
+
+    private fun getWorkConstrains() =
+        Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.NOT_ROAMING)
+            .build()
 }
