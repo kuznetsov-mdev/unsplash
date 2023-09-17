@@ -19,11 +19,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.work.WorkInfo
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.common.notification.NotificationChannels
-import com.skillbox.unsplash.databinding.FragmentImageBinding
+import com.skillbox.unsplash.data.images.service.DownloadWorker
+import com.skillbox.unsplash.databinding.FragmentImageDetailBinding
 import com.skillbox.unsplash.databinding.ImageLayoutCameraInfoBinding
 import com.skillbox.unsplash.databinding.ImageLayoutImageStatisticBinding
 import com.skillbox.unsplash.databinding.ImageLayoutLocationBinding
@@ -40,11 +44,12 @@ import timber.log.Timber
 
 typealias ImageDownloader = () -> Unit
 
+@Suppress("UNUSED_EXPRESSION")
 @AndroidEntryPoint
-class DetailImageFragment : Fragment(R.layout.fragment_image) {
+class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
     private val args: DetailImageFragmentArgs by navArgs()
     private val viewModel: DetailImageViewModel by viewModels()
-    private val imageDetailBinding: FragmentImageBinding by viewBinding()
+    private val imageDetailBinding: FragmentImageDetailBinding by viewBinding()
     private val cameraInfoBinding: ImageLayoutCameraInfoBinding by viewBinding()
     private val imageStatisticBinding: ImageLayoutImageStatisticBinding by viewBinding()
     private val imageLocationBinding: ImageLayoutLocationBinding by viewBinding()
@@ -80,20 +85,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
                     imageDownloader = {
                         showNotification()
                         viewModel.startImageSavingToGalleryWork(args.imageId, detailImgItem.downloadLink)
-                            .observe(viewLifecycleOwner) { workInfo ->
-                                Timber.d("Image downloading state is ${workInfo.state.name}")
-                                if (workInfo.state.isFinished) {
-
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Download is finished with state ${workInfo.state.name}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-
-                                    NotificationManagerCompat.from(requireContext())
-                                        .cancel(DOWNLOAD_NOTIFICATION_ID)
-                                }
-                            }
+                            .observe(viewLifecycleOwner, ::handleWorkInfo)
                     }
                     bindImageDetail(detailImgItem)
                     bindCameraInfo(detailImgItem.exif)
@@ -101,6 +93,20 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
                     bindLocation(detailImgItem)
                 }
             }
+        }
+    }
+
+    private fun handleWorkInfo(workInfo: WorkInfo) {
+        Timber.d("Image downloading state is ${workInfo.state.name}")
+        if (workInfo.state.isFinished) {
+            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                showSnackBar(workInfo.outputData.keyValueMap[DownloadWorker.IMAGE_URI_KEY] as String)
+            } else {
+                showPopUpMessage("${getString(R.string.download_finished_with_status)} ${workInfo.state.name}")
+            }
+
+            NotificationManagerCompat.from(requireContext())
+                .cancel(DOWNLOAD_NOTIFICATION_ID)
         }
     }
 
@@ -201,13 +207,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
 
             imageLocationBinding.locationBox.setOnClickListener {
                 val uri = Uri.parse("geo:${detailImgItem.location.latitude},${detailImgItem.location.longitude}?z=10")
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                intent.setPackage("com.google.android.apps.maps")
-                requireContext().startActivity(intent)
-
-                intent.resolveActivity(requireContext().packageManager)?.let {
-                    startActivity(intent)
-                }
+                sendActionViewIntent(uri, MAPS_INTENT_PACKAGE)
             }
         }
     }
@@ -243,9 +243,17 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
         }
     }
 
+    private fun showPopUpMessage(msg: String) {
+        Toast.makeText(
+            requireContext(),
+            msg,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     private fun showNotification() {
         val downloadNotification = NotificationCompat.Builder(requireContext(), NotificationChannels.DOWNLOAD_CHANNEL_ID)
-            .setContentTitle("Image downloading")
+            .setContentTitle(getString(R.string.image_downloading))
             .setProgress(0, 100, true)
             .setSmallIcon(R.drawable.ic_download_black)
             .build()
@@ -260,6 +268,31 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
         }
     }
 
+    private fun showSnackBar(imageUri: String) {
+        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.appBottomNavigation)
+        Snackbar.make(imageDetailBinding.contentLayout, R.string.download_is_finished, Snackbar.LENGTH_LONG)
+            .setAnchorView(bottomNavView)
+            .setAction(getString(R.string.open)) {
+                openImage(imageUri)
+            }
+            .show()
+    }
+
+    private fun openImage(stringUri: String) {
+        val uri = Uri.parse(stringUri)
+        sendActionViewIntent(uri)
+    }
+
+    private fun sendActionViewIntent(uri: Uri, intentPackage: String? = null) {
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intentPackage?.let { intent.setPackage(it) }
+        requireContext().startActivity(intent)
+
+        intent.resolveActivity(requireContext().packageManager)?.let {
+            startActivity(intent)
+        } ?: showPopUpMessage(getString(R.string.no_application))
+    }
+
     companion object {
         private val PERMISSIONS = listOfNotNull(
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -267,7 +300,8 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
                 .takeIf { haveQ().not() }
         )
 
-        private const val DOWNLOAD_NOTIFICATION_ID = 123533
+        private const val DOWNLOAD_NOTIFICATION_ID = 100501
+        private const val MAPS_INTENT_PACKAGE = "com.google.android.apps.maps"
     }
 
 }

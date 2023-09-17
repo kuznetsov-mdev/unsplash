@@ -32,4 +32,9 @@
     <string name="views">Vistas</string>
     <string name="downloads">Descargas</string>
     <string name="likes">Likes</string>
+    <string name="download_is_finished">La carga está completa</string>
+    <string name="no_application">No hay aplicación para mostrar los datos</string>
+    <string name="download_finished_with_status">La carga de la imagen ha finalizado con estado</string>
+    <string name="open">Abrir</string>
+    <string name="image_downloading">Descarga de imágenes</string>
 </resources>

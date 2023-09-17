@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -20,8 +21,8 @@ class DownloadWorker @AssistedInject constructor(
         val imageNameToSave: String = inputData.getString(IMAGE_NAME_KEY)!!
 
         return try {
-            imageExternalStorage.saveImage(imageNameToSave, urlToDownload)
-            Result.success()
+            val imageUri = imageExternalStorage.saveImage(imageNameToSave, urlToDownload)
+            Result.success(workDataOf(IMAGE_URI_KEY to imageUri.toString()))
         } catch (e: Throwable) {
             Result.failure()
         }
@@ -30,7 +31,7 @@ class DownloadWorker @AssistedInject constructor(
     companion object {
         const val IMAGER_URL_KEY = "image url"
         const val IMAGE_NAME_KEY = "image name"
-
+        const val IMAGE_URI_KEY = "image uri"
     }
 
 }

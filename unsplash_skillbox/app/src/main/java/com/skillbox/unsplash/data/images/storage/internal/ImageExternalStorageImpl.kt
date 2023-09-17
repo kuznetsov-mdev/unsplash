@@ -29,13 +29,14 @@ class ImageExternalStorageImpl @Inject constructor(
 ) : ImageExternalStorage {
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    override suspend fun saveImage(name: String, url: String) {
-        withContext(Dispatchers.IO) {
+    override suspend fun saveImage(name: String, url: String): Uri {
+        return withContext(Dispatchers.IO) {
             if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) throw IOException("File store not available")
             val saveImageUri: Uri = saveImageInfo(name)
             try {
                 downloadImage(url, saveImageUri)
                 makeImageVisible(saveImageUri)
+                return@withContext saveImageUri
             } catch (t: Throwable) {
                 remove(saveImageUri)
                 throw t

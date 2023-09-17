@@ -32,5 +32,9 @@
     <string name="views">Просмотры</string>
     <string name="downloads">Загрузки</string>
     <string name="likes">Likes</string>
-
+    <string name="download_is_finished">Загрузка завершена</string>
+    <string name="no_application">Нет приложения для отображения данных</string>
+    <string name="download_finished_with_status">Загрузка изображения завершена со статусом</string>
+    <string name="open">Открыть</string>
+    <string name="image_downloading">Загрузка изображения</string>
 </resources>
