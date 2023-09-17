@@ -7,10 +7,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,6 +22,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
+import com.skillbox.unsplash.common.notification.NotificationChannels
 import com.skillbox.unsplash.databinding.FragmentImageBinding
 import com.skillbox.unsplash.databinding.ImageLayoutCameraInfoBinding
 import com.skillbox.unsplash.databinding.ImageLayoutImageStatisticBinding
@@ -74,15 +78,20 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
             viewModel.imageDetailFlow.collectLatest { detailImgItem: DetailImageItem? ->
                 detailImgItem?.let {
                     imageDownloader = {
+                        showNotification()
                         viewModel.startImageSavingToGalleryWork(args.imageId, detailImgItem.downloadLink)
                             .observe(viewLifecycleOwner) { workInfo ->
                                 Timber.d("Image downloading state is ${workInfo.state.name}")
                                 if (workInfo.state.isFinished) {
+
                                     Toast.makeText(
                                         requireContext(),
                                         "Download is finished with state ${workInfo.state.name}",
                                         Toast.LENGTH_SHORT
                                     ).show()
+
+                                    NotificationManagerCompat.from(requireContext())
+                                        .cancel(DOWNLOAD_NOTIFICATION_ID)
                                 }
                             }
                     }
@@ -109,25 +118,15 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
     @SuppressLint("SetTextI18n")
     private fun bindImageDetail(detailImgItem: DetailImageItem) {
         with(imageDetailBinding) {
-            Glide.with(requireContext())
-                .load(detailImgItem.image.url)
-                .placeholder(R.drawable.ic_img_placeholder_foreground)
-                .into(imageItemView)
-
-            Glide.with(requireContext())
-                .load(detailImgItem.author.avatarUrl)
-                .placeholder(R.drawable.ic_img_placeholder_foreground)
-                .into(avatarImageView)
+            uploadImageToView(imageItemView, detailImgItem.image.url)
+            uploadImageToView(avatarImageView, detailImgItem.author.avatarUrl)
 
             authorName.text = detailImgItem.author.name
             authorNickName.text = detailImgItem.author.nickname
             activeLikesIconView.isVisible = detailImgItem.image.likedByUser
             inactiveLikesIconView.isVisible = !detailImgItem.image.likedByUser
-
             aboutAuthorNickname.text = "@${detailImgItem.author.nickname} ${detailImgItem.author.biography}"
-
             cameraInfoBinding.dimensionsValue.text = "${detailImgItem.width} x ${detailImgItem.height}"
-
             tagsTextValue.text = detailImgItem.tags.map { "#$it" }.toString()
 
             activeLikesIconView.setOnClickListener {
@@ -154,6 +153,13 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
                 }
             }
         }
+    }
+
+    private fun uploadImageToView(view: ImageView, imageUrl: String) {
+        Glide.with(requireContext())
+            .load(imageUrl)
+            .placeholder(R.drawable.ic_img_placeholder_foreground)
+            .into(view)
     }
 
     private fun bindCameraInfo(cameraInfo: Exif) {
@@ -237,12 +243,31 @@ class DetailImageFragment : Fragment(R.layout.fragment_image) {
         }
     }
 
+    private fun showNotification() {
+        val downloadNotification = NotificationCompat.Builder(requireContext(), NotificationChannels.DOWNLOAD_CHANNEL_ID)
+            .setContentTitle("Image downloading")
+            .setProgress(0, 100, true)
+            .setSmallIcon(R.drawable.ic_download_black)
+            .build()
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            NotificationManagerCompat.from(requireContext())
+                .notify(DOWNLOAD_NOTIFICATION_ID, downloadNotification)
+        }
+    }
+
     companion object {
         private val PERMISSIONS = listOfNotNull(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
                 .takeIf { haveQ().not() }
         )
+
+        private const val DOWNLOAD_NOTIFICATION_ID = 123533
     }
 
 }

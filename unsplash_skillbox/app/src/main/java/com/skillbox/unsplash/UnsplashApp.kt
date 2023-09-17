@@ -1,6 +1,7 @@
 package com.skillbox.unsplash
 
 import android.app.Application
+import android.content.Context
 import android.os.StrictMode
 import android.util.Log
 import androidx.work.Configuration
@@ -11,6 +12,7 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.skillbox.unsplash.common.network.Network
+import com.skillbox.unsplash.common.notification.NotificationChannels
 import com.skillbox.unsplash.data.images.service.DownloadFactory
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -26,6 +28,7 @@ class UnsplashApp : Application(), Configuration.Provider {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         SoLoader.init(this, false)
+        createDownloadChannel(this)
 
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
             AndroidFlipperClient.getInstance(this).apply {
@@ -54,4 +57,7 @@ class UnsplashApp : Application(), Configuration.Provider {
             .setWorkerFactory(workerFactory)
             .build()
 
+    private fun createDownloadChannel(context: Context) {
+        NotificationChannels.create(context)
+    }
 }
