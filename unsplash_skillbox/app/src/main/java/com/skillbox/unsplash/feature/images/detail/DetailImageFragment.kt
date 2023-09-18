@@ -158,6 +158,19 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
                     imageDownloader.invoke()
                 }
             }
+
+            backArrowIcon.setOnClickListener {
+
+            }
+
+            shareImageIcon.setOnClickListener {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Image info")
+                val shareMessage = "https://unsplash.com/photos/${detailImgItem.image.id}"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+                startActivity(Intent.createChooser(shareIntent, "choose one"))
+            }
         }
     }
 
