@@ -37,4 +37,5 @@
     <string name="download_finished_with_status">Загрузка изображения завершена со статусом</string>
     <string name="open">Открыть</string>
     <string name="image_downloading">Загрузка изображения</string>
+    <string name="chose_one">Выберите приложение</string>
 </resources>

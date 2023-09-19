@@ -38,5 +38,6 @@
     <string name="download_finished_with_status">Download is finished with status</string>
     <string name="open">Open</string>
     <string name="image_downloading">Image downloading</string>
+    <string name="chose_one">Chose one</string>
 
 </resources>

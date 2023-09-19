@@ -170,7 +170,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Image info")
                 val shareMessage = "https://unsplash.com/photos/${detailImgItem.image.id}"
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
-                startActivity(Intent.createChooser(shareIntent, "choose one"))
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.chose_one)))
             }
         }
     }

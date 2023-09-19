@@ -37,4 +37,5 @@
     <string name="download_finished_with_status">La carga de la imagen ha finalizado con estado</string>
     <string name="open">Abrir</string>
     <string name="image_downloading">Descarga de imágenes</string>
+    <string name="chose_one">Seleccione una aplicación</string>
 </resources>
