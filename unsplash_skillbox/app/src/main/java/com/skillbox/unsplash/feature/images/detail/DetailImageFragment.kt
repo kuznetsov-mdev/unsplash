@@ -18,6 +18,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.work.WorkInfo
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -160,7 +161,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
             }
 
             backArrowIcon.setOnClickListener {
-
+                findNavController().navigate(DetailImageFragmentDirections.actionImageFragmentToImagesFragment())
             }
 
             shareImageIcon.setOnClickListener {

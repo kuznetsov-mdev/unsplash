@@ -26,5 +26,8 @@
         <argument
             android:name="imageId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_imageFragment_to_imagesFragment"
+            app:destination="@id/imagesFragment" />
     </fragment>
 </navigation>
