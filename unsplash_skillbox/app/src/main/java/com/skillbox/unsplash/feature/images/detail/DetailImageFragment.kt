@@ -37,6 +37,7 @@ import com.skillbox.unsplash.feature.images.detail.data.Exif
 import com.skillbox.unsplash.feature.images.detail.data.Location
 import com.skillbox.unsplash.feature.images.detail.data.Statistic
 import com.skillbox.unsplash.util.haveQ
+import com.skillbox.unsplash.util.haveTiramisu
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,7 +46,6 @@ import timber.log.Timber
 
 typealias ImageDownloader = () -> Unit
 
-@Suppress("UNUSED_EXPRESSION")
 @AndroidEntryPoint
 class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
     private val args: DetailImageFragmentArgs by navArgs()
@@ -279,6 +279,10 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
         ) {
             NotificationManagerCompat.from(requireContext())
                 .notify(DOWNLOAD_NOTIFICATION_ID, downloadNotification)
+        } else {
+            if (haveTiramisu()) {
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+            }
         }
     }
 
@@ -304,14 +308,17 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
 
         intent.resolveActivity(requireContext().packageManager)?.let {
             startActivity(intent)
-        } ?: showPopUpMessage(getString(R.string.no_application))
+        }
     }
 
     companion object {
         private val PERMISSIONS = listOfNotNull(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+                .takeIf { haveTiramisu().not() },
             Manifest.permission.WRITE_EXTERNAL_STORAGE
-                .takeIf { haveQ().not() }
+                .takeIf { haveQ().not() },
+            Manifest.permission.READ_MEDIA_IMAGES
+                .takeIf { haveTiramisu() }
         )
 
         private const val DOWNLOAD_NOTIFICATION_ID = 100501

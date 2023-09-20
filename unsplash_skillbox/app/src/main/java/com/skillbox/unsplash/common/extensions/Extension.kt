@@ -56,6 +56,10 @@ fun haveQ(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 }
 
+fun haveTiramisu(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+}
+
 fun RemoteImage.toImageItem(cachedImagePath: String, cachedAvatarPath: String): ImageItem {
     return ImageItem(
         Image(
