@@ -75,8 +75,8 @@ class AuthViewModel @Inject constructor(
                     tokenRequest = tokenRequest
                 )
             }.onSuccess {
-                loadingMutableStateFlow.value = false
                 authSuccessEventChannel.send(Unit)
+                loadingMutableStateFlow.value = false
             }.onFailure {
                 loadingMutableStateFlow.value = false
                 toastEventChannel.send(R.string.auth_canceled)
