@@ -19,4 +19,6 @@ interface AuthRepositoryApi {
     suspend fun performTokenRequest(tokenRequest: TokenRequest)
 
     fun getAuthorizationRequestIntent(authRequest: AuthorizationRequest, customTabsIntent: CustomTabsIntent): Intent
+
+    fun isUserLoggedIn(): Boolean
 }
