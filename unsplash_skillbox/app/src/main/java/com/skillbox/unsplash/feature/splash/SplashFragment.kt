@@ -32,11 +32,17 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 val isOnBoardingCompleted = onBoardingViewModel.isOnBoardingCompleted(requireContext())
+                //todo: replace it to checking network request for getting user info
+                val isUserLoggedIn = onBoardingViewModel.isUserLoggedIn()
                 Handler(Looper.getMainLooper()).postDelayed({
                     if (!isOnBoardingCompleted) {
                         findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
                     } else {
-                        findNavController().navigate(R.id.action_splashFragment_to_authFragment)
+                        if (isUserLoggedIn) {
+                            findNavController().navigate(R.id.action_splashFragment_to_appFragment)
+                        } else {
+                            findNavController().navigate(R.id.action_splashFragment_to_authFragment)
+                        }
                     }
                 }, SPLASH_SCREEN_DISPLAYING_DURATION)
             }
@@ -45,6 +51,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     }
 
     companion object {
-        private const val SPLASH_SCREEN_DISPLAYING_DURATION = 2_000L
+        private const val SPLASH_SCREEN_DISPLAYING_DURATION = 1_000L
     }
 }

@@ -42,7 +42,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_appFragment"
-            app:destination="@id/appFragment" />
+            app:popUpTo="@id/splashFragment"
+            app:destination="@id/appFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/appFragment"

@@ -54,4 +54,10 @@ class AuthRepositoryImpl @Inject constructor(
             customTabsIntent
         )
     }
+
+    override fun isUserLoggedIn(): Boolean {
+        return with(TokenStorage) {
+            accessToken != null && refreshToken != null && idToken != null
+        }
+    }
 }
