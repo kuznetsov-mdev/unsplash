@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/images_nav_graph"
     app:startDestination="@id/imagesFragment">
     <fragment
         android:id="@+id/imagesFragment"
         android:name="com.skillbox.unsplash.feature.images.list.ImageListFragment"
-        android:label="ImagesFragment">
+        android:label="ImagesFragment"
+        tools:layout="@layout/fragment_images">
         <action
             android:id="@+id/action_imagesFragment_to_imageFragment"
             app:destination="@id/imageFragment" />
@@ -14,20 +16,27 @@
     <fragment
         android:id="@+id/collectionsFragment"
         android:name="com.skillbox.unsplash.feature.collections.CollectionsFragment"
-        android:label="CollectionsFragment" />
+        android:label="CollectionsFragment"
+        tools:layout="@layout/fragment_collections" />
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.skillbox.unsplash.feature.account.AccountFragment"
-        android:label="AccountFragment" />
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/imageFragment"
         android:name="com.skillbox.unsplash.feature.images.detail.DetailImageFragment"
-        android:label="ImageFragment">
+        android:label="ImageFragment"
+        tools:layout="@layout/fragment_image_detail">
         <argument
             android:name="imageId"
             app:argType="string" />
         <action
             android:id="@+id/action_imageFragment_to_imagesFragment"
             app:destination="@id/imagesFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="https://unsplash.com/photos/{imageId}"
+            tools:targetApi="m" />
     </fragment>
 </navigation>
