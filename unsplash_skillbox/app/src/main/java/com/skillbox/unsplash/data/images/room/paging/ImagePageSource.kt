@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.feature.images.list.paging
+package com.skillbox.unsplash.data.images.room.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
