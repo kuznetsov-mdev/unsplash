@@ -3,7 +3,7 @@ package com.skillbox.unsplash.data.images.retrofit
 import android.app.Application
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
-import com.skillbox.unsplash.data.images.storage.ImageRemoteDataSource
+import com.skillbox.unsplash.data.images.storage.RetrofitImageRepository
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import com.skillbox.unsplash.util.toDetailImageItem
@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class RetrofitImageDataSource(private val network: Network, private val context: Application) : ImageRemoteDataSource {
+class RetrofitImageRepositoryImpl(private val network: Network, private val context: Application) : RetrofitImageRepository {
 
     override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageItem> {
         return withContext(Dispatchers.IO) {

@@ -6,7 +6,7 @@ import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
 import com.skillbox.unsplash.data.images.storage.internal.ImageInternalStorage
 import javax.inject.Inject
 
-class ImageStorageDataSource @Inject constructor(
+class DiskImageRepository @Inject constructor(
     private val internalStorage: ImageInternalStorage,
     private val externalStorage: ImageExternalStorage
 ) {

@@ -2,7 +2,7 @@ package com.skillbox.unsplash.data.images.storage
 
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 
-interface ImageRemoteDataSource : ImageDataSource {
+interface RetrofitImageRepository : ImageDataSource {
 
     suspend fun setLike(imageId: String)
 

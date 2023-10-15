@@ -3,12 +3,12 @@ package com.skillbox.unsplash.data.images.di
 import android.app.Application
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.images.ImagesRepository
-import com.skillbox.unsplash.data.images.retrofit.RetrofitImageDataSource
-import com.skillbox.unsplash.data.images.room.RoomImagesDataSource
-import com.skillbox.unsplash.data.images.storage.ImageRemoteDataSource
-import com.skillbox.unsplash.data.images.storage.ImageStorageDataSource
-import com.skillbox.unsplash.data.images.storage.ImagesLocalDataSource
+import com.skillbox.unsplash.data.images.ImageRepository
+import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryImpl
+import com.skillbox.unsplash.data.images.room.RoomImageRepositoryImpl
+import com.skillbox.unsplash.data.images.storage.DiskImageRepository
+import com.skillbox.unsplash.data.images.storage.RetrofitImageRepository
+import com.skillbox.unsplash.data.images.storage.RoomImageRepository
 import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
 import com.skillbox.unsplash.data.images.storage.external.ImageInternalStorageImpl
 import com.skillbox.unsplash.data.images.storage.internal.ImageExternalStorageImpl
@@ -27,20 +27,20 @@ class ImagesDataModule {
     @Singleton
     fun provideLocalDataSource(
         roomDatabase: UnsplashRoomDataBase
-    ): ImagesLocalDataSource = RoomImagesDataSource(roomDatabase)
+    ): RoomImageRepository = RoomImageRepositoryImpl(roomDatabase)
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(network: Network, context: Application): ImageRemoteDataSource =
-        RetrofitImageDataSource(network, context)
+    fun provideRemoteDataSource(network: Network, context: Application): RetrofitImageRepository =
+        RetrofitImageRepositoryImpl(network, context)
 
     @Provides
     @Singleton
     fun providesImagesRepository(
-        inMemory: ImageStorageDataSource,
-        local: ImagesLocalDataSource,
-        remote: ImageRemoteDataSource
-    ): ImagesRepository = ImagesRepository(inMemory, local, remote)
+        inMemory: DiskImageRepository,
+        local: RoomImageRepository,
+        remote: RetrofitImageRepository
+    ): ImageRepository = ImageRepository(inMemory, local, remote)
 
     @Provides
     @Singleton
@@ -54,6 +54,6 @@ class ImagesDataModule {
 
     @Provides
     @Singleton
-    fun providesImageStorage(internalStorage: ImageInternalStorage, externalStorageImpl: ImageExternalStorage): ImageStorageDataSource =
-        ImageStorageDataSource(internalStorage, externalStorageImpl)
+    fun providesImageStorage(internalStorage: ImageInternalStorage, externalStorageImpl: ImageExternalStorage): DiskImageRepository =
+        DiskImageRepository(internalStorage, externalStorageImpl)
 }
