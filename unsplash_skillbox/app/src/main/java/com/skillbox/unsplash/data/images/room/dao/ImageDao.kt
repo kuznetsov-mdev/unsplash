@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.data.images.room.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -26,7 +27,7 @@ interface ImageDao {
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME}")
     fun getImagesWithAuthor(): List<ImageWithAuthorEntity>
 
-    @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE description LIKE :query LIMIT :pageSize OFFSET :pageNumber")
+    @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE description IS NULL OR description LIKE :query LIMIT :pageSize OFFSET :pageNumber")
     fun searchImages(query: String, pageNumber: Int, pageSize: Int): List<ImageWithAuthorEntity>
 
     @Query("DELETE FROM ${ImageContract.TABLE_NAME}")
@@ -34,4 +35,11 @@ interface ImageDao {
 
     @Query("DELETE FROM ${AuthorContract.TABLE_NAME}")
     fun deleteAuthorsAvatars()
+
+
+    @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE description IS NULL or description LIKE :query")
+    fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity>
+
+    @Query("DELETE FROM ${ImageContract.TABLE_NAME} WHERE description IS NULL OR description LIKE :query")
+    fun clear(query: String?)
 }

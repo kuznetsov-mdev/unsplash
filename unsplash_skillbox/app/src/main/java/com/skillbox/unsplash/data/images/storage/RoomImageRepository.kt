@@ -16,4 +16,6 @@ interface RoomImageRepository {
 
     suspend fun removeImages()
 
+    suspend fun refresh(query: String?, images: List<ImageWithAuthorEntity>)
+
 }

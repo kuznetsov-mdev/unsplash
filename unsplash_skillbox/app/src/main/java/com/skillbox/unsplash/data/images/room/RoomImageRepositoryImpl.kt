@@ -22,10 +22,6 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         return dataBase.imageDao().searchImages(searchQuery, pageNumber, pageSize).map { it.toImageItem() }
     }
 
-    override suspend fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity> {
-        return dataBase.imageDao().getPagingSource(query)
-    }
-
     override suspend fun saveImages(images: List<ImageWithAuthorEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
@@ -42,5 +38,20 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
                 dataBase.imageDao().deleteAuthorsAvatars()
             }
         }
+    }
+
+    override suspend fun refresh(query: String?, images: List<ImageWithAuthorEntity>) {
+        withContext(Dispatchers.IO) {
+            dataBase.withTransaction {
+                dataBase.imageDao().clear(query)
+                dataBase.imageDao().insertAuthors(images.map { it.author })
+                dataBase.imageDao().insertImages(images.map { it.image })
+            }
+        }
+        dataBase
+    }
+
+    override suspend fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity> {
+        return dataBase.imageDao().getPagingSource(query)
     }
 }
