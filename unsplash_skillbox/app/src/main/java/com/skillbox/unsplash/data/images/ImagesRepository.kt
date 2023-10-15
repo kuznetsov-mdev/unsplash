@@ -1,37 +1,31 @@
 package com.skillbox.unsplash.data.images
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.work.WorkInfo
-import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
 import com.skillbox.unsplash.data.images.storage.ImageRemoteDataSource
 import com.skillbox.unsplash.data.images.storage.ImageStorageDataSource
 import com.skillbox.unsplash.data.images.storage.ImagesLocalDataSource
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import com.skillbox.unsplash.feature.images.list.paging.ImagePageSource
-import com.skillbox.unsplash.util.toImageItem
 import com.skillbox.unsplash.util.toImageWithAuthorEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.io.File
 
 
 class ImagesRepository(
-    private val context: Context,
     private val imageStorageDataSource: ImageStorageDataSource,
     private val imagesLocalDataSource: ImagesLocalDataSource,
     private val imageRemoteDataSource: ImageRemoteDataSource
 ) {
-    fun search(query: String, pageSize: Int, isNetworkAvailable: Boolean): Flow<PagingData<ImageItem>> {
+    suspend fun search(query: String, pageSize: Int, isNetworkAvailable: Boolean): Flow<PagingData<ImageItem>> {
         return getPagingDataFlow(query, pageSize, isNetworkAvailable).onEach { imageItem ->
             val images: MutableList<ImageItem> = mutableListOf()
             if (isNetworkAvailable) {
@@ -75,17 +69,6 @@ class ImagesRepository(
 
     fun startImageSavingToGalleryWork(name: String, url: String): LiveData<WorkInfo> {
         return imageStorageDataSource.startImageSavingToExternalStorageWork(name, url)
-    }
-
-    private fun convertToImageItem(remoteImageList: List<RemoteImage>): List<ImageItem> {
-        return remoteImageList.map { remoteImage ->
-            runBlocking(Dispatchers.IO) {
-                remoteImage.toImageItem(
-                    File(context.cacheDir.path).resolve("thumbnails").resolve("${remoteImage.id}.jpg").toString(),
-                    File(context.cacheDir.path).resolve("avatars").resolve("${remoteImage.user.id}.jpg").toString()
-                )
-            }
-        }
     }
 
     private fun getPagingDataFlow(query: String, pageSize: Int, isNetworkAvailable: Boolean): Flow<PagingData<ImageItem>> {

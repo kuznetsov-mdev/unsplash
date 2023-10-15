@@ -37,11 +37,10 @@ class ImagesDataModule {
     @Provides
     @Singleton
     fun providesImagesRepository(
-        context: Application,
         inMemory: ImageStorageDataSource,
         local: ImagesLocalDataSource,
         remote: ImageRemoteDataSource
-    ): ImagesRepository = ImagesRepository(context, inMemory, local, remote)
+    ): ImagesRepository = ImagesRepository(inMemory, local, remote)
 
     @Provides
     @Singleton
