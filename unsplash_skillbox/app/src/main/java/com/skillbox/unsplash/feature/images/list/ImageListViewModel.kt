@@ -24,9 +24,6 @@ class ImageListViewModel @Inject constructor(
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
-//    private val imagesStateFlow: MutableStateFlow<PagingData<ImageItem>> = getPagedImages()
-//        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty()) as MutableStateFlow<PagingData<ImageItem>>
-
     private val imagesStateFlow = MutableStateFlow<PagingData<ImageItem>>(PagingData.empty())
 
     var isNetworkAvailableState = true
@@ -72,37 +69,12 @@ class ImageListViewModel @Inject constructor(
         }
     }
 
-//    private fun getPagedImages(): Flow<PagingData<ImageItem>> {
-//        val loader: ImagesPageLoader = { pageIndex, pageSize ->
-//            repository.searchImages("", pageIndex, pageSize, isNetworkAvailableState)
-//        }
-//        return Pager(
-//            config = PagingConfig(
-//                pageSize = PAGE_SIZE,
-//                enablePlaceholders = true
-//            ),
-//            pagingSourceFactory = { ImagesPageSource(loader, PAGE_SIZE) }
-//        ).flow
-//    }
-
     fun searchImages(searchQuery: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.search(searchQuery, PAGE_SIZE, isNetworkAvailableState).collectLatest {
                 imagesStateFlow.value = it
             }
         }
-
-//        viewModelScope.launch(Dispatchers.IO) {
-//            Pager(
-//                config = PagingConfig(
-//                    pageSize = PAGE_SIZE,
-//                    enablePlaceholders = true
-//                ),
-//                pagingSourceFactory = { SearchingPageSource(repository, searchQuery, PAGE_SIZE, isNetworkAvailableState) }
-//            ).flow.cachedIn(viewModelScope).collect{
-//                imagesStateFlow.value = it
-//            }
-//        }
     }
 
     private companion object {
