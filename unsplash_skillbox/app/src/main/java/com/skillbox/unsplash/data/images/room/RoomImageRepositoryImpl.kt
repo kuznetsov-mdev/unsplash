@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.data.images.room
 
+import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
@@ -19,6 +20,10 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
 
     override suspend fun searchImages(searchQuery: String, pageNumber: Int, pageSize: Int): List<ImageItem> {
         return dataBase.imageDao().searchImages(searchQuery, pageNumber, pageSize).map { it.toImageItem() }
+    }
+
+    override suspend fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity> {
+        return dataBase.imageDao().getPagingSource(query)
     }
 
     override suspend fun saveImages(images: List<ImageWithAuthorEntity>) {

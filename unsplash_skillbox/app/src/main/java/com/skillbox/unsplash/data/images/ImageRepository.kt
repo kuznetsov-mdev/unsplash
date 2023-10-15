@@ -26,7 +26,7 @@ class ImageRepository(
     private val retrofitImageRepository: RetrofitImageRepository
 ) {
     suspend fun search(query: String, pageSize: Int, isNetworkAvailable: Boolean): Flow<PagingData<ImageItem>> {
-        return getPagingDataFlow(query, pageSize, isNetworkAvailable).onEach { imageItem ->
+        return getPagingDataFlow(query, pageSize).onEach { imageItem ->
             val images: MutableList<ImageItem> = mutableListOf()
             if (isNetworkAvailable) {
                 imageItem.map { images.add(ImageItem(it.image, it.author)) }
@@ -71,12 +71,11 @@ class ImageRepository(
         return diskImageRepository.startImageSavingToExternalStorageWork(name, url)
     }
 
-    private fun getPagingDataFlow(query: String, pageSize: Int, isNetworkAvailable: Boolean): Flow<PagingData<ImageItem>> {
-        val imageDataSource = if (isNetworkAvailable) retrofitImageRepository else roomImageRepository
+    private fun getPagingDataFlow(query: String, pageSize: Int): Flow<PagingData<ImageItem>> {
         return Pager(
             config = PagingConfig(pageSize),
             pagingSourceFactory = {
-                ImagePageSource(imageDataSource, query, pageSize)
+                ImagePageSource(retrofitImageRepository, query, pageSize)
             }
         ).flow
     }

@@ -2,14 +2,14 @@ package com.skillbox.unsplash.data.images.room.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.skillbox.unsplash.data.images.storage.ImageDataSource
+import com.skillbox.unsplash.data.images.storage.RetrofitImageRepository
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class ImagePageSource(
-    private val imageDataSource: ImageDataSource,
+    private val retrofitImageRepository: RetrofitImageRepository,
     private val query: String,
     private val pageSize: Int,
 ) : PagingSource<Int, ImageItem>() {
@@ -25,9 +25,9 @@ class ImagePageSource(
             withContext(Dispatchers.IO) {
                 val pageIndex: Int = params.key ?: 0
                 val imageItems: List<ImageItem> = if (query.isNotBlank()) {
-                    imageDataSource.searchImages(query, pageIndex, params.loadSize)
+                    retrofitImageRepository.searchImages(query, pageIndex, params.loadSize)
                 } else {
-                    imageDataSource.fetchImages(pageIndex, params.loadSize)
+                    retrofitImageRepository.fetchImages(pageIndex, params.loadSize)
                 }
                 Timber.d("Loader was invoked on thread - ${Thread.currentThread().name}")
                 val prevPageIndex: Int? = if (pageIndex == 0) null else pageIndex - 1
