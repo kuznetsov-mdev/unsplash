@@ -91,6 +91,7 @@ class ImageAdapter(
         fun bind(imageItem: ImageItem, position: Int) {
             this.currentImage = imageItem
             this.imagePosition = position
+
             with(binding) {
                 authorName.text = imageItem.author.name
                 authorNickName.text = imageItem.author.nickname

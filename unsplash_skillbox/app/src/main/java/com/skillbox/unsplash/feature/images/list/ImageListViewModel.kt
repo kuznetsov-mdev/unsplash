@@ -2,23 +2,17 @@ package com.skillbox.unsplash.feature.images.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.images.ImagesRepository
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
-import com.skillbox.unsplash.feature.images.list.paging.ImagesPageLoader
-import com.skillbox.unsplash.feature.images.list.paging.ImagesPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
@@ -30,8 +24,10 @@ class ImageListViewModel @Inject constructor(
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
-    private val imagesStateFlow: StateFlow<PagingData<ImageItem>> = getPagedImages()
-        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+//    private val imagesStateFlow: MutableStateFlow<PagingData<ImageItem>> = getPagedImages()
+//        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty()) as MutableStateFlow<PagingData<ImageItem>>
+
+    private val imagesStateFlow = MutableStateFlow<PagingData<ImageItem>>(PagingData.empty())
 
     var isNetworkAvailableState = true
 
@@ -46,6 +42,7 @@ class ImageListViewModel @Inject constructor(
             repository.removeImages()
         }
         observeConnectivityState()
+        searchImages("")
     }
 
     override fun onCleared() {
@@ -75,17 +72,37 @@ class ImageListViewModel @Inject constructor(
         }
     }
 
-    private fun getPagedImages(): Flow<PagingData<ImageItem>> {
-        val loader: ImagesPageLoader = { pageIndex, pageSize ->
-            repository.fetchImages(pageIndex, pageSize, isNetworkAvailableState)
+//    private fun getPagedImages(): Flow<PagingData<ImageItem>> {
+//        val loader: ImagesPageLoader = { pageIndex, pageSize ->
+//            repository.searchImages("", pageIndex, pageSize, isNetworkAvailableState)
+//        }
+//        return Pager(
+//            config = PagingConfig(
+//                pageSize = PAGE_SIZE,
+//                enablePlaceholders = true
+//            ),
+//            pagingSourceFactory = { ImagesPageSource(loader, PAGE_SIZE) }
+//        ).flow
+//    }
+
+    fun searchImages(searchQuery: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.search(searchQuery, PAGE_SIZE, isNetworkAvailableState).collectLatest {
+                imagesStateFlow.value = it
+            }
         }
-        return Pager(
-            config = PagingConfig(
-                pageSize = PAGE_SIZE,
-                enablePlaceholders = true
-            ),
-            pagingSourceFactory = { ImagesPageSource(loader, PAGE_SIZE) }
-        ).flow.cachedIn(viewModelScope)
+
+//        viewModelScope.launch(Dispatchers.IO) {
+//            Pager(
+//                config = PagingConfig(
+//                    pageSize = PAGE_SIZE,
+//                    enablePlaceholders = true
+//                ),
+//                pagingSourceFactory = { SearchingPageSource(repository, searchQuery, PAGE_SIZE, isNetworkAvailableState) }
+//            ).flow.cachedIn(viewModelScope).collect{
+//                imagesStateFlow.value = it
+//            }
+//        }
     }
 
     private companion object {

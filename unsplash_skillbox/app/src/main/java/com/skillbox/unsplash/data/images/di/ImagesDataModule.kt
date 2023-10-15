@@ -4,11 +4,11 @@ import android.app.Application
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.ImagesRepository
-import com.skillbox.unsplash.data.images.retrofit.RetrofitImagesDataSource
+import com.skillbox.unsplash.data.images.retrofit.RetrofitImageDataSource
 import com.skillbox.unsplash.data.images.room.RoomImagesDataSource
+import com.skillbox.unsplash.data.images.storage.ImageRemoteDataSource
 import com.skillbox.unsplash.data.images.storage.ImageStorageDataSource
 import com.skillbox.unsplash.data.images.storage.ImagesLocalDataSource
-import com.skillbox.unsplash.data.images.storage.ImagesRemoteDataSource
 import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
 import com.skillbox.unsplash.data.images.storage.external.ImageInternalStorageImpl
 import com.skillbox.unsplash.data.images.storage.internal.ImageExternalStorageImpl
@@ -31,8 +31,8 @@ class ImagesDataModule {
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(network: Network): ImagesRemoteDataSource =
-        RetrofitImagesDataSource(network)
+    fun provideRemoteDataSource(network: Network, context: Application): ImageRemoteDataSource =
+        RetrofitImageDataSource(network, context)
 
     @Provides
     @Singleton
@@ -40,7 +40,7 @@ class ImagesDataModule {
         context: Application,
         inMemory: ImageStorageDataSource,
         local: ImagesLocalDataSource,
-        remote: ImagesRemoteDataSource
+        remote: ImageRemoteDataSource
     ): ImagesRepository = ImagesRepository(context, inMemory, local, remote)
 
     @Provides

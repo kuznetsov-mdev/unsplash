@@ -1,6 +1,7 @@
 package com.skillbox.unsplash.common.network.api
 
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
+import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImageSearchResult
 import com.skillbox.unsplash.data.images.retrofit.model.image.detail.RemoteImageDetail
 import okhttp3.ResponseBody
 import retrofit2.http.DELETE
@@ -11,7 +12,7 @@ import retrofit2.http.Query
 
 interface UnsplashApi {
     @GET("photos")
-    suspend fun searchImages(
+    suspend fun getImages(
         @Query("page") pageNumber: Int,
         @Query("per_page") pageSize: Int
     ): List<RemoteImage>
@@ -30,4 +31,11 @@ interface UnsplashApi {
     suspend fun getImageDetailInfo(
         @Path("id") imageId: String
     ): RemoteImageDetail
+
+    @GET("/search/photos")
+    suspend fun searchImages(
+        @Query("query") searchQuery: String,
+        @Query("page") pageNumber: Int,
+        @Query("per_page") pageSize: Int
+    ): RemoteImageSearchResult
 }

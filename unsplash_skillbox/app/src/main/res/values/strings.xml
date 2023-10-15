@@ -39,5 +39,6 @@
     <string name="open">Open</string>
     <string name="image_downloading">Image downloading</string>
     <string name="chose_one">Chose one</string>
+    <string name="search">Search</string>
 
 </resources>

@@ -2,21 +2,26 @@ package com.skillbox.unsplash.data.images
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
+import com.skillbox.unsplash.data.images.storage.ImageRemoteDataSource
 import com.skillbox.unsplash.data.images.storage.ImageStorageDataSource
 import com.skillbox.unsplash.data.images.storage.ImagesLocalDataSource
-import com.skillbox.unsplash.data.images.storage.ImagesRemoteDataSource
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
-import com.skillbox.unsplash.util.toDetailImageItem
+import com.skillbox.unsplash.feature.images.list.paging.ImagePageSource
 import com.skillbox.unsplash.util.toImageItem
 import com.skillbox.unsplash.util.toImageWithAuthorEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import java.io.File
 
 
@@ -24,32 +29,31 @@ class ImagesRepository(
     private val context: Context,
     private val imageStorageDataSource: ImageStorageDataSource,
     private val imagesLocalDataSource: ImagesLocalDataSource,
-    private val imagesRemoteDataSource: ImagesRemoteDataSource
+    private val imageRemoteDataSource: ImageRemoteDataSource
 ) {
-    suspend fun fetchImages(pageNumber: Int, pageSize: Int, isNetworkAvailable: Boolean): List<ImageItem> {
-        return if (isNetworkAvailable) {
-            Timber.d("Get images from Network")
-            convertToImageItem(imagesRemoteDataSource.fetchImages(pageNumber, pageSize))
-                .also { saveImageDataToLocalStorage(it) }
-        } else {
-            Timber.d("Get images from DB")
-            imagesLocalDataSource.loadAllImages().map { it.toImageItem() }
+    fun search(query: String, pageSize: Int, isNetworkAvailable: Boolean): Flow<PagingData<ImageItem>> {
+        return getPagingDataFlow(query, pageSize, isNetworkAvailable).onEach { imageItem ->
+            val images: MutableList<ImageItem> = mutableListOf()
+            if (isNetworkAvailable) {
+                imageItem.map { images.add(ImageItem(it.image, it.author)) }
+            }
+
+            if (images.size == pageSize) {
+                saveImageDataToLocalStorage(images)
+            }
         }
     }
 
     suspend fun getImageDetailInfo(imageId: String): DetailImageItem {
-        return imagesRemoteDataSource.getImageDetailInfo(imageId).toDetailImageItem(
-            "stub",
-            "stub"
-        )
+        return imageRemoteDataSource.getImageDetailInfo(imageId)
     }
 
     suspend fun setLike(imageId: String) {
-        imagesRemoteDataSource.setLike(imageId)
+        imageRemoteDataSource.setLike(imageId)
     }
 
     suspend fun removeLike(imageId: String) {
-        imagesRemoteDataSource.removeLike(imageId)
+        imageRemoteDataSource.removeLike(imageId)
     }
 
     suspend fun removeImages() {
@@ -82,5 +86,15 @@ class ImagesRepository(
                 )
             }
         }
+    }
+
+    private fun getPagingDataFlow(query: String, pageSize: Int, isNetworkAvailable: Boolean): Flow<PagingData<ImageItem>> {
+        val imageDataSource = if (isNetworkAvailable) imageRemoteDataSource else imagesLocalDataSource
+        return Pager(
+            config = PagingConfig(pageSize),
+            pagingSourceFactory = {
+                ImagePageSource(imageDataSource, query, pageSize)
+            }
+        ).flow
     }
 }
