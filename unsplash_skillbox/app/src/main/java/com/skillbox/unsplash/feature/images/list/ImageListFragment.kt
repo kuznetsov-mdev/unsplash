@@ -3,7 +3,6 @@ package com.skillbox.unsplash.feature.images.list
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,11 +15,18 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
+import com.skillbox.unsplash.util.textChangedFlow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
@@ -55,6 +61,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     private fun initSearchBar() {
         viewBinding.searchIconView.setOnClickListener {
             viewBinding.searchIconView.visibility = View.GONE
@@ -73,10 +80,12 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             viewModel.searchImages(null)
         }
 
-        viewBinding.searchInputTextView.doOnTextChanged { text, start, before, count ->
-            Timber.tag("SEARCH - text").d(text.toString())
-            viewModel.searchImages(text.toString())
-        }
+        viewBinding.searchInputTextView.textChangedFlow()
+            .debounce(700)
+            .onStart { emit(null) }
+            .distinctUntilChanged()
+            .mapLatest { text -> viewModel.searchImages(text) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun markPhoto(imageId: String, imagePosition: Int, isLiked: Boolean) {

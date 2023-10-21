@@ -2,6 +2,8 @@ package com.skillbox.unsplash.util
 
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.textfield.TextInputEditText
 import com.skillbox.unsplash.common.util.AutoClearedValue
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
 import com.skillbox.unsplash.data.images.retrofit.model.image.detail.RemoteImageDetail
@@ -23,6 +26,10 @@ import com.skillbox.unsplash.feature.images.detail.data.Exif
 import com.skillbox.unsplash.feature.images.detail.data.Location
 import com.skillbox.unsplash.feature.images.detail.data.Statistic
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
     return apply {
@@ -181,4 +188,25 @@ fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAva
         ),
         this.links.download
     )
+}
+
+fun TextInputEditText.textChangedFlow(): Flow<String?> {
+    return callbackFlow {
+        val textChangeListener = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                trySendBlocking(text?.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        }
+
+        this@textChangedFlow.addTextChangedListener(textChangeListener)
+
+        awaitClose {
+            this@textChangedFlow.removeTextChangedListener(textChangeListener)
+        }
+
+    }
 }

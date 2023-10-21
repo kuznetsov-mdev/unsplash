@@ -40,7 +40,6 @@ class ImageListViewModel @Inject constructor(
             repository.removeImages()
         }
         observeConnectivityState()
-        searchImages(null)
     }
 
     override fun onCleared() {
