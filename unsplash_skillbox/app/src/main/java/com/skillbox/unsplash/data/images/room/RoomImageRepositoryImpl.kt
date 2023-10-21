@@ -22,7 +22,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         return dataBase.imageDao().searchImages(searchQuery, pageNumber, pageSize).map { it.toImageItem() }
     }
 
-    override suspend fun saveImages(images: List<ImageWithAuthorEntity>) {
+    override suspend fun insertAll(images: List<ImageWithAuthorEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 dataBase.imageDao().insertAuthors(images.map { it.author })
@@ -31,11 +31,11 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override suspend fun removeImages() {
+    override suspend fun clearAll() {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 dataBase.imageDao().deleteImages()
-                dataBase.imageDao().deleteAuthorsAvatars()
+                dataBase.imageDao().deleteAuthors()
             }
         }
     }
@@ -43,15 +43,22 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
     override suspend fun refresh(query: String?, images: List<ImageWithAuthorEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
-                dataBase.imageDao().clear(query)
+                if (query == null) {
+                    clearAll()
+                } else {
+                    dataBase.imageDao().clear(query)
+                }
                 dataBase.imageDao().insertAuthors(images.map { it.author })
                 dataBase.imageDao().insertImages(images.map { it.image })
             }
         }
-        dataBase
     }
 
-    override suspend fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity> {
-        return dataBase.imageDao().getPagingSource(query)
+    override fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity> {
+        return if (query == null) {
+            dataBase.imageDao().getPagingSource()
+        } else {
+            dataBase.imageDao().getPagingSource(query)
+        }
     }
 }

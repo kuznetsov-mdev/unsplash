@@ -3,6 +3,7 @@ package com.skillbox.unsplash.feature.images.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.images.ImageRepository
@@ -39,7 +40,7 @@ class ImageListViewModel @Inject constructor(
             repository.removeImages()
         }
         observeConnectivityState()
-        searchImages("")
+        searchImages(null)
     }
 
     override fun onCleared() {
@@ -69,9 +70,9 @@ class ImageListViewModel @Inject constructor(
         }
     }
 
-    fun searchImages(searchQuery: String) {
+    fun searchImages(searchQuery: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.search(searchQuery, PAGE_SIZE, isNetworkAvailableState).collectLatest {
+            repository.search(searchQuery, PAGE_SIZE).cachedIn(viewModelScope).collectLatest {
                 imagesStateFlow.value = it
             }
         }

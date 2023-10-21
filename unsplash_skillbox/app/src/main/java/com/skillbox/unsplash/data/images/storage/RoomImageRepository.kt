@@ -10,12 +10,12 @@ interface RoomImageRepository {
 
     suspend fun searchImages(searchQuery: String, pageNumber: Int, pageSize: Int): List<ImageItem>
 
-    suspend fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity>
+    suspend fun insertAll(images: List<ImageWithAuthorEntity>)
 
-    suspend fun saveImages(images: List<ImageWithAuthorEntity>)
-
-    suspend fun removeImages()
+    suspend fun clearAll()
 
     suspend fun refresh(query: String?, images: List<ImageWithAuthorEntity>)
+
+    fun getPagingSource(query: String?): PagingSource<Int, ImageWithAuthorEntity>
 
 }

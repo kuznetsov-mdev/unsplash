@@ -65,12 +65,12 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             viewBinding.searchIconView.visibility = View.VISIBLE
             viewBinding.searchBarView.visibility = View.GONE
             viewBinding.searchInputTextView.setText("")
-            viewModel.searchImages(viewBinding.searchInputTextView.text.toString())
+            viewModel.searchImages(null)
         }
 
         viewBinding.searchBarView.setStartIconOnClickListener {
             viewBinding.searchInputTextView.setText(R.string.empty)
-            viewModel.searchImages(viewBinding.searchInputTextView.text.toString())
+            viewModel.searchImages(null)
         }
 
         viewBinding.searchInputTextView.doOnTextChanged { text, start, before, count ->

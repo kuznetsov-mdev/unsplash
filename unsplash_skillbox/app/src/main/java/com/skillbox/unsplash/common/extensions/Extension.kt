@@ -81,6 +81,27 @@ fun RemoteImage.toImageItem(cachedImagePath: String, cachedAvatarPath: String): 
     )
 }
 
+fun RemoteImage.toRoomImageEntity(cachedImagePath: String, cachedAvatarPath: String): ImageWithAuthorEntity {
+    val authorEntity = AuthorEntity(
+        this.user.id,
+        this.user.name,
+        this.user.nickname,
+        this.user.profileImage.medium,
+        cachedAvatarPath,
+        this.user.biography ?: ""
+    )
+    val imageEntity = ImageEntity(
+        this.id,
+        this.user.id,
+        this.description ?: "",
+        this.likes,
+        this.likedByUser,
+        this.urls.thumb,
+        cachedImagePath
+    )
+    return ImageWithAuthorEntity(imageEntity, authorEntity)
+}
+
 fun ImageItem.toImageWithAuthorEntity(): ImageWithAuthorEntity {
     val authorEntity = AuthorEntity(
         this.author.id,

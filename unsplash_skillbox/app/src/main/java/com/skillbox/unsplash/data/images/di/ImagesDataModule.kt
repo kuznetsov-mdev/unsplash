@@ -31,16 +31,17 @@ class ImagesDataModule {
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(network: Network, context: Application): RetrofitImageRepository =
-        RetrofitImageRepositoryImpl(network, context)
+    fun provideRemoteDataSource(network: Network): RetrofitImageRepository =
+        RetrofitImageRepositoryImpl(network)
 
     @Provides
     @Singleton
     fun providesImagesRepository(
+        context: Application,
         inMemory: DiskImageRepository,
         local: RoomImageRepository,
         remote: RetrofitImageRepository
-    ): ImageRepository = ImageRepository(inMemory, local, remote)
+    ): ImageRepository = ImageRepository(context, inMemory, local, remote)
 
     @Provides
     @Singleton
