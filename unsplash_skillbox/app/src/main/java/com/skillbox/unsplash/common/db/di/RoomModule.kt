@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.skillbox.unsplash.common.db.MIGRATION_1_2
 import com.skillbox.unsplash.common.db.MIGRATION_2_3
 import com.skillbox.unsplash.common.db.MIGRATION_3_4
+import com.skillbox.unsplash.common.db.MIGRATION_4_5
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import dagger.Module
 import dagger.Provides
@@ -26,6 +27,7 @@ class RoomModule {
             .addMigrations(MIGRATION_1_2)
             .addMigrations(MIGRATION_2_3)
             .addMigrations(MIGRATION_3_4)
+            .addMigrations(MIGRATION_4_5)
             .build()
     }
 }
