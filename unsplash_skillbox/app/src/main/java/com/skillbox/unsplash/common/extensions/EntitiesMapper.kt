@@ -34,7 +34,7 @@ import com.skillbox.unsplash.feature.images.list.data.ImageItem
 //    )
 //}
 
-fun RemoteImage.toRoomImageEntity(cachedImagePath: String, cachedAvatarPath: String, searchQuery: String = ""): ImageWithAuthorEntity {
+fun RemoteImage.toRoomImageEntity(cachedImagePath: String, cachedAvatarPath: String, searchQuery: String): ImageWithAuthorEntity {
     val authorEntity = AuthorEntity(
         this.user.id,
         this.user.name,

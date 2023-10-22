@@ -91,7 +91,8 @@ class ImageRemoteMediator(
             runBlocking(Dispatchers.IO) {
                 remoteImage.toRoomImageEntity(
                     File(context.cacheDir.path).resolve("thumbnails").resolve("${remoteImage.id}.jpg").toString(),
-                    File(context.cacheDir.path).resolve("avatars").resolve("${remoteImage.user.id}.jpg").toString()
+                    File(context.cacheDir.path).resolve("avatars").resolve("${remoteImage.user.id}.jpg").toString(),
+                    query ?: ""
                 )
             }
         }

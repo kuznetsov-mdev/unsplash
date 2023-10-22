@@ -34,14 +34,14 @@ interface ImageDao {
     fun deleteAuthors()
 
     @Transaction
-    @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE description LIKE :query")
+    @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE ${ImageContract.Columns.SEARCH_QUERY}=:query")
     fun getPagingSource(query: String): PagingSource<Int, ImageWithAuthorEntity>
 
     @Transaction
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME}")
     fun getPagingSource(): PagingSource<Int, ImageWithAuthorEntity>
 
-    @Query("DELETE FROM ${ImageContract.TABLE_NAME} WHERE description LIKE :query")
+    @Query("DELETE FROM ${ImageContract.TABLE_NAME} WHERE ${ImageContract.Columns.SEARCH_QUERY}=:query")
     fun clear(query: String)
 
     @Transaction
