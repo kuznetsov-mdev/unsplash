@@ -8,8 +8,6 @@ interface RoomImageRepository {
 
     suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageItem>
 
-    suspend fun searchImages(searchQuery: String, pageNumber: Int, pageSize: Int): List<ImageItem>
-
     suspend fun insertAll(images: List<ImageWithAuthorEntity>)
 
     suspend fun clearAll()

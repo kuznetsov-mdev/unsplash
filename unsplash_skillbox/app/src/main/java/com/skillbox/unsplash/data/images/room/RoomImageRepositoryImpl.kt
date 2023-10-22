@@ -18,10 +18,6 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override suspend fun searchImages(searchQuery: String, pageNumber: Int, pageSize: Int): List<ImageItem> {
-        return dataBase.imageDao().searchImages(searchQuery, pageNumber, pageSize).map { it.toImageItem() }
-    }
-
     override suspend fun insertAll(images: List<ImageWithAuthorEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {

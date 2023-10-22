@@ -27,9 +27,6 @@ interface ImageDao {
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME}")
     fun getImagesWithAuthor(): List<ImageWithAuthorEntity>
 
-    @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE description IS NULL OR description LIKE :query LIMIT :pageSize OFFSET :pageNumber")
-    fun searchImages(query: String, pageNumber: Int, pageSize: Int): List<ImageWithAuthorEntity>
-
     @Query("DELETE FROM ${ImageContract.TABLE_NAME}")
     fun deleteImages()
 
