@@ -37,5 +37,7 @@ data class ImageEntity(
     @ColumnInfo(name = ImageContract.Columns.PREVIEW)
     val preview: String,
     @ColumnInfo(name = ImageContract.Columns.CACHED_PREVIEW)
-    val cachedPreview: String
+    val cachedPreview: String,
+    @ColumnInfo(name = ImageContract.Columns.SEARCH_QUERY)
+    val searchQuery: String
 ) : Parcelable

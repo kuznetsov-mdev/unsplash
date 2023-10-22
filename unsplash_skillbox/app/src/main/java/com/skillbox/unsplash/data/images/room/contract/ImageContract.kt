@@ -11,5 +11,6 @@ object ImageContract {
         const val LIKED_BY_USER = "liked_by_user"
         const val PREVIEW = "preview"
         const val CACHED_PREVIEW = "cached_preview"
+        const val SEARCH_QUERY = "search_query"
     }
 }
