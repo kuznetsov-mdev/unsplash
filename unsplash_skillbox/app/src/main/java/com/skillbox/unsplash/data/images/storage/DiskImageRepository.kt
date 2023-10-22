@@ -23,4 +23,8 @@ class DiskImageRepository @Inject constructor(
         internalStorage.removeAll()
     }
 
+    suspend fun removeCachedImages(images: List<String>) {
+        internalStorage.removeImages(images)
+    }
+
 }

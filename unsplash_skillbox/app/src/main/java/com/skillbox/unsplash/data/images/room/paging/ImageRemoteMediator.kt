@@ -40,6 +40,7 @@ class ImageRemoteMediator(
 
             if (loadType == LoadType.REFRESH) {
                 roomImageRepository.refresh(query, images)
+                removeImagesFromDisk(images)
             } else {
                 roomImageRepository.insertAll(images)
             }
@@ -71,6 +72,17 @@ class ImageRemoteMediator(
     private suspend fun saveImageDataOnDisk(remoteImages: List<RemoteImage>) {
         CoroutineScope(Dispatchers.IO).launch {
             remoteImages.forEach { saveImageToInternalStorage(it) }
+        }
+    }
+
+    private suspend fun removeImagesFromDisk(images: List<ImageWithAuthorEntity>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val imagesLinks = mutableListOf<String>()
+            images.forEach { img ->
+                imagesLinks.add(img.image.cachedPreview)
+                imagesLinks.add(img.author.cachedProfileImage)
+            }
+            diskImageRepository.removeCachedImages(imagesLinks)
         }
     }
 

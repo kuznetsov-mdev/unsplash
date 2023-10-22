@@ -42,6 +42,13 @@ class ImageInternalStorageImpl @Inject constructor(
         Timber.d("Is images removed = $isImagesRemoved")
     }
 
+
+    override suspend fun removeImages(images: List<String>) {
+        images.forEach { imageLink ->
+            File(imageLink).deleteOnExit()
+        }
+    }
+
     private fun saveImageToDir(imageId: String, storageDir: File, image: Bitmap): String? {
         var savedImagePath: String? = null
         val imageFileName = "$imageId.jpg"
