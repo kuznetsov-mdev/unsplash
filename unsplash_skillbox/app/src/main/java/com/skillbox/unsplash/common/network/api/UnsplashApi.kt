@@ -34,7 +34,7 @@ interface UnsplashApi {
 
     @GET("/search/photos")
     suspend fun searchImages(
-        @Query("query") searchQuery: String?,
+        @Query("query") searchQuery: String,
         @Query("page") pageNumber: Int,
         @Query("per_page") pageSize: Int
     ): RemoteImageSearchResult
