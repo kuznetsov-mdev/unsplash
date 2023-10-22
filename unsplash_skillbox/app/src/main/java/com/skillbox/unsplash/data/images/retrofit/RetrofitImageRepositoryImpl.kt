@@ -1,10 +1,10 @@
 package com.skillbox.unsplash.data.images.retrofit
 
+import com.skillbox.unsplash.common.extensions.toDetailImageItem
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
 import com.skillbox.unsplash.data.images.storage.RetrofitImageRepository
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
-import com.skillbox.unsplash.util.toDetailImageItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

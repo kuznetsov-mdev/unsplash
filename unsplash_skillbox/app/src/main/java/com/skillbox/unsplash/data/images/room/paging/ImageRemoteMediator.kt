@@ -5,12 +5,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.skillbox.unsplash.common.extensions.toRoomImageEntity
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
 import com.skillbox.unsplash.data.images.storage.RetrofitImageRepository
 import com.skillbox.unsplash.data.images.storage.RoomImageRepository
-import com.skillbox.unsplash.util.toRoomImageEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -88,7 +88,6 @@ class ImageRemoteMediator(
 
     private fun convertToImageWithAuthorEntity(remoteImageList: List<RemoteImage>): List<ImageWithAuthorEntity> {
         return remoteImageList.map { remoteImage ->
-            //original runBlocking
             runBlocking(Dispatchers.IO) {
                 remoteImage.toRoomImageEntity(
                     File(context.cacheDir.path).resolve("thumbnails").resolve("${remoteImage.id}.jpg").toString(),
