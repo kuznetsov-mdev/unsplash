@@ -25,7 +25,7 @@ class ImageRemoteMediator(
     private val diskImageRepository: DiskImageRepository,
     private val context: Context
 ) : RemoteMediator<Int, ImageWithAuthorEntity>() {
-    private var pageIndex = 0
+    private var pageIndex = 1
 
     override suspend fun load(
         loadType: LoadType,

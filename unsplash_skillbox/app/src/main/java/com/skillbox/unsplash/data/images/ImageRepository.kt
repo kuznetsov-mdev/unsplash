@@ -26,9 +26,9 @@ class ImageRepository(
     private val retrofitImageRepository: RetrofitImageRepository
 ) {
     @OptIn(ExperimentalPagingApi::class)
-    fun search(query: String?, pageSize: Int): Flow<PagingData<ImageItem>> {
+    fun search(query: String?): Flow<PagingData<ImageItem>> {
         return Pager(
-            config = PagingConfig(pageSize = pageSize, initialLoadSize = 30),
+            config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = ImageRemoteMediator(query, roomImageRepository, retrofitImageRepository, diskImageRepository, context),
             pagingSourceFactory = { roomImageRepository.getPagingSource(query) }
         ).flow
@@ -57,5 +57,9 @@ class ImageRepository(
 
     fun startImageSavingToGalleryWork(name: String, url: String): LiveData<WorkInfo> {
         return diskImageRepository.startImageSavingToExternalStorageWork(name, url)
+    }
+
+    private companion object {
+        const val PAGE_SIZE = 10
     }
 }
