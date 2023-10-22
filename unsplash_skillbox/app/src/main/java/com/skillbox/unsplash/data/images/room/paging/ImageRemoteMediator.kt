@@ -36,7 +36,7 @@ class ImageRemoteMediator(
         val pageSize = state.config.pageSize
 
         return try {
-            val images: List<ImageWithAuthorEntity> = fetchImages(pageSize, pageIndex)
+            val images: List<ImageWithAuthorEntity> = getImages(pageSize, pageIndex)
 
             if (loadType == LoadType.REFRESH) {
                 roomImageRepository.refresh(query, images)
@@ -58,14 +58,9 @@ class ImageRemoteMediator(
         }
     }
 
-    private suspend fun fetchImages(pageSize: Int, pageNumber: Int): List<ImageWithAuthorEntity> {
-        val searchResult: List<RemoteImage> = if (query != null) {
-            retrofitImageRepository.searchImages(query, pageNumber, pageSize)
-        } else {
-            retrofitImageRepository.fetchImages(pageNumber, pageSize)
-        }
+    private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithAuthorEntity> {
+        val searchResult = retrofitImageRepository.getImages(query, pageNumber, pageSize);
         saveImageDataOnDisk(searchResult)
-
         return convertToImageWithAuthorEntity(searchResult)
     }
 

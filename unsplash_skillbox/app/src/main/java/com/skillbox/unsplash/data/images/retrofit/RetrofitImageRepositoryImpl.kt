@@ -12,15 +12,13 @@ class RetrofitImageRepositoryImpl(
     private val network: Network,
 ) : RetrofitImageRepository {
 
-    override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<RemoteImage> {
+    override suspend fun getImages(searchQuery: String?, pageNumber: Int, pageSize: Int): List<RemoteImage> {
         return withContext(Dispatchers.IO) {
-            network.unsplashApi.getImages(pageNumber, pageSize)
-        }
-    }
-
-    override suspend fun searchImages(searchQuery: String?, pageNumber: Int, pageSize: Int): List<RemoteImage> {
-        return withContext(Dispatchers.IO) {
-            network.unsplashApi.searchImages(searchQuery, pageNumber, pageSize).result
+            if (searchQuery == null) {
+                network.unsplashApi.getImages(pageNumber, pageSize)
+            } else {
+                network.unsplashApi.searchImages(searchQuery, pageNumber, pageSize).result
+            }
         }
     }
 

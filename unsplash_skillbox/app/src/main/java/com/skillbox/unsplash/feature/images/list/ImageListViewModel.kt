@@ -71,14 +71,10 @@ class ImageListViewModel @Inject constructor(
 
     fun searchImages(searchQuery: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.search(searchQuery, PAGE_SIZE).cachedIn(viewModelScope).collectLatest {
+            repository.search(searchQuery).cachedIn(viewModelScope).collectLatest {
                 imagesStateFlow.value = it
             }
         }
-    }
-
-    private companion object {
-        const val PAGE_SIZE = 10
     }
 
     private fun observeConnectivityState() {
