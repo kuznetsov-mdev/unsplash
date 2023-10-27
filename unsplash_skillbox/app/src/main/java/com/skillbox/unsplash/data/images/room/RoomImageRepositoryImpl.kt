@@ -5,7 +5,6 @@ import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.extensions.toImageItem
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
-import com.skillbox.unsplash.data.images.storage.RoomImageRepository
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -9,10 +9,10 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.extensions.toImageItem
+import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
+import com.skillbox.unsplash.data.images.room.RoomImageRepository
 import com.skillbox.unsplash.data.images.room.paging.ImageRemoteMediator
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
-import com.skillbox.unsplash.data.images.storage.RetrofitImageRepository
-import com.skillbox.unsplash.data.images.storage.RoomImageRepository
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
 import kotlinx.coroutines.flow.Flow
@@ -43,7 +43,6 @@ class ImageRepository(
 
     suspend fun setLike(imageId: String) {
         retrofitImageRepository.setLike(imageId)
-
     }
 
     suspend fun removeLike(imageId: String) {

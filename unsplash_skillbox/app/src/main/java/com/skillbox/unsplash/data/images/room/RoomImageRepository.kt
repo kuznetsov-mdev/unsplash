@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.images.storage
+package com.skillbox.unsplash.data.images.room
 
 import androidx.paging.PagingSource
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity

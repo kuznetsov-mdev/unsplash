@@ -4,11 +4,11 @@ import android.app.Application
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.ImageRepository
+import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryImpl
+import com.skillbox.unsplash.data.images.room.RoomImageRepository
 import com.skillbox.unsplash.data.images.room.RoomImageRepositoryImpl
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
-import com.skillbox.unsplash.data.images.storage.RetrofitImageRepository
-import com.skillbox.unsplash.data.images.storage.RoomImageRepository
 import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
 import com.skillbox.unsplash.data.images.storage.external.ImageInternalStorageImpl
 import com.skillbox.unsplash.data.images.storage.internal.ImageExternalStorageImpl
