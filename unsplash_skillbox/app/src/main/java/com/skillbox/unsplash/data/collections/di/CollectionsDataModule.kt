@@ -14,9 +14,5 @@ class CollectionsDataModule {
 
     @Provides
     @Singleton
-    fun providesCollectionsApi() = Network
-
-    @Provides
-    @Singleton
     fun providesRetrofitCollectionRepository(network: Network) = RetrofitCollectionsRepositoryImpl(network)
 }

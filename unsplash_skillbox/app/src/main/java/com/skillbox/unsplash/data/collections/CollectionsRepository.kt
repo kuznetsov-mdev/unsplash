@@ -5,7 +5,7 @@ import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsReposi
 import com.skillbox.unsplash.feature.collections.data.CollectionUiEntity
 import javax.inject.Inject
 
-class CollectionsRepositoryImpl @Inject constructor(
+class CollectionsRepository @Inject constructor(
     private val retrofitCollectionsRepository: RetrofitCollectionsRepository
 ) {
     suspend fun getAll(pageNumber: Int, pageSize: Int): List<CollectionUiEntity> {
