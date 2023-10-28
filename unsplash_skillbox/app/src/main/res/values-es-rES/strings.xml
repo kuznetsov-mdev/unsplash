@@ -39,4 +39,5 @@
     <string name="image_downloading">Descarga de imágenes</string>
     <string name="chose_one">Seleccione una aplicación</string>
     <string name="search">Búsqueda</string>
+    <string name="photos">Foto</string>
 </resources>
