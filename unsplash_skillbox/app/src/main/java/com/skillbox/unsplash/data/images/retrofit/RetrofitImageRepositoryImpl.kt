@@ -14,28 +14,28 @@ class RetrofitImageRepositoryImpl(
     override suspend fun getImages(searchQuery: String?, pageNumber: Int, pageSize: Int): List<RemoteImage> {
         return withContext(Dispatchers.IO) {
             if (searchQuery == null) {
-                network.unsplashImagesApi.getImages(pageNumber, pageSize)
+                network.imagesApi.getImages(pageNumber, pageSize)
             } else {
-                network.unsplashImagesApi.searchImages(searchQuery, pageNumber, pageSize).result
+                network.imagesApi.searchImages(searchQuery, pageNumber, pageSize).result
             }
         }
     }
 
     override suspend fun setLike(imageId: String) {
         withContext(Dispatchers.IO) {
-            network.unsplashImagesApi.setLike(imageId)
+            network.imagesApi.setLike(imageId)
         }
     }
 
     override suspend fun removeLike(imageId: String) {
         withContext(Dispatchers.IO) {
-            network.unsplashImagesApi.removeLike(imageId)
+            network.imagesApi.removeLike(imageId)
         }
     }
 
     override suspend fun getImageDetailInfo(imageId: String): DetailImageItem {
         return withContext(Dispatchers.IO) {
-            network.unsplashImagesApi.getImageDetailInfo(imageId).toDetailImageItem(
+            network.imagesApi.getImageDetailInfo(imageId).toDetailImageItem(
                 "stub",
                 "stub"
             )

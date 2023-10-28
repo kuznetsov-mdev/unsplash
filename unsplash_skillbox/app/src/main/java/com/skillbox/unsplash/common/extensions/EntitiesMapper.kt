@@ -1,10 +1,12 @@
 package com.skillbox.unsplash.common.extensions
 
+import com.skillbox.unsplash.data.collections.retrofit.model.RetrofitCollectionEntity
 import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
 import com.skillbox.unsplash.data.images.retrofit.model.image.detail.RemoteImageDetail
 import com.skillbox.unsplash.data.images.room.model.AuthorEntity
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
+import com.skillbox.unsplash.feature.collections.data.CollectionUiEntity
 import com.skillbox.unsplash.feature.images.commondata.Author
 import com.skillbox.unsplash.feature.images.commondata.Image
 import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
@@ -12,27 +14,6 @@ import com.skillbox.unsplash.feature.images.detail.data.Exif
 import com.skillbox.unsplash.feature.images.detail.data.Location
 import com.skillbox.unsplash.feature.images.detail.data.Statistic
 import com.skillbox.unsplash.feature.images.list.data.ImageItem
-
-//fun RemoteImage.toImageItem(cachedImagePath: String, cachedAvatarPath: String): ImageItem {
-//    return ImageItem(
-//        Image(
-//            this.id,
-//            this.description ?: "",
-//            this.likes,
-//            this.likedByUser,
-//            this.urls.small,
-//            cachedImagePath
-//        ),
-//        Author(
-//            this.user.id,
-//            this.user.nickname,
-//            this.user.name,
-//            this.user.biography ?: "",
-//            this.user.profileImage.small,
-//            cachedAvatarPath
-//        )
-//    )
-//}
 
 fun RemoteImage.toRoomImageEntity(cachedImagePath: String, cachedAvatarPath: String, searchQuery: String): ImageWithAuthorEntity {
     val authorEntity = AuthorEntity(
@@ -113,5 +94,13 @@ fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAva
             this.likes
         ),
         this.links.download
+    )
+}
+
+fun RetrofitCollectionEntity.toUiEntity(): CollectionUiEntity {
+    return CollectionUiEntity(
+        this.id,
+        this.title,
+        this.description
     )
 }
