@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
+import com.skillbox.unsplash.databinding.LayoutSearchBinding
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
 import com.skillbox.unsplash.util.textChangedFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewBinding: FragmentImagesBinding by viewBinding()
+    private val searchViewBinding: LayoutSearchBinding by viewBinding()
     private val viewModel: ImageListViewModel by viewModels()
     private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) {
         ImageAdapter(
@@ -63,24 +65,24 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     private fun initSearchBar() {
-        viewBinding.searchIconView.setOnClickListener {
-            viewBinding.searchIconView.visibility = View.GONE
-            viewBinding.searchBarView.visibility = View.VISIBLE
+        searchViewBinding.searchIconView.setOnClickListener {
+            searchViewBinding.searchIconView.visibility = View.GONE
+            searchViewBinding.searchBarView.visibility = View.VISIBLE
         }
 
-        viewBinding.searchBarView.setEndIconOnClickListener {
-            viewBinding.searchIconView.visibility = View.VISIBLE
-            viewBinding.searchBarView.visibility = View.GONE
-            viewBinding.searchInputTextView.setText("")
+        searchViewBinding.searchBarView.setEndIconOnClickListener {
+            searchViewBinding.searchIconView.visibility = View.VISIBLE
+            searchViewBinding.searchBarView.visibility = View.GONE
+            searchViewBinding.searchInputTextView.setText("")
             viewModel.searchImages(null)
         }
 
-        viewBinding.searchBarView.setStartIconOnClickListener {
-            viewBinding.searchInputTextView.setText(R.string.empty)
+        searchViewBinding.searchBarView.setStartIconOnClickListener {
+            searchViewBinding.searchInputTextView.setText(R.string.empty)
             viewModel.searchImages(null)
         }
 
-        viewBinding.searchInputTextView.textChangedFlow()
+        searchViewBinding.searchInputTextView.textChangedFlow()
             .debounce(700)
             .onStart { emit(null) }
             .distinctUntilChanged()
