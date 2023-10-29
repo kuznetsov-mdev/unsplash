@@ -1,11 +1,11 @@
 package com.skillbox.unsplash.data.onboarding
 
 import android.content.Context
-import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreen
+import com.skillbox.unsplash.data.model.OnBoardingScreenModel
 
 interface OnBoardingRepositoryApi {
 
-    fun getScreens(): List<OnBoardingScreen>
+    fun getScreens(): List<OnBoardingScreenModel>
 
     suspend fun isOnBoardingCompleted(context: Context): Boolean
 

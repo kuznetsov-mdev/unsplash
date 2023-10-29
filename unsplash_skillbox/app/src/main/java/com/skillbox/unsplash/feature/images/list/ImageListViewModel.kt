@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.images.ImageRepository
-import com.skillbox.unsplash.feature.images.list.data.ImageItem
+import com.skillbox.unsplash.feature.images.list.model.UiImageWithUserModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -25,11 +25,11 @@ class ImageListViewModel @Inject constructor(
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
-    private val imagesStateFlow = MutableStateFlow<PagingData<ImageItem>>(PagingData.empty())
+    private val imagesStateFlow = MutableStateFlow<PagingData<UiImageWithUserModel>>(PagingData.empty())
 
     var isNetworkAvailableState = true
 
-    val imageList: StateFlow<PagingData<ImageItem>>
+    val imageList: StateFlow<PagingData<UiImageWithUserModel>>
         get() = imagesStateFlow
 
     private val connectivityStateFlow: Flow<ConnectivityStatus>

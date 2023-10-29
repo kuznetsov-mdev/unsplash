@@ -1,22 +1,26 @@
 package com.skillbox.unsplash.common.extensions
 
-import com.skillbox.unsplash.data.collections.retrofit.model.RetrofitCollectionEntity
-import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
-import com.skillbox.unsplash.data.images.retrofit.model.image.detail.RemoteImageDetail
-import com.skillbox.unsplash.data.images.room.model.AuthorEntity
-import com.skillbox.unsplash.data.images.room.model.ImageEntity
-import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
-import com.skillbox.unsplash.feature.collections.data.CollectionUiEntity
-import com.skillbox.unsplash.feature.images.commondata.Author
-import com.skillbox.unsplash.feature.images.commondata.Image
-import com.skillbox.unsplash.feature.images.detail.data.DetailImageItem
-import com.skillbox.unsplash.feature.images.detail.data.Exif
-import com.skillbox.unsplash.feature.images.detail.data.Location
-import com.skillbox.unsplash.feature.images.detail.data.Statistic
-import com.skillbox.unsplash.feature.images.list.data.ImageItem
+import com.skillbox.unsplash.data.model.retrofit.collection.RetrofitCollectionModel
+import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageModel
+import com.skillbox.unsplash.data.model.retrofit.image.detail.RetrofitImageDetailModel
+import com.skillbox.unsplash.data.model.room.RoomImageModel
+import com.skillbox.unsplash.data.model.room.RoomUserModel
+import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
+import com.skillbox.unsplash.feature.collections.model.UiCollectionModel
+import com.skillbox.unsplash.feature.images.detail.model.UiExifModel
+import com.skillbox.unsplash.feature.images.detail.model.UiImageDetailModel
+import com.skillbox.unsplash.feature.images.detail.model.UiLocationModel
+import com.skillbox.unsplash.feature.images.detail.model.UiStatisticModel
+import com.skillbox.unsplash.feature.images.list.model.UiImageWithUserModel
+import com.skillbox.unsplash.feature.images.model.UiImageModel
+import com.skillbox.unsplash.feature.images.model.UiUserModel
 
-fun RemoteImage.toRoomImageEntity(cachedImagePath: String, cachedAvatarPath: String, searchQuery: String): ImageWithAuthorEntity {
-    val authorEntity = AuthorEntity(
+fun RetrofitImageModel.toRoomImageEntity(
+    cachedImagePath: String,
+    cachedAvatarPath: String,
+    searchQuery: String
+): RoomImageWithUserModel {
+    val roomUserModel = RoomUserModel(
         this.user.id,
         this.user.name,
         this.user.nickname,
@@ -24,7 +28,7 @@ fun RemoteImage.toRoomImageEntity(cachedImagePath: String, cachedAvatarPath: Str
         cachedAvatarPath,
         this.user.biography ?: ""
     )
-    val imageEntity = ImageEntity(
+    val roomImageModel = RoomImageModel(
         this.id,
         this.user.id,
         this.description ?: "",
@@ -34,12 +38,12 @@ fun RemoteImage.toRoomImageEntity(cachedImagePath: String, cachedAvatarPath: Str
         cachedImagePath,
         searchQuery
     )
-    return ImageWithAuthorEntity(imageEntity, authorEntity)
+    return RoomImageWithUserModel(roomImageModel, roomUserModel)
 }
 
-fun ImageWithAuthorEntity.toImageItem(): ImageItem {
-    return ImageItem(
-        Image(
+fun RoomImageWithUserModel.toImageItem(): UiImageWithUserModel {
+    return UiImageWithUserModel(
+        UiImageModel(
             this.image.id,
             this.image.description,
             this.image.likes,
@@ -47,7 +51,7 @@ fun ImageWithAuthorEntity.toImageItem(): ImageItem {
             this.image.preview,
             this.image.cachedPreview
         ),
-        Author(
+        UiUserModel(
             this.author.id,
             this.author.nickName,
             this.author.name,
@@ -58,12 +62,12 @@ fun ImageWithAuthorEntity.toImageItem(): ImageItem {
     )
 }
 
-fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): DetailImageItem {
-    return DetailImageItem(
-        Image(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
+fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): UiImageDetailModel {
+    return UiImageDetailModel(
+        UiImageModel(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
         this.width,
         this.height,
-        Author(
+        UiUserModel(
             this.user.id,
             this.user.nickname,
             this.user.name,
@@ -71,7 +75,7 @@ fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAva
             this.user.profileImage.small,
             cachedAuthorAvatarPath
         ),
-        Exif(
+        UiExifModel(
             this.exif.make ?: "Unknown",
             this.exif.model ?: "Unknown",
             this.exif.name ?: "Unknown",
@@ -81,14 +85,14 @@ fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAva
             this.exif.iso ?: 0
         ),
         this.tags.map { it.title },
-        Location(
+        UiLocationModel(
             this.location.city,
             this.location.country,
             this.location.name,
             this.location.position.latitude,
             this.location.position.longitude
         ),
-        Statistic(
+        UiStatisticModel(
             this.downloads,
             0,
             this.likes
@@ -97,8 +101,8 @@ fun RemoteImageDetail.toDetailImageItem(cachedImagePath: String, cachedAuthorAva
     )
 }
 
-fun RetrofitCollectionEntity.toUiEntity(): CollectionUiEntity {
-    return CollectionUiEntity(
+fun RetrofitCollectionModel.toUiEntity(): UiCollectionModel {
+    return UiCollectionModel(
         this.id,
         this.title,
         this.description

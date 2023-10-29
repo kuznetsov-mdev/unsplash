@@ -2,20 +2,20 @@ package com.skillbox.unsplash.data.onboarding
 
 import android.content.Context
 import com.skillbox.unsplash.R
+import com.skillbox.unsplash.data.model.OnBoardingScreenModel
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryImpl.SharedPrefs.ON_BOARDING_COMPLETED_KEY
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryImpl.SharedPrefs.SHARED_PREFS_NAME
-import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreen
 import javax.inject.Inject
 
 class OnBoardingRepositoryImpl @Inject constructor() : OnBoardingRepositoryApi {
-    private val onBoardingScreens: List<OnBoardingScreen> = listOf(
-        OnBoardingScreen(R.drawable.on_boarding_bkg, R.string.intro_first),
-        OnBoardingScreen(R.drawable.on_boarding_bkg, R.string.intro_second),
-        OnBoardingScreen(R.drawable.on_boarding_bkg, R.string.intro_third)
+    private val onBoardingScreenModels: List<OnBoardingScreenModel> = listOf(
+        OnBoardingScreenModel(R.drawable.on_boarding_bkg, R.string.intro_first),
+        OnBoardingScreenModel(R.drawable.on_boarding_bkg, R.string.intro_second),
+        OnBoardingScreenModel(R.drawable.on_boarding_bkg, R.string.intro_third)
     )
 
-    override fun getScreens(): List<OnBoardingScreen> {
-        return onBoardingScreens
+    override fun getScreens(): List<OnBoardingScreenModel> {
+        return onBoardingScreenModels
     }
 
     override suspend fun isOnBoardingCompleted(context: Context): Boolean {

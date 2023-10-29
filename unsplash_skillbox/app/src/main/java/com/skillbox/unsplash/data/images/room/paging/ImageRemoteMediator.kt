@@ -7,10 +7,10 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.extensions.toRoomImageEntity
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
-import com.skillbox.unsplash.data.images.retrofit.model.image.RemoteImage
 import com.skillbox.unsplash.data.images.room.RoomImageRepository
-import com.skillbox.unsplash.data.images.room.model.relations.ImageWithAuthorEntity
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
+import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageModel
+import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,19 +24,19 @@ class ImageRemoteMediator(
     private val retrofitImageRepository: RetrofitImageRepository,
     private val diskImageRepository: DiskImageRepository,
     private val context: Context
-) : RemoteMediator<Int, ImageWithAuthorEntity>() {
+) : RemoteMediator<Int, RoomImageWithUserModel>() {
     private var pageIndex = 1
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, ImageWithAuthorEntity>
+        state: PagingState<Int, RoomImageWithUserModel>
     ): MediatorResult {
 
         pageIndex = getPageIndex(loadType) ?: return MediatorResult.Success(endOfPaginationReached = true)
         val pageSize = state.config.pageSize
 
         return try {
-            val images: List<ImageWithAuthorEntity> = getImages(pageSize, pageIndex)
+            val images: List<RoomImageWithUserModel> = getImages(pageSize, pageIndex)
 
             if (loadType == LoadType.REFRESH) {
                 roomImageRepository.refresh(query, images)
@@ -58,19 +58,19 @@ class ImageRemoteMediator(
         }
     }
 
-    private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithAuthorEntity> {
+    private suspend fun getImages(pageSize: Int, pageNumber: Int): List<RoomImageWithUserModel> {
         val searchResult = retrofitImageRepository.getImages(query, pageNumber, pageSize);
         saveImageDataOnDisk(searchResult)
         return convertToImageWithAuthorEntity(searchResult)
     }
 
-    private suspend fun saveImageDataOnDisk(remoteImages: List<RemoteImage>) {
+    private suspend fun saveImageDataOnDisk(retrofitImageModels: List<RetrofitImageModel>) {
         CoroutineScope(Dispatchers.IO).launch {
-            remoteImages.forEach { saveImageToInternalStorage(it) }
+            retrofitImageModels.forEach { saveImageToInternalStorage(it) }
         }
     }
 
-    private suspend fun removeImagesFromDisk(images: List<ImageWithAuthorEntity>) {
+    private suspend fun removeImagesFromDisk(images: List<RoomImageWithUserModel>) {
         CoroutineScope(Dispatchers.IO).launch {
             val imagesLinks = mutableListOf<String>()
             images.forEach { img ->
@@ -81,13 +81,13 @@ class ImageRemoteMediator(
         }
     }
 
-    private suspend fun saveImageToInternalStorage(remoteImage: RemoteImage) {
-        diskImageRepository.saveImageToInternalStorage(remoteImage.id, remoteImage.urls.thumb, "thumbnails")
-        diskImageRepository.saveImageToInternalStorage(remoteImage.user.id, remoteImage.user.profileImage.medium, "avatars")
+    private suspend fun saveImageToInternalStorage(retrofitImageModel: RetrofitImageModel) {
+        diskImageRepository.saveImageToInternalStorage(retrofitImageModel.id, retrofitImageModel.urls.thumb, "thumbnails")
+        diskImageRepository.saveImageToInternalStorage(retrofitImageModel.user.id, retrofitImageModel.user.profileImage.medium, "avatars")
     }
 
-    private fun convertToImageWithAuthorEntity(remoteImageList: List<RemoteImage>): List<ImageWithAuthorEntity> {
-        return remoteImageList.map { remoteImage ->
+    private fun convertToImageWithAuthorEntity(retrofitImageModelList: List<RetrofitImageModel>): List<RoomImageWithUserModel> {
+        return retrofitImageModelList.map { remoteImage ->
             runBlocking(Dispatchers.IO) {
                 remoteImage.toRoomImageEntity(
                     File(context.cacheDir.path).resolve("thumbnails").resolve("${remoteImage.id}.jpg").toString(),

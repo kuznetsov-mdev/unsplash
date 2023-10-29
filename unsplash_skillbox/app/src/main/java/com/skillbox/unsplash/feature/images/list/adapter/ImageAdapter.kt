@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.ItemImageBinding
-import com.skillbox.unsplash.feature.images.list.data.ImageItem
+import com.skillbox.unsplash.feature.images.list.model.UiImageWithUserModel
 import com.skillbox.unsplash.util.inflate
 
 class ImageAdapter(
@@ -19,7 +19,7 @@ class ImageAdapter(
     private val onLikeClicked: (String, Int, Boolean) -> Unit,
     private val isNetworkAvailable: () -> Boolean,
     private val onImageClicked: (String) -> Unit,
-) : PagingDataAdapter<ImageItem, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
+) : PagingDataAdapter<UiImageWithUserModel, ImageAdapter.Holder>(ImageDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val imageItem = getItem(position) ?: return
@@ -36,11 +36,12 @@ class ImageAdapter(
         )
     }
 
-    class ImageDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
-        override fun areItemsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
+    class ImageDiffUtilCallback : DiffUtil.ItemCallback<UiImageWithUserModel>() {
+        override fun areItemsTheSame(oldItem: UiImageWithUserModel, newItem: UiImageWithUserModel): Boolean {
             return oldItem.image.id == newItem.image.id
         }
-        override fun areContentsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
+
+        override fun areContentsTheSame(oldItem: UiImageWithUserModel, newItem: UiImageWithUserModel): Boolean {
             return oldItem == newItem
         }
     }
@@ -53,7 +54,7 @@ class ImageAdapter(
         onLikeClicked: (String, Int, Boolean) -> Unit,
         private val onImageClicked: (String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        private var currentImage: ImageItem? = null
+        private var currentImage: UiImageWithUserModel? = null
         private var imagePosition: Int? = null
 
         init {
@@ -88,7 +89,7 @@ class ImageAdapter(
             }
         }
 
-        fun bind(imageItem: ImageItem, position: Int) {
+        fun bind(imageItem: UiImageWithUserModel, position: Int) {
             this.currentImage = imageItem
             this.imagePosition = position
 
@@ -108,7 +109,7 @@ class ImageAdapter(
         }
 
         private fun loadImagesFromNetwork(
-            imageItem: ImageItem,
+            imageItem: UiImageWithUserModel,
             avatarImageView: ImageView,
             imageItemView: ImageView
         ) {
@@ -124,7 +125,7 @@ class ImageAdapter(
         }
 
         private fun loadImagesFromCache(
-            imageItem: ImageItem,
+            imageItem: UiImageWithUserModel,
             avatarImageView: ImageView,
             imageItemView: ImageView
         ) {

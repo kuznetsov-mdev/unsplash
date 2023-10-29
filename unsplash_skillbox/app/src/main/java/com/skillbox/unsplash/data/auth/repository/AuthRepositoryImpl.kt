@@ -2,8 +2,8 @@ package com.skillbox.unsplash.data.auth.repository
 
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
-import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
+import com.skillbox.unsplash.data.model.TokenStorageDataModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthorizationRequest
@@ -17,13 +17,13 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepositoryApi {
 
     override fun corruptAccessToken() {
-        TokenStorage.accessToken = "fake token"
+        TokenStorageDataModel.accessToken = "fake token"
     }
 
     override fun logout() {
-        TokenStorage.accessToken = null
-        TokenStorage.refreshToken = null
-        TokenStorage.idToken = null
+        TokenStorageDataModel.accessToken = null
+        TokenStorageDataModel.refreshToken = null
+        TokenStorageDataModel.idToken = null
     }
 
     override fun getAuthRequest(): AuthorizationRequest {
@@ -37,9 +37,9 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun performTokenRequest(tokenRequest: TokenRequest) {
         withContext(Dispatchers.IO) {
             val tokens = authService.performTokenRequestSuspend(tokenRequest)
-            TokenStorage.accessToken = tokens.accessToken
-            TokenStorage.refreshToken = tokens.refreshToken
-            TokenStorage.idToken = tokens.idToken
+            TokenStorageDataModel.accessToken = tokens.accessToken
+            TokenStorageDataModel.refreshToken = tokens.refreshToken
+            TokenStorageDataModel.idToken = tokens.idToken
             Timber.tag("Oauth")
                 .d("5. Tokens accepted:\n access=${tokens.accessToken}\nrefresh=${tokens.refreshToken}\nidToken=${tokens.idToken}")
         }
@@ -56,7 +56,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun isUserLoggedIn(): Boolean {
-        return with(TokenStorage) {
+        return with(TokenStorageDataModel) {
             accessToken != null && refreshToken != null && idToken != null
         }
     }

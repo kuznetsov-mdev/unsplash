@@ -3,8 +3,8 @@ package com.skillbox.unsplash.feature.onboarding
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.skillbox.unsplash.data.auth.repository.AuthRepositoryApi
+import com.skillbox.unsplash.data.model.OnBoardingScreenModel
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryApi
-import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class OnBoardingViewModel @Inject constructor(
         return repository.isOnBoardingCompleted(context)
     }
 
-    fun getScreens(): List<OnBoardingScreen> {
+    fun getScreens(): List<OnBoardingScreenModel> {
         return repository.getScreens()
     }
 

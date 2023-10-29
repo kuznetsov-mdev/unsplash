@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.common.network
 
-import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
+import com.skillbox.unsplash.data.model.TokenStorageDataModel
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -11,7 +11,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 class AuthFailedInterceptor(
-    private val tokenStorage: TokenStorage,
+    private val tokenStorage: TokenStorageDataModel,
     private val appAuthService: AuthServiceApi
 ) : Interceptor {
 
@@ -81,9 +81,9 @@ class AuthFailedInterceptor(
             }
                 .getOrNull()
                 ?.let { tokens ->
-                    TokenStorage.accessToken = tokens.accessToken
-                    TokenStorage.refreshToken = tokens.refreshToken
-                    TokenStorage.idToken = tokens.idToken
+                    TokenStorageDataModel.accessToken = tokens.accessToken
+                    TokenStorageDataModel.refreshToken = tokens.refreshToken
+                    TokenStorageDataModel.idToken = tokens.idToken
                     true
                 } ?: false
         }
