@@ -1,5 +1,7 @@
 package com.skillbox.unsplash.data.collections.retrofit.model
 
+import com.skillbox.unsplash.data.images.retrofit.model.detail.LinksRetrofitModel
+import com.skillbox.unsplash.data.images.retrofit.model.user.UserRetrofitModel
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -19,4 +21,10 @@ data class CollectionRetrofitModel(
     val updatedAt: String,
     @Json(name = "total_photos")
     val totalPhotos: Int,
+    @Json(name = "cover_photo")
+    val coverPhoto: CoverPhotoRetrofitModel,
+    @Json(name = "user")
+    val user: UserRetrofitModel,
+    @Json(name = "links")
+    val links: LinksRetrofitModel
 )
