@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.model.retrofit.image.detail
+package com.skillbox.unsplash.data.images.retrofit.model.detail
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class RetrofitLinksModel(
+data class LinksRetrofitModel(
     @Json(name = "self")
     val self: String,
     @Json(name = "html")

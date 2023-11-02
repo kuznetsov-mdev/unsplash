@@ -1,8 +1,8 @@
 package com.skillbox.unsplash.common.network.api
 
-import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageModel
-import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageSearchResultModel
-import com.skillbox.unsplash.data.model.retrofit.image.detail.RetrofitImageDetailModel
+import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
+import com.skillbox.unsplash.data.images.retrofit.model.ImageSearchResultRetrofitModel
+import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailRetrofitModel
 import okhttp3.ResponseBody
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -15,7 +15,7 @@ interface ImagesApi {
     suspend fun getImages(
         @Query("page") pageNumber: Int,
         @Query("per_page") pageSize: Int
-    ): List<RetrofitImageModel>
+    ): List<ImageRetrofitModel>
 
     @POST("/photos/{id}/like")
     suspend fun setLike(
@@ -30,12 +30,12 @@ interface ImagesApi {
     @GET("/photos/{id}")
     suspend fun getImageDetailInfo(
         @Path("id") imageId: String
-    ): RetrofitImageDetailModel
+    ): ImageDetailRetrofitModel
 
     @GET("/search/photos")
     suspend fun searchImages(
         @Query("query") searchQuery: String,
         @Query("page") pageNumber: Int,
         @Query("per_page") pageSize: Int
-    ): RetrofitImageSearchResultModel
+    ): ImageSearchResultRetrofitModel
 }

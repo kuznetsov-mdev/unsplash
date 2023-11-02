@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.model.retrofit.image.detail.location
+package com.skillbox.unsplash.data.images.retrofit.model.detail.location
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class RetrofitLocationModel(
+data class LocationRetrofitModel(
     @Json(name = "city")
     val city: String?,
     @Json(name = "country")
@@ -12,5 +12,5 @@ data class RetrofitLocationModel(
     @Json(name = "name")
     val name: String?,
     @Json(name = "position")
-    val position: RetrofitPositionModel
+    val position: PositionRetrofitModel
 )

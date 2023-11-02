@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.model.retrofit.user
+package com.skillbox.unsplash.data.images.retrofit.model.user
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class RetrofitImageLinkModel(
+data class AvatarRetrofitModel(
     @Json(name = "large")
     val large: String,
     @Json(name = "medium")

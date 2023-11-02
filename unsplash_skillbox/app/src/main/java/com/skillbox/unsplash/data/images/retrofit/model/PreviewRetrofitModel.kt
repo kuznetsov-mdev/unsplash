@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.model.retrofit.image
+package com.skillbox.unsplash.data.images.retrofit.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class RetrofitImagePreviewModel(
+data class PreviewRetrofitModel(
     @Json(name = "raw")
     val raw: String,
     @Json(name = "full")

@@ -7,9 +7,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.extensions.toRoomImageEntity
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
+import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
 import com.skillbox.unsplash.data.images.room.RoomImageRepository
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
-import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageModel
 import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,9 +64,9 @@ class ImageRemoteMediator(
         return convertToImageWithAuthorEntity(searchResult)
     }
 
-    private suspend fun saveImageDataOnDisk(retrofitImageModels: List<RetrofitImageModel>) {
+    private suspend fun saveImageDataOnDisk(models: List<ImageRetrofitModel>) {
         CoroutineScope(Dispatchers.IO).launch {
-            retrofitImageModels.forEach { saveImageToInternalStorage(it) }
+            models.forEach { saveImageToInternalStorage(it) }
         }
     }
 
@@ -81,13 +81,13 @@ class ImageRemoteMediator(
         }
     }
 
-    private suspend fun saveImageToInternalStorage(retrofitImageModel: RetrofitImageModel) {
-        diskImageRepository.saveImageToInternalStorage(retrofitImageModel.id, retrofitImageModel.urls.thumb, "thumbnails")
-        diskImageRepository.saveImageToInternalStorage(retrofitImageModel.user.id, retrofitImageModel.user.profileImage.medium, "avatars")
+    private suspend fun saveImageToInternalStorage(model: ImageRetrofitModel) {
+        diskImageRepository.saveImageToInternalStorage(model.id, model.urls.thumb, "thumbnails")
+        diskImageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
     }
 
-    private fun convertToImageWithAuthorEntity(retrofitImageModelList: List<RetrofitImageModel>): List<RoomImageWithUserModel> {
-        return retrofitImageModelList.map { remoteImage ->
+    private fun convertToImageWithAuthorEntity(models: List<ImageRetrofitModel>): List<RoomImageWithUserModel> {
+        return models.map { remoteImage ->
             runBlocking(Dispatchers.IO) {
                 remoteImage.toRoomImageEntity(
                     File(context.cacheDir.path).resolve("thumbnails").resolve("${remoteImage.id}.jpg").toString(),

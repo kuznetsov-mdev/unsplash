@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.model.retrofit.collection
+package com.skillbox.unsplash.data.collections.retrofit.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class RetrofitCollectionModel(
+data class CollectionRetrofitModel(
     @Json(name = "id")
     val id: Int,
     @Json(name = "title")

@@ -1,8 +1,8 @@
 package com.skillbox.unsplash.common.extensions
 
-import com.skillbox.unsplash.data.model.retrofit.collection.RetrofitCollectionModel
-import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageModel
-import com.skillbox.unsplash.data.model.retrofit.image.detail.RetrofitImageDetailModel
+import com.skillbox.unsplash.data.collections.retrofit.model.CollectionRetrofitModel
+import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
+import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailRetrofitModel
 import com.skillbox.unsplash.data.model.room.RoomImageModel
 import com.skillbox.unsplash.data.model.room.RoomUserModel
 import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
@@ -15,7 +15,7 @@ import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import com.skillbox.unsplash.feature.images.model.ImageUiModel
 import com.skillbox.unsplash.feature.images.model.UserUiModel
 
-fun RetrofitImageModel.toRoomImageEntity(
+fun ImageRetrofitModel.toRoomImageEntity(
     cachedImagePath: String,
     cachedAvatarPath: String,
     searchQuery: String
@@ -62,7 +62,7 @@ fun RoomImageWithUserModel.toImageItem(): ImageWithUserUiModel {
     )
 }
 
-fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): ImageDetailUiModel {
+fun ImageDetailRetrofitModel.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): ImageDetailUiModel {
     return ImageDetailUiModel(
         ImageUiModel(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
         this.width,
@@ -101,7 +101,7 @@ fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAu
     )
 }
 
-fun RetrofitCollectionModel.toUiEntity(): CollectionUiModel {
+fun CollectionRetrofitModel.toUiEntity(): CollectionUiModel {
     return CollectionUiModel(
         this.id,
         this.title,
