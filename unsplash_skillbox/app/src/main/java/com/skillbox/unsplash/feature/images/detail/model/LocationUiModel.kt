@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.feature.images.detail.model
 
-data class UiLocationModel(
+data class LocationUiModel(
     val city: String?,
     val country: String?,
     val name: String?,

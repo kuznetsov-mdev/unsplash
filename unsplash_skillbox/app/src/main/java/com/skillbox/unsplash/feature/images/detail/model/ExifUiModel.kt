@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.feature.images.detail.model
 
-data class UiExifModel(
+data class ExifUiModel(
     val make: String,
     val model: String,
     val name: String,

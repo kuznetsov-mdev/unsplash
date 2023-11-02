@@ -3,7 +3,7 @@ package com.skillbox.unsplash.data.images.retrofit
 import com.skillbox.unsplash.common.extensions.toDetailImageItem
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageModel
-import com.skillbox.unsplash.feature.images.detail.model.UiImageDetailModel
+import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -33,7 +33,7 @@ class RetrofitImageRepositoryImpl(
         }
     }
 
-    override suspend fun getImageDetailInfo(imageId: String): UiImageDetailModel {
+    override suspend fun getImageDetailInfo(imageId: String): ImageDetailUiModel {
         return withContext(Dispatchers.IO) {
             network.imagesApi.getImageDetailInfo(imageId).toDetailImageItem(
                 "stub",

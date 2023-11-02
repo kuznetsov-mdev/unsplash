@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.data.images.retrofit
 
 import com.skillbox.unsplash.data.model.retrofit.image.RetrofitImageModel
-import com.skillbox.unsplash.feature.images.detail.model.UiImageDetailModel
+import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
 
 interface RetrofitImageRepository {
 
@@ -11,6 +11,6 @@ interface RetrofitImageRepository {
 
     suspend fun removeLike(imageId: String)
 
-    suspend fun getImageDetailInfo(imageId: String): UiImageDetailModel
+    suspend fun getImageDetailInfo(imageId: String): ImageDetailUiModel
 
 }

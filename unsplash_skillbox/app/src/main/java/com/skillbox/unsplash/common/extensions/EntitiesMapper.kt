@@ -6,14 +6,14 @@ import com.skillbox.unsplash.data.model.retrofit.image.detail.RetrofitImageDetai
 import com.skillbox.unsplash.data.model.room.RoomImageModel
 import com.skillbox.unsplash.data.model.room.RoomUserModel
 import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
-import com.skillbox.unsplash.feature.collections.model.UiCollectionModel
-import com.skillbox.unsplash.feature.images.detail.model.UiExifModel
-import com.skillbox.unsplash.feature.images.detail.model.UiImageDetailModel
-import com.skillbox.unsplash.feature.images.detail.model.UiLocationModel
-import com.skillbox.unsplash.feature.images.detail.model.UiStatisticModel
-import com.skillbox.unsplash.feature.images.list.model.UiImageWithUserModel
-import com.skillbox.unsplash.feature.images.model.UiImageModel
-import com.skillbox.unsplash.feature.images.model.UiUserModel
+import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
+import com.skillbox.unsplash.feature.images.detail.model.ExifUiModel
+import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
+import com.skillbox.unsplash.feature.images.detail.model.LocationUiModel
+import com.skillbox.unsplash.feature.images.detail.model.StatisticUiModel
+import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
+import com.skillbox.unsplash.feature.images.model.ImageUiModel
+import com.skillbox.unsplash.feature.images.model.UserUiModel
 
 fun RetrofitImageModel.toRoomImageEntity(
     cachedImagePath: String,
@@ -41,9 +41,9 @@ fun RetrofitImageModel.toRoomImageEntity(
     return RoomImageWithUserModel(roomImageModel, roomUserModel)
 }
 
-fun RoomImageWithUserModel.toImageItem(): UiImageWithUserModel {
-    return UiImageWithUserModel(
-        UiImageModel(
+fun RoomImageWithUserModel.toImageItem(): ImageWithUserUiModel {
+    return ImageWithUserUiModel(
+        ImageUiModel(
             this.image.id,
             this.image.description,
             this.image.likes,
@@ -51,7 +51,7 @@ fun RoomImageWithUserModel.toImageItem(): UiImageWithUserModel {
             this.image.preview,
             this.image.cachedPreview
         ),
-        UiUserModel(
+        UserUiModel(
             this.author.id,
             this.author.nickName,
             this.author.name,
@@ -62,12 +62,12 @@ fun RoomImageWithUserModel.toImageItem(): UiImageWithUserModel {
     )
 }
 
-fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): UiImageDetailModel {
-    return UiImageDetailModel(
-        UiImageModel(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
+fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): ImageDetailUiModel {
+    return ImageDetailUiModel(
+        ImageUiModel(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
         this.width,
         this.height,
-        UiUserModel(
+        UserUiModel(
             this.user.id,
             this.user.nickname,
             this.user.name,
@@ -75,7 +75,7 @@ fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAu
             this.user.profileImage.small,
             cachedAuthorAvatarPath
         ),
-        UiExifModel(
+        ExifUiModel(
             this.exif.make ?: "Unknown",
             this.exif.model ?: "Unknown",
             this.exif.name ?: "Unknown",
@@ -85,14 +85,14 @@ fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAu
             this.exif.iso ?: 0
         ),
         this.tags.map { it.title },
-        UiLocationModel(
+        LocationUiModel(
             this.location.city,
             this.location.country,
             this.location.name,
             this.location.position.latitude,
             this.location.position.longitude
         ),
-        UiStatisticModel(
+        StatisticUiModel(
             this.downloads,
             0,
             this.likes
@@ -101,8 +101,8 @@ fun RetrofitImageDetailModel.toDetailImageItem(cachedImagePath: String, cachedAu
     )
 }
 
-fun RetrofitCollectionModel.toUiEntity(): UiCollectionModel {
-    return UiCollectionModel(
+fun RetrofitCollectionModel.toUiEntity(): CollectionUiModel {
+    return CollectionUiModel(
         this.id,
         this.title,
         this.description

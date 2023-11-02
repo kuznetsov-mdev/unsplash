@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.feature.images.model
 
-data class UiUserModel(
+data class UserUiModel(
     val id: String,
     val nickname: String,
     val name: String,

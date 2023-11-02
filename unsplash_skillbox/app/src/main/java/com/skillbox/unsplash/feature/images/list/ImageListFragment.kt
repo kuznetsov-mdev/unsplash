@@ -31,9 +31,9 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
+    private val viewModel: ImageListViewModel by viewModels()
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val searchViewBinding: LayoutSearchBinding by viewBinding()
-    private val viewModel: ImageListViewModel by viewModels()
     private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) {
         ImageAdapter(
             requireContext(),

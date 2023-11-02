@@ -5,13 +5,13 @@ import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.extensions.toImageItem
 import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
-import com.skillbox.unsplash.feature.images.list.model.UiImageWithUserModel
+import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomImageRepository {
 
-    override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<UiImageWithUserModel> {
+    override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserUiModel> {
         return withContext(Dispatchers.IO) {
             dataBase.imageDao().getImagesWithAuthor().map { it.toImageItem() }
         }
