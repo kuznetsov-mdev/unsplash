@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.model
+package com.skillbox.unsplash.data.onboarding.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

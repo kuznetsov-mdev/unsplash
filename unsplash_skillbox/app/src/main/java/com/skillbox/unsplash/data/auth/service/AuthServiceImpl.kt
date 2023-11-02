@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import com.skillbox.unsplash.data.auth.AuthConfig
-import com.skillbox.unsplash.data.model.TokensModel
+import com.skillbox.unsplash.data.auth.model.TokensModel
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration

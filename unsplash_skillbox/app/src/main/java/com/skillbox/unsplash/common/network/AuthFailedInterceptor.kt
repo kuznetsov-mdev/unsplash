@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.common.network
 
+import com.skillbox.unsplash.data.auth.model.TokenStorageDataModel
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
-import com.skillbox.unsplash.data.model.TokenStorageDataModel
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request

@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.model.room
+package com.skillbox.unsplash.data.images.room.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = AuthorContract.TABLE_NAME)
 @Parcelize
-data class RoomUserModel(
+data class UserRoomModel(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = AuthorContract.Columns.ID)
     val id: String,

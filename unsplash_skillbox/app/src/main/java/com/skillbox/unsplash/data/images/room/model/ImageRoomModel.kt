@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.model.room
+package com.skillbox.unsplash.data.images.room.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -15,14 +15,14 @@ import kotlinx.parcelize.Parcelize
     indices = [Index(ImageContract.Columns.DESCRIPTION)],
     foreignKeys = [
         ForeignKey(
-            entity = RoomUserModel::class,
+            entity = UserRoomModel::class,
             parentColumns = [AuthorContract.Columns.ID],
             childColumns = [ImageContract.Columns.AUTHOR_ID]
         ),
     ]
 )
 @Parcelize
-data class RoomImageModel(
+data class ImageRoomModel(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = ImageContract.Columns.ID)
     val id: String,

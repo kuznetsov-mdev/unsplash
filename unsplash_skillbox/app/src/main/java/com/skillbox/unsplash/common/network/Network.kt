@@ -5,8 +5,8 @@ import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.skillbox.unsplash.common.network.api.CollectionsApi
 import com.skillbox.unsplash.common.network.api.ImagesApi
 import com.skillbox.unsplash.common.network.api.UploaderApi
+import com.skillbox.unsplash.data.auth.model.TokenStorageDataModel
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
-import com.skillbox.unsplash.data.model.TokenStorageDataModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

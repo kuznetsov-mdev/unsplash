@@ -2,7 +2,7 @@ package com.skillbox.unsplash.feature.onboarding.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.skillbox.unsplash.data.model.OnBoardingScreenModel
+import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreenModel
 import com.skillbox.unsplash.feature.onboarding.item.OnBoardingItemFragment
 
 class OnBoardingAdapter(

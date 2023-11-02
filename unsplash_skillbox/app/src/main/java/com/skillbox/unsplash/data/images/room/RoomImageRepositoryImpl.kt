@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.extensions.toImageItem
-import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
+import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserRoomModel
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +17,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override suspend fun insertAll(images: List<RoomImageWithUserModel>) {
+    override suspend fun insertAll(images: List<ImageWithUserRoomModel>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 dataBase.imageDao().insertAuthors(images.map { it.author })
@@ -35,7 +35,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override suspend fun refresh(query: String?, images: List<RoomImageWithUserModel>) {
+    override suspend fun refresh(query: String?, images: List<ImageWithUserRoomModel>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 if (query == null) {
@@ -49,7 +49,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override fun getPagingSource(query: String?): PagingSource<Int, RoomImageWithUserModel> {
+    override fun getPagingSource(query: String?): PagingSource<Int, ImageWithUserRoomModel> {
         return if (query == null) {
             dataBase.imageDao().getPagingSource()
         } else {

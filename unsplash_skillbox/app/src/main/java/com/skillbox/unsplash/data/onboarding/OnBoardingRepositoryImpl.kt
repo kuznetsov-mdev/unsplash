@@ -2,9 +2,9 @@ package com.skillbox.unsplash.data.onboarding
 
 import android.content.Context
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.data.model.OnBoardingScreenModel
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryImpl.SharedPrefs.ON_BOARDING_COMPLETED_KEY
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryImpl.SharedPrefs.SHARED_PREFS_NAME
+import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreenModel
 import javax.inject.Inject
 
 class OnBoardingRepositoryImpl @Inject constructor() : OnBoardingRepositoryApi {

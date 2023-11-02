@@ -9,8 +9,8 @@ import com.skillbox.unsplash.common.extensions.toRoomImageEntity
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
 import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
 import com.skillbox.unsplash.data.images.room.RoomImageRepository
+import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserRoomModel
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
-import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,19 +24,19 @@ class ImageRemoteMediator(
     private val retrofitImageRepository: RetrofitImageRepository,
     private val diskImageRepository: DiskImageRepository,
     private val context: Context
-) : RemoteMediator<Int, RoomImageWithUserModel>() {
+) : RemoteMediator<Int, ImageWithUserRoomModel>() {
     private var pageIndex = 1
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, RoomImageWithUserModel>
+        state: PagingState<Int, ImageWithUserRoomModel>
     ): MediatorResult {
 
         pageIndex = getPageIndex(loadType) ?: return MediatorResult.Success(endOfPaginationReached = true)
         val pageSize = state.config.pageSize
 
         return try {
-            val images: List<RoomImageWithUserModel> = getImages(pageSize, pageIndex)
+            val images: List<ImageWithUserRoomModel> = getImages(pageSize, pageIndex)
 
             if (loadType == LoadType.REFRESH) {
                 roomImageRepository.refresh(query, images)
@@ -58,7 +58,7 @@ class ImageRemoteMediator(
         }
     }
 
-    private suspend fun getImages(pageSize: Int, pageNumber: Int): List<RoomImageWithUserModel> {
+    private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithUserRoomModel> {
         val searchResult = retrofitImageRepository.getImages(query, pageNumber, pageSize);
         saveImageDataOnDisk(searchResult)
         return convertToImageWithAuthorEntity(searchResult)
@@ -70,7 +70,7 @@ class ImageRemoteMediator(
         }
     }
 
-    private suspend fun removeImagesFromDisk(images: List<RoomImageWithUserModel>) {
+    private suspend fun removeImagesFromDisk(images: List<ImageWithUserRoomModel>) {
         CoroutineScope(Dispatchers.IO).launch {
             val imagesLinks = mutableListOf<String>()
             images.forEach { img ->
@@ -86,7 +86,7 @@ class ImageRemoteMediator(
         diskImageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
     }
 
-    private fun convertToImageWithAuthorEntity(models: List<ImageRetrofitModel>): List<RoomImageWithUserModel> {
+    private fun convertToImageWithAuthorEntity(models: List<ImageRetrofitModel>): List<ImageWithUserRoomModel> {
         return models.map { remoteImage ->
             runBlocking(Dispatchers.IO) {
                 remoteImage.toRoomImageEntity(

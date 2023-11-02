@@ -4,13 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase.Companion.DB_VERSION
 import com.skillbox.unsplash.data.images.room.dao.ImageDao
-import com.skillbox.unsplash.data.model.room.RoomImageModel
-import com.skillbox.unsplash.data.model.room.RoomUserModel
+import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
+import com.skillbox.unsplash.data.images.room.model.UserRoomModel
 
 @Database(
     entities = [
-        RoomImageModel::class,
-        RoomUserModel::class
+        ImageRoomModel::class,
+        UserRoomModel::class
     ],
     version = DB_VERSION,
     exportSchema = true

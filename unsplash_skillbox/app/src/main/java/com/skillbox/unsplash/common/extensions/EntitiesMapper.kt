@@ -3,9 +3,9 @@ package com.skillbox.unsplash.common.extensions
 import com.skillbox.unsplash.data.collections.retrofit.model.CollectionRetrofitModel
 import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
 import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailRetrofitModel
-import com.skillbox.unsplash.data.model.room.RoomImageModel
-import com.skillbox.unsplash.data.model.room.RoomUserModel
-import com.skillbox.unsplash.data.model.room.relations.RoomImageWithUserModel
+import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
+import com.skillbox.unsplash.data.images.room.model.UserRoomModel
+import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserRoomModel
 import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import com.skillbox.unsplash.feature.images.detail.model.ExifUiModel
 import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
@@ -19,8 +19,8 @@ fun ImageRetrofitModel.toRoomImageEntity(
     cachedImagePath: String,
     cachedAvatarPath: String,
     searchQuery: String
-): RoomImageWithUserModel {
-    val roomUserModel = RoomUserModel(
+): ImageWithUserRoomModel {
+    val userRoomModel = UserRoomModel(
         this.user.id,
         this.user.name,
         this.user.nickname,
@@ -28,7 +28,7 @@ fun ImageRetrofitModel.toRoomImageEntity(
         cachedAvatarPath,
         this.user.biography ?: ""
     )
-    val roomImageModel = RoomImageModel(
+    val imageRoomModel = ImageRoomModel(
         this.id,
         this.user.id,
         this.description ?: "",
@@ -38,10 +38,10 @@ fun ImageRetrofitModel.toRoomImageEntity(
         cachedImagePath,
         searchQuery
     )
-    return RoomImageWithUserModel(roomImageModel, roomUserModel)
+    return ImageWithUserRoomModel(imageRoomModel, userRoomModel)
 }
 
-fun RoomImageWithUserModel.toImageItem(): ImageWithUserUiModel {
+fun ImageWithUserRoomModel.toImageItem(): ImageWithUserUiModel {
     return ImageWithUserUiModel(
         ImageUiModel(
             this.image.id,
