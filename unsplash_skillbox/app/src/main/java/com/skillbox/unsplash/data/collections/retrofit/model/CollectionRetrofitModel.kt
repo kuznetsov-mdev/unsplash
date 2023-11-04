@@ -7,11 +7,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CollectionRetrofitModel(
     @Json(name = "id")
-    val id: Int,
+    val id: String,
     @Json(name = "title")
     val title: String,
     @Json(name = "description")
-    val description: String,
+    val description: String?,
     @Json(name = "published_at")
     val publishedAt: String,
     @Json(name = "last_collected_at")
