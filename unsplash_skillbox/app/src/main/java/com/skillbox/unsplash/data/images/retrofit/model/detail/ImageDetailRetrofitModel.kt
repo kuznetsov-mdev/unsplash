@@ -34,5 +34,5 @@ data class ImageDetailRetrofitModel(
     @Json(name = "tags")
     val tags: List<TagRetrofitModel>,
     @Json(name = "links")
-    val links: LinksRetrofitModel
+    val links: ImageDetailLinksRetrofitModel
 )

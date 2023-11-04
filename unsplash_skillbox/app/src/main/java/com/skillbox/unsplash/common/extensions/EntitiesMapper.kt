@@ -105,6 +105,14 @@ fun CollectionRetrofitModel.toUiEntity(): CollectionUiModel {
     return CollectionUiModel(
         this.id,
         this.title,
-        this.description
+        this.description,
+        UserUiModel(
+            this.user.id,
+            this.user.nickname,
+            this.user.name,
+            this.user.biography ?: "",
+            this.user.profileImage.small,
+            "stub"
+        )
     )
 }

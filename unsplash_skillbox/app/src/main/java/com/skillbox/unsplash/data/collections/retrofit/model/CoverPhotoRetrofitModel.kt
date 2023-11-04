@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.data.collections.retrofit.model
 
 import com.skillbox.unsplash.data.images.retrofit.model.PreviewRetrofitModel
-import com.skillbox.unsplash.data.images.retrofit.model.detail.LinksRetrofitModel
+import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailLinksRetrofitModel
 import com.skillbox.unsplash.data.images.retrofit.model.user.UserRetrofitModel
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -29,5 +29,5 @@ data class CoverPhotoRetrofitModel(
     @Json(name = "urls")
     val urls: PreviewRetrofitModel,
     @Json(name = "links")
-    val links: LinksRetrofitModel
+    val links: ImageDetailLinksRetrofitModel
 )
