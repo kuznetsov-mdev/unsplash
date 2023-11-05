@@ -51,7 +51,7 @@ val MIGRATION_5_6 = object : Migration(5, 6) {
         try {
             database.execSQL(
                 "CREATE TABLE IF NOT EXISTS collections (" +
-                        "id TEXT PRIMARY KEY," +
+                        "collection_id TEXT PRIMARY KEY," +
                         "author_id TEXT," +
                         "title TEXT," +
                         "description TEXT," +
@@ -72,5 +72,4 @@ val MIGRATION_5_6 = object : Migration(5, 6) {
             Timber.e(t.message)
         }
     }
-
 }

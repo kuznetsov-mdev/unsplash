@@ -30,6 +30,7 @@ class RoomModule {
             .addMigrations(MIGRATION_3_4)
             .addMigrations(MIGRATION_4_5)
             .addMigrations(MIGRATION_5_6)
+//            .addMigrations(MIGRATION_6_7)
             .build()
     }
 }

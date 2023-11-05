@@ -1,8 +1,12 @@
 package com.skillbox.unsplash.data.collections.room
 
+import com.skillbox.unsplash.data.collections.room.model.CollectionRoomModel
+
 interface CollectionsRoomRepository {
 
-    fun getAll()
+    suspend fun save(collections: List<CollectionRoomModel>)
 
-    fun getCollectionImages()
+    suspend fun getAll()
+
+    suspend fun getCollectionImages()
 }

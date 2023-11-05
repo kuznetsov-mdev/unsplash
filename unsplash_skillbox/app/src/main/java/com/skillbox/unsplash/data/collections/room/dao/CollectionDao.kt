@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.skillbox.unsplash.data.collections.room.contract.CollectionContract
+import com.skillbox.unsplash.data.collections.room.model.CollectionRoomModel
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesRoomModel
 
 @Dao
@@ -16,5 +17,5 @@ interface CollectionDao {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(collections: List<CollectionWithUserAndImagesRoomModel>)
+    fun save(collections: List<CollectionRoomModel>)
 }
