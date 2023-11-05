@@ -45,3 +45,32 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         }
     }
 }
+
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        try {
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS collections (" +
+                        "id TEXT PRIMARY KEY," +
+                        "author_id TEXT," +
+                        "title TEXT," +
+                        "description TEXT," +
+                        "published_at TEXT," +
+                        "updated_at TEXT," +
+                        "total_photos INTEGER," +
+                        "cached_cover_photo TEXT" +
+                        "FOREIGN KEY (author_id) REFERENCES authors(id))"
+            )
+
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS collection_image (" +
+                        "collection_id TEXT," +
+                        "image_id TEXT," +
+                        "PRIMARY KEY (collection_id, image_id))"
+            )
+        } catch (t: Throwable) {
+            Timber.e(t.message)
+        }
+    }
+
+}
