@@ -27,7 +27,7 @@ abstract class UnsplashRoomDataBase : RoomDatabase() {
     abstract fun collectionDao(): CollectionDao
 
     companion object {
-        const val DB_VERSION = 6
+        const val DB_VERSION = 5
         const val DB_NAME = "unsplash_project_db"
     }
 }
