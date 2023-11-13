@@ -9,6 +9,7 @@ import com.skillbox.unsplash.data.collections.room.model.CollectionRoomModel
 import com.skillbox.unsplash.data.images.room.dao.ImageDao
 import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
 import com.skillbox.unsplash.data.images.room.model.UserRoomModel
+import com.skillbox.unsplash.data.user.UserDao
 
 @Database(
     entities = [
@@ -25,6 +26,8 @@ abstract class UnsplashRoomDataBase : RoomDatabase() {
     abstract fun imageDao(): ImageDao
 
     abstract fun collectionDao(): CollectionDao
+
+    abstract fun userDao(): UserDao
 
     companion object {
         const val DB_VERSION = 5

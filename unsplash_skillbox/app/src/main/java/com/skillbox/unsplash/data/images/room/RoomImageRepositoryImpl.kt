@@ -3,7 +3,8 @@ package com.skillbox.unsplash.data.images.room
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
-import com.skillbox.unsplash.common.extensions.toImageItem
+import com.skillbox.unsplash.common.extensions.toImageUiModel
+import com.skillbox.unsplash.data.images.room.model.UserRoomModel
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserRoomModel
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import kotlinx.coroutines.Dispatchers
@@ -20,17 +21,17 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
     override suspend fun insertAll(images: List<ImageWithUserRoomModel>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
-                dataBase.imageDao().insertAuthors(images.map { it.author })
+                dataBase.userDao().insertUsers(images.map { it.user })
                 dataBase.imageDao().insertImages(images.map { it.image })
             }
         }
     }
 
-    override suspend fun clearAll() {
+    override suspend fun clear(users: List<UserRoomModel>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 dataBase.imageDao().deleteImages()
-                dataBase.imageDao().deleteAuthors()
+                dataBase.userDao().deleteUsers(users)
             }
         }
     }
@@ -39,11 +40,11 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 if (query == null) {
-                    clearAll()
+                    clear(images.map { it.user })
                 } else {
                     dataBase.imageDao().clear(query)
                 }
-                dataBase.imageDao().insertAuthors(images.map { it.author })
+                dataBase.userDao().insertUsers(images.map { it.user })
                 dataBase.imageDao().insertImages(images.map { it.image })
             }
         }
