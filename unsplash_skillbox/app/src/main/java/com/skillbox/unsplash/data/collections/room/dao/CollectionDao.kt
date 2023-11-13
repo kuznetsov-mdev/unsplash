@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.data.collections.room.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,5 +18,12 @@ interface CollectionDao {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(collections: List<CollectionRoomModel>)
+    fun insertAll(collections: List<CollectionRoomModel>)
+
+    @Query("DELETE FROM ${CollectionContract.TABLE_NAME}")
+    fun clearAll()
+
+    @Transaction
+    @Query("SELECT * FROM ${CollectionContract.TABLE_NAME}")
+    fun getPagingSource(): PagingSource<Int, CollectionWithUserAndImagesRoomModel>
 }
