@@ -13,7 +13,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
 
     override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserUiModel> {
         return withContext(Dispatchers.IO) {
-            dataBase.imageDao().getImagesWithAuthor().map { it.toImageItem() }
+            dataBase.imageDao().getImagesWithUser().map { it.toImageUiModel() }
         }
     }
 

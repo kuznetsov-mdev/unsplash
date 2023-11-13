@@ -75,7 +75,7 @@ class ImageRemoteMediator(
             val imagesLinks = mutableListOf<String>()
             images.forEach { img ->
                 imagesLinks.add(img.image.cachedPreview)
-                imagesLinks.add(img.author.cachedProfileImage)
+                imagesLinks.add(img.user.cachedProfileImage)
             }
             diskImageRepository.removeCachedImages(imagesLinks)
         }

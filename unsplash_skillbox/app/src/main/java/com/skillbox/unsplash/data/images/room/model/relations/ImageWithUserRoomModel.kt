@@ -14,5 +14,5 @@ data class ImageWithUserRoomModel(
         parentColumn = ImageContract.Columns.AUTHOR_ID,
         entityColumn = AuthorContract.Columns.ID
     )
-    val author: UserRoomModel
+    val user: UserRoomModel
 )

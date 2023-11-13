@@ -1,6 +1,9 @@
 package com.skillbox.unsplash.common.extensions
 
 import com.skillbox.unsplash.data.collections.retrofit.model.CollectionRetrofitModel
+import com.skillbox.unsplash.data.collections.room.model.CollectionRoomModel
+import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithImagesRoomModel
+import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesRoomModel
 import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
 import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailRetrofitModel
 import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
@@ -41,7 +44,7 @@ fun ImageRetrofitModel.toRoomImageEntity(
     return ImageWithUserRoomModel(imageRoomModel, userRoomModel)
 }
 
-fun ImageWithUserRoomModel.toImageItem(): ImageWithUserUiModel {
+fun ImageWithUserRoomModel.toImageUiModel(): ImageWithUserUiModel {
     return ImageWithUserUiModel(
         ImageUiModel(
             this.image.id,
@@ -52,12 +55,12 @@ fun ImageWithUserRoomModel.toImageItem(): ImageWithUserUiModel {
             this.image.cachedPreview
         ),
         UserUiModel(
-            this.author.id,
-            this.author.nickName,
-            this.author.name,
-            this.author.biography,
-            this.author.profileImage,
-            this.author.cachedProfileImage
+            this.user.id,
+            this.user.nickName,
+            this.user.name,
+            this.user.biography,
+            this.user.profileImage,
+            this.user.cachedProfileImage
         )
     )
 }
@@ -101,18 +104,48 @@ fun ImageDetailRetrofitModel.toDetailImageItem(cachedImagePath: String, cachedAu
     )
 }
 
-fun CollectionRetrofitModel.toUiEntity(): CollectionUiModel {
+fun CollectionRetrofitModel.toRoomEntity(
+    previewLocation: String,
+    userAvatarLocation: String
+): CollectionWithUserAndImagesRoomModel {
+    return CollectionWithUserAndImagesRoomModel(
+        CollectionWithImagesRoomModel(
+            CollectionRoomModel(
+                this.id,
+                this.user.id,
+                this.title,
+                this.description ?: "",
+                this.publishedAt,
+                this.updatedAt,
+                this.totalPhotos,
+                previewLocation
+            )
+        ),
+        UserRoomModel(
+            this.user.id,
+            this.user.name,
+            this.user.nickname,
+            this.user.profileImage.medium,
+            userAvatarLocation,
+            this.user.biography ?: ""
+        )
+    )
+}
+
+fun CollectionWithUserAndImagesRoomModel.toCollectionUiModel(): CollectionUiModel {
     return CollectionUiModel(
-        this.id,
-        this.title,
-        this.description ?: "",
+        this.collectionWithImages.collection.id,
+        this.collectionWithImages.collection.title,
+        this.collectionWithImages.collection.description,
+        this.collectionWithImages.collection.totalPhotos,
+        this.collectionWithImages.collection.cachedCoverPhoto,
         UserUiModel(
             this.user.id,
-            this.user.nickname,
+            this.user.nickName,
             this.user.name,
-            this.user.biography ?: "",
-            this.user.profileImage.small,
-            "stub"
+            this.user.biography,
+            this.user.profileImage,
+            this.user.cachedProfileImage
         )
     )
 }

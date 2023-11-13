@@ -6,5 +6,7 @@ data class CollectionUiModel(
     val id: String,
     val title: String,
     val description: String,
+    val count: Int,
+    val cachedCoverPhoto: String,
     val user: UserUiModel,
 )
