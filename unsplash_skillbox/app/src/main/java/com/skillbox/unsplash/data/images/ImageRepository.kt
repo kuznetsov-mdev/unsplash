@@ -8,7 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.work.WorkInfo
-import com.skillbox.unsplash.common.extensions.toImageItem
+import com.skillbox.unsplash.common.extensions.toImageUiModel
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
 import com.skillbox.unsplash.data.images.room.RoomImageRepository
 import com.skillbox.unsplash.data.images.room.paging.ImageRemoteMediator
@@ -33,7 +33,7 @@ class ImageRepository(
             pagingSourceFactory = { roomImageRepository.getPagingSource(query) }
         ).flow
             .map { pagingData ->
-                pagingData.map { imageEntity -> imageEntity.toImageItem() }
+                pagingData.map { imageEntity -> imageEntity.toImageUiModel() }
             }
     }
 
@@ -47,11 +47,6 @@ class ImageRepository(
 
     suspend fun removeLike(imageId: String) {
         retrofitImageRepository.removeLike(imageId)
-    }
-
-    suspend fun removeImages() {
-        roomImageRepository.clearAll()
-        diskImageRepository.removeAllFromInternalStorage()
     }
 
     fun startImageSavingToGalleryWork(name: String, url: String): LiveData<WorkInfo> {

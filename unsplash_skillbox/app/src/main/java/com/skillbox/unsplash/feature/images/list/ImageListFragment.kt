@@ -36,7 +36,6 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val searchViewBinding: LayoutSearchBinding by viewBinding()
     private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) {
         ImageAdapter(
-            requireContext(),
             ::markPhoto,
             ::isNetworkAvailable,
             ::onImageClicked

@@ -59,7 +59,7 @@ class ImageRemoteMediator(
     }
 
     private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithUserRoomModel> {
-        val searchResult = retrofitImageRepository.getImages(query, pageNumber, pageSize);
+        val searchResult: List<ImageRetrofitModel> = retrofitImageRepository.getImages(query, pageNumber, pageSize);
         saveImageDataOnDisk(searchResult)
         return convertToImageWithAuthorEntity(searchResult)
     }

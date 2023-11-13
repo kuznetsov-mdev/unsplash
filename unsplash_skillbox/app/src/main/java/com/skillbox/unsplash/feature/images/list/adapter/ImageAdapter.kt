@@ -1,7 +1,6 @@
 package com.skillbox.unsplash.feature.images.list.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,7 +14,6 @@ import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import com.skillbox.unsplash.util.inflate
 
 class ImageAdapter(
-    private val context: Context,
     private val onLikeClicked: (String, Int, Boolean) -> Unit,
     private val isNetworkAvailable: () -> Boolean,
     private val onImageClicked: (String) -> Unit,
@@ -28,7 +26,6 @@ class ImageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
-            context = context,
             binding = parent.inflate(ItemImageBinding::inflate),
             isNetworkAvailable = isNetworkAvailable,
             onLikeClicked = onLikeClicked,
@@ -48,7 +45,6 @@ class ImageAdapter(
 
     @SuppressLint("SetTextI18n")
     class Holder(
-        private val context: Context,
         private val binding: ItemImageBinding,
         private val isNetworkAvailable: () -> Boolean,
         onLikeClicked: (String, Int, Boolean) -> Unit,
@@ -100,6 +96,7 @@ class ImageAdapter(
                 activeLikesIconView.visibility = if (imageItem.image.likedByUser) View.VISIBLE else View.GONE
                 inactiveLikesIconView.visibility = if (!imageItem.image.likedByUser) View.VISIBLE else View.GONE
 
+                //Todo: need replace to check if is there image in cache, use it if not - use stub
                 if (isNetworkAvailable()) {
                     loadImagesFromNetwork(imageItem, avatarImageView, imageItemView)
                 } else {
