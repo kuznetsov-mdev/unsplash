@@ -66,7 +66,7 @@ class CollectionRemoteMediator(
     }
 
     private suspend fun saveImageToInternalStorage(model: CollectionRetrofitModel) {
-        diskImageRepository.saveImageToInternalStorage(model.coverPhoto.id, model.coverPhoto.urls.thumb, "thumbnails")
+        diskImageRepository.saveImageToInternalStorage(model.coverPhoto.id, model.coverPhoto.urls.small, "thumbnails")
         diskImageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
     }
 
