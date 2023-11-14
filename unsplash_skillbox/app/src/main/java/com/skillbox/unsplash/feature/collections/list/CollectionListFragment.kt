@@ -2,9 +2,11 @@ package com.skillbox.unsplash.feature.collections.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
@@ -33,6 +35,11 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     private fun observeCollections() {
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.collectionList.collectLatest(collectionAdapter::submitData)
+        }
+
+        collectionAdapter.addLoadStateListener { loadState ->
+            viewBinding.collectionListView.isVisible = loadState.refresh != LoadState.Loading
+            viewBinding.imagesLoginProgress.isVisible = loadState.refresh == LoadState.Loading
         }
     }
 

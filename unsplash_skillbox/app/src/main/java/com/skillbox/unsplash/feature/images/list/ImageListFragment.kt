@@ -52,9 +52,8 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private fun initList() {
         with(viewBinding.imagesList) {
             adapter = imageAdapter
-            setHasFixedSize(true)
+//            setHasFixedSize(true)
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            setHasFixedSize(true)
             val verticalDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
             val horizontalDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
             addItemDecoration(verticalDividerItemDecoration)
