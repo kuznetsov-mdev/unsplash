@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.collections.room.paging
+package com.skillbox.unsplash.data.collections.paging
 
 import android.content.Context
 import androidx.paging.ExperimentalPagingApi
@@ -8,7 +8,7 @@ import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.extensions.toRoomEntity
 import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
-import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
+import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import kotlinx.coroutines.CoroutineScope
@@ -19,8 +19,8 @@ import java.io.File
 
 @OptIn(ExperimentalPagingApi::class)
 class CollectionRemoteMediator(
-    private val retrofitCollectionsRepositoryApi: RetrofitCollectionsRepositoryApi,
-    private val roomCollectionsRepository: RoomCollectionsRepository,
+    private val retrofitCollectionsRepository: RetrofitCollectionsRepositoryApi,
+    private val roomCollectionsRepository: RoomCollectionsRepositoryApi,
     private val diskImageRepository: DiskImageRepository,
     private val context: Context
 ) : RemoteMediator<Int, CollectionWithUserAndImagesEntity>() {
@@ -54,7 +54,7 @@ class CollectionRemoteMediator(
     }
 
     private suspend fun getCollections(pageIndex: Int, pageSize: Int): List<CollectionWithUserAndImagesEntity> {
-        val collections: List<CollectionDto> = retrofitCollectionsRepositoryApi.getAll(pageIndex, pageSize)
+        val collections: List<CollectionDto> = retrofitCollectionsRepository.getAll(pageIndex, pageSize)
         saveImageDataOnDisk(collections)
         return convertToImageWithAuthorEntity(collections)
     }

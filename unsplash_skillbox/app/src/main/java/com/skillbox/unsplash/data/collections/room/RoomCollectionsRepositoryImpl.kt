@@ -8,11 +8,13 @@ import com.skillbox.unsplash.data.user.room.model.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RoomCollectionsRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomCollectionsRepository {
+class RoomCollectionsRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomCollectionsRepositoryApi {
     override suspend fun insertAll(collections: List<CollectionWithUserAndImagesEntity>) {
         withContext(Dispatchers.IO) {
-            dataBase.userDao().insertUsers(collections.map { it.user })
-            dataBase.collectionDao().insertAll(collections.map { it.collectionWithImages.collection })
+            dataBase.withTransaction {
+                dataBase.userDao().insertUsers(collections.map { it.user })
+                dataBase.collectionDao().insertAll(collections.map { it.collectionWithImages.collection })
+            }
         }
     }
 
@@ -31,9 +33,12 @@ class RoomCollectionsRepositoryImpl(private val dataBase: UnsplashRoomDataBase) 
     }
 
     override suspend fun clear(users: List<UserEntity>) {
-        dataBase.userDao().deleteUsers(users)
-        dataBase.collectionDao().clearAll()
-
+        withContext(Dispatchers.IO) {
+            dataBase.withTransaction {
+                dataBase.userDao().deleteUsers(users)
+                dataBase.collectionDao().clearAll()
+            }
+        }
     }
 
     override fun getPagingSource(): PagingSource<Int, CollectionWithUserAndImagesEntity> {

@@ -7,9 +7,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.skillbox.unsplash.common.extensions.toCollectionUiModel
+import com.skillbox.unsplash.data.collections.paging.CollectionRemoteMediator
 import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
-import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
-import com.skillbox.unsplash.data.collections.room.paging.CollectionRemoteMediator
+import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepositoryApi
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +20,7 @@ class CollectionsRepository @Inject constructor(
     private val context: Application,
     private val diskImageRepository: DiskImageRepository,
     private val retrofitCollectionsRepositoryApi: RetrofitCollectionsRepositoryApi,
-    private val roomCollectionsRepository: RoomCollectionsRepository
+    private val roomCollectionsRepository: RoomCollectionsRepositoryApi
 ) {
     @OptIn(ExperimentalPagingApi::class)
     suspend fun getAll(): Flow<PagingData<CollectionUiModel>> {

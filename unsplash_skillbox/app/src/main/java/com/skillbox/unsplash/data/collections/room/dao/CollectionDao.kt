@@ -12,16 +12,13 @@ import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWit
 
 @Dao
 interface CollectionDao {
-    @Transaction
-    @Query("SELECT * FROM ${CollectionContract.TABLE_NAME}")
-    fun getAll(): List<CollectionWithUserAndImagesEntity>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(collections: List<CollectionEntity>)
+    suspend fun insertAll(collections: List<CollectionEntity>)
 
     @Query("DELETE FROM ${CollectionContract.TABLE_NAME}")
-    fun clearAll()
+    suspend fun clearAll()
 
     @Transaction
     @Query("SELECT * FROM ${CollectionContract.TABLE_NAME}")

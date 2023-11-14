@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.user.room.model.UserEntity
 
-interface RoomCollectionsRepository {
+interface RoomCollectionsRepositoryApi {
 
     suspend fun insertAll(collections: List<CollectionWithUserAndImagesEntity>)
 
