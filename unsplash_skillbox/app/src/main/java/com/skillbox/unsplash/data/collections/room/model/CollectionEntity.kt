@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.skillbox.unsplash.data.collections.room.contract.CollectionContract
 
 @Entity(tableName = CollectionContract.TABLE_NAME)
-data class CollectionRoomModel(
+data class CollectionEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = CollectionContract.Columns.ID)
     val id: String,

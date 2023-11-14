@@ -11,7 +11,7 @@ import com.skillbox.unsplash.data.collections.room.contract.CollectionImageContr
         CollectionImageContract.Columns.IMAGE_ID
     ]
 )
-data class CollectionImageCrossRef(
+data class CollectionImageCrossRefEntity(
     @ColumnInfo(name = CollectionImageContract.Columns.COLLECTION_ID)
     val collectionId: String,
     @ColumnInfo(name = CollectionImageContract.Columns.IMAGE_ID)

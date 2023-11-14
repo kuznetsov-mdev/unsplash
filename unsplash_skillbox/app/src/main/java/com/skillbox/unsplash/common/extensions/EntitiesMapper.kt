@@ -1,9 +1,9 @@
 package com.skillbox.unsplash.common.extensions
 
 import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
-import com.skillbox.unsplash.data.collections.room.model.CollectionRoomModel
-import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithImagesRoomModel
-import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesRoomModel
+import com.skillbox.unsplash.data.collections.room.model.CollectionEntity
+import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithImagesEntity
+import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
 import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailRetrofitModel
 import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
@@ -107,10 +107,10 @@ fun ImageDetailRetrofitModel.toDetailImageItem(cachedImagePath: String, cachedAu
 fun CollectionDto.toRoomEntity(
     previewLocation: String,
     userAvatarLocation: String
-): CollectionWithUserAndImagesRoomModel {
-    return CollectionWithUserAndImagesRoomModel(
-        CollectionWithImagesRoomModel(
-            CollectionRoomModel(
+): CollectionWithUserAndImagesEntity {
+    return CollectionWithUserAndImagesEntity(
+        CollectionWithImagesEntity(
+            CollectionEntity(
                 this.id,
                 this.user.id,
                 this.title,
@@ -132,7 +132,7 @@ fun CollectionDto.toRoomEntity(
     )
 }
 
-fun CollectionWithUserAndImagesRoomModel.toCollectionUiModel(): CollectionUiModel {
+fun CollectionWithUserAndImagesEntity.toCollectionUiModel(): CollectionUiModel {
     return CollectionUiModel(
         this.collectionWithImages.collection.id,
         this.collectionWithImages.collection.title,

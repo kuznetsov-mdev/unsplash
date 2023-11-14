@@ -5,20 +5,20 @@ import androidx.room.Junction
 import androidx.room.Relation
 import com.skillbox.unsplash.data.collections.room.contract.CollectionContract
 import com.skillbox.unsplash.data.collections.room.contract.CollectionImageContract
-import com.skillbox.unsplash.data.collections.room.model.CollectionImageCrossRef
-import com.skillbox.unsplash.data.collections.room.model.CollectionRoomModel
+import com.skillbox.unsplash.data.collections.room.model.CollectionEntity
+import com.skillbox.unsplash.data.collections.room.model.CollectionImageCrossRefEntity
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
 import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
 
-data class CollectionWithImagesRoomModel(
+data class CollectionWithImagesEntity(
     @Embedded
-    val collection: CollectionRoomModel,
+    val collection: CollectionEntity,
     @Relation(
         parentColumn = CollectionContract.Columns.ID,
         entity = ImageRoomModel::class,
         entityColumn = ImageContract.Columns.ID,
         associateBy = Junction(
-            CollectionImageCrossRef::class,
+            CollectionImageCrossRefEntity::class,
             parentColumn = CollectionImageContract.Columns.COLLECTION_ID,
             entityColumn = CollectionImageContract.Columns.IMAGE_ID
         )

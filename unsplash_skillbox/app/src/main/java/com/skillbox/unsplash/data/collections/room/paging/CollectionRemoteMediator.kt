@@ -9,7 +9,7 @@ import com.skillbox.unsplash.common.extensions.toRoomEntity
 import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
-import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesRoomModel
+import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,15 +23,15 @@ class CollectionRemoteMediator(
     private val roomCollectionsRepository: RoomCollectionsRepository,
     private val diskImageRepository: DiskImageRepository,
     private val context: Context
-) : RemoteMediator<Int, CollectionWithUserAndImagesRoomModel>() {
+) : RemoteMediator<Int, CollectionWithUserAndImagesEntity>() {
     private var pageIndex = 1
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, CollectionWithUserAndImagesRoomModel>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, CollectionWithUserAndImagesEntity>): MediatorResult {
         pageIndex = getPageIndex(loadType) ?: return MediatorResult.Success(endOfPaginationReached = true)
         val pageSize = state.config.pageSize
 
         return try {
-            val collections: List<CollectionWithUserAndImagesRoomModel> = getCollections(pageIndex, pageSize)
+            val collections: List<CollectionWithUserAndImagesEntity> = getCollections(pageIndex, pageSize)
 
             if (loadType == LoadType.REFRESH) {
                 roomCollectionsRepository.refresh(collections)
@@ -53,7 +53,7 @@ class CollectionRemoteMediator(
         }
     }
 
-    private suspend fun getCollections(pageIndex: Int, pageSize: Int): List<CollectionWithUserAndImagesRoomModel> {
+    private suspend fun getCollections(pageIndex: Int, pageSize: Int): List<CollectionWithUserAndImagesEntity> {
         val collections: List<CollectionDto> = retrofitCollectionsRepositoryApi.getAll(pageIndex, pageSize)
         saveImageDataOnDisk(collections)
         return convertToImageWithAuthorEntity(collections)
@@ -70,7 +70,7 @@ class CollectionRemoteMediator(
         diskImageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
     }
 
-    private fun convertToImageWithAuthorEntity(models: List<CollectionDto>): List<CollectionWithUserAndImagesRoomModel> {
+    private fun convertToImageWithAuthorEntity(models: List<CollectionDto>): List<CollectionWithUserAndImagesEntity> {
         return models.map { retrofitCollection ->
             runBlocking(Dispatchers.IO) {
                 retrofitCollection.toRoomEntity(
@@ -87,7 +87,7 @@ class CollectionRemoteMediator(
         }
     }
 
-    private suspend fun removeImagesFromDisk(collections: List<CollectionWithUserAndImagesRoomModel>) {
+    private suspend fun removeImagesFromDisk(collections: List<CollectionWithUserAndImagesEntity>) {
         CoroutineScope(Dispatchers.IO).launch {
             val imagesLinks = mutableListOf<String>()
             collections.forEach { collection ->

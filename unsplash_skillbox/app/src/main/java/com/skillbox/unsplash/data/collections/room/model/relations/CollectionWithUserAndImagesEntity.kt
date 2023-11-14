@@ -6,9 +6,9 @@ import com.skillbox.unsplash.data.collections.room.contract.CollectionContract
 import com.skillbox.unsplash.data.images.room.contract.AuthorContract
 import com.skillbox.unsplash.data.images.room.model.UserRoomModel
 
-data class CollectionWithUserAndImagesRoomModel(
+data class CollectionWithUserAndImagesEntity(
     @Embedded
-    val collectionWithImages: CollectionWithImagesRoomModel,
+    val collectionWithImages: CollectionWithImagesEntity,
     @Relation(
         parentColumn = CollectionContract.Columns.AUTHOR_ID,
         entityColumn = AuthorContract.Columns.ID
