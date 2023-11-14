@@ -51,5 +51,8 @@
         <action
             android:id="@+id/action_collectionDetailFragment_to_collectionsFragment"
             app:destination="@id/collectionsFragment" />
+        <argument
+            android:name="collectionId"
+            app:argType="string" />
     </fragment>
 </navigation>

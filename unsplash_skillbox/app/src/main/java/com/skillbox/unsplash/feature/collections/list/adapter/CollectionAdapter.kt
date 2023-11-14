@@ -12,7 +12,9 @@ import com.skillbox.unsplash.databinding.ItemCollectionBinding
 import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import com.skillbox.unsplash.util.inflate
 
-class CollectionAdapter() : PagingDataAdapter<CollectionUiModel, CollectionAdapter.Holder>(CollectionDiffUtilCallback()) {
+class CollectionAdapter(
+    private val onCollectionClick: (String) -> Unit
+) : PagingDataAdapter<CollectionUiModel, CollectionAdapter.Holder>(CollectionDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val collectionItem = getItem(position) ?: return
@@ -21,7 +23,8 @@ class CollectionAdapter() : PagingDataAdapter<CollectionUiModel, CollectionAdapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
-            binding = parent.inflate(ItemCollectionBinding::inflate)
+            binding = parent.inflate(ItemCollectionBinding::inflate),
+            onCollectionClick = onCollectionClick
         )
     }
 
@@ -35,9 +38,18 @@ class CollectionAdapter() : PagingDataAdapter<CollectionUiModel, CollectionAdapt
         }
     }
 
-    class Holder(private val binding: ItemCollectionBinding) : RecyclerView.ViewHolder(binding.root) {
+    class Holder(
+        private val binding: ItemCollectionBinding,
+        private val onCollectionClick: (String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
         private var collectionUiModel: CollectionUiModel? = null
         private var position: Int? = null
+
+        init {
+            binding.collectionItemView.setOnClickListener {
+                onCollectionClick(collectionUiModel?.id ?: "")
+            }
+        }
 
         fun bind(collectionItem: CollectionUiModel, position: Int) {
             this.collectionUiModel = collectionItem

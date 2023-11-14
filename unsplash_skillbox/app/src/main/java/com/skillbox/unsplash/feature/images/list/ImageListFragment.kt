@@ -41,7 +41,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             ::onImageClicked
         )
     }
-//https://stackoverflow.com/questions/9727173/support-fragmentpageradapter-holds-reference-to-old-fragments
+    //https://stackoverflow.com/questions/9727173/support-fragmentpageradapter-holds-reference-to-old-fragments
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()

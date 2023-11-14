@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -22,7 +23,9 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     private val viewBinding: FragmentCollectionsBinding by viewBinding()
     private val viewModel: CollectionListViewModel by viewModels()
     private val collectionAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CollectionAdapter()
+        CollectionAdapter(
+            ::navigateToDetailInfo
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,5 +52,11 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun navigateToDetailInfo(itemId: String) {
+        findNavController().navigate(
+            CollectionListFragmentDirections.actionCollectionsFragmentToCollectionDetailFragment(itemId)
+        )
     }
 }
