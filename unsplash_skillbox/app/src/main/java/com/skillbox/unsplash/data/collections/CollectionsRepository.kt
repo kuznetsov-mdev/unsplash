@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.skillbox.unsplash.common.extensions.toCollectionUiModel
-import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepository
+import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
 import com.skillbox.unsplash.data.collections.room.paging.CollectionRemoteMediator
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class CollectionsRepository @Inject constructor(
     private val context: Application,
     private val diskImageRepository: DiskImageRepository,
-    private val retrofitCollectionsRepository: RetrofitCollectionsRepository,
+    private val retrofitCollectionsRepositoryApi: RetrofitCollectionsRepositoryApi,
     private val roomCollectionsRepository: RoomCollectionsRepository
 ) {
     @OptIn(ExperimentalPagingApi::class)
@@ -27,7 +27,7 @@ class CollectionsRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = CollectionRemoteMediator(
-                retrofitCollectionsRepository,
+                retrofitCollectionsRepositoryApi,
                 roomCollectionsRepository,
                 diskImageRepository,
                 context

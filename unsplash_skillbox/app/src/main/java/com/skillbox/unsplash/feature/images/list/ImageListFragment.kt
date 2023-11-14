@@ -41,7 +41,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             ::onImageClicked
         )
     }
-
+//https://stackoverflow.com/questions/9727173/support-fragmentpageradapter-holds-reference-to-old-fragments
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
@@ -52,7 +52,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private fun initList() {
         with(viewBinding.imagesList) {
             adapter = imageAdapter
-//            setHasFixedSize(true)
+            setHasFixedSize(true)
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             val verticalDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
             val horizontalDividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)

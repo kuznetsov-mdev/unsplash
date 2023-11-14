@@ -2,8 +2,8 @@ package com.skillbox.unsplash.data.collections.di
 
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepository
-import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryImpl
+import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
+import com.skillbox.unsplash.data.collections.retrofit.RetrofitRetrofitCollectionsRepositoryImpl
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepositoryImpl
 import dagger.Module
@@ -18,7 +18,8 @@ class CollectionsDataModule {
 
     @Provides
     @Singleton
-    fun providesRetrofitCollectionRepository(network: Network): RetrofitCollectionsRepository = RetrofitCollectionsRepositoryImpl(network)
+    fun providesRetrofitCollectionRepository(network: Network): RetrofitCollectionsRepositoryApi =
+        RetrofitRetrofitCollectionsRepositoryImpl(network)
 
     @Provides
     @Singleton

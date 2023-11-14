@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.common.extensions
 
-import com.skillbox.unsplash.data.collections.retrofit.model.CollectionRetrofitModel
+import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
 import com.skillbox.unsplash.data.collections.room.model.CollectionRoomModel
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithImagesRoomModel
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesRoomModel
@@ -104,7 +104,7 @@ fun ImageDetailRetrofitModel.toDetailImageItem(cachedImagePath: String, cachedAu
     )
 }
 
-fun CollectionRetrofitModel.toRoomEntity(
+fun CollectionDto.toRoomEntity(
     previewLocation: String,
     userAvatarLocation: String
 ): CollectionWithUserAndImagesRoomModel {

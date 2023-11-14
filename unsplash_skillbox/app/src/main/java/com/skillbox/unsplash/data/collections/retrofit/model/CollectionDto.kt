@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CollectionRetrofitModel(
+data class CollectionDto(
     @Json(name = "id")
     val id: String,
     @Json(name = "title")
@@ -19,9 +19,9 @@ data class CollectionRetrofitModel(
     @Json(name = "total_photos")
     val totalPhotos: Int,
     @Json(name = "cover_photo")
-    val coverPhoto: CoverPhotoRetrofitModel,
+    val coverPhoto: CoverPhotoDto,
     @Json(name = "user")
     val user: UserRetrofitModel,
     @Json(name = "links")
-    val links: CollectionLinksRetrofitModel
+    val links: CollectionLinksDto
 )

@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CollectionLinksRetrofitModel(
+data class CollectionLinksDto(
     @Json(name = "self")
     val self: String,
     @Json(name = "html")

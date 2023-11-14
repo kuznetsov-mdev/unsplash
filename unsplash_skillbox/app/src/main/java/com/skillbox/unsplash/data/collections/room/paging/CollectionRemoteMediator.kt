@@ -6,8 +6,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.extensions.toRoomEntity
-import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepository
-import com.skillbox.unsplash.data.collections.retrofit.model.CollectionRetrofitModel
+import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
+import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesRoomModel
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
@@ -19,7 +19,7 @@ import java.io.File
 
 @OptIn(ExperimentalPagingApi::class)
 class CollectionRemoteMediator(
-    private val retrofitCollectionsRepository: RetrofitCollectionsRepository,
+    private val retrofitCollectionsRepositoryApi: RetrofitCollectionsRepositoryApi,
     private val roomCollectionsRepository: RoomCollectionsRepository,
     private val diskImageRepository: DiskImageRepository,
     private val context: Context
@@ -54,23 +54,23 @@ class CollectionRemoteMediator(
     }
 
     private suspend fun getCollections(pageIndex: Int, pageSize: Int): List<CollectionWithUserAndImagesRoomModel> {
-        val collections: List<CollectionRetrofitModel> = retrofitCollectionsRepository.getAll(pageIndex, pageSize)
+        val collections: List<CollectionDto> = retrofitCollectionsRepositoryApi.getAll(pageIndex, pageSize)
         saveImageDataOnDisk(collections)
         return convertToImageWithAuthorEntity(collections)
     }
 
-    private suspend fun saveImageDataOnDisk(models: List<CollectionRetrofitModel>) {
+    private suspend fun saveImageDataOnDisk(models: List<CollectionDto>) {
         CoroutineScope(Dispatchers.IO).launch {
             models.forEach { saveImageToInternalStorage(it) }
         }
     }
 
-    private suspend fun saveImageToInternalStorage(model: CollectionRetrofitModel) {
+    private suspend fun saveImageToInternalStorage(model: CollectionDto) {
         diskImageRepository.saveImageToInternalStorage(model.coverPhoto.id, model.coverPhoto.urls.small, "thumbnails")
         diskImageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
     }
 
-    private fun convertToImageWithAuthorEntity(models: List<CollectionRetrofitModel>): List<CollectionWithUserAndImagesRoomModel> {
+    private fun convertToImageWithAuthorEntity(models: List<CollectionDto>): List<CollectionWithUserAndImagesRoomModel> {
         return models.map { retrofitCollection ->
             runBlocking(Dispatchers.IO) {
                 retrofitCollection.toRoomEntity(

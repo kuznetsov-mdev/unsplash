@@ -7,7 +7,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CoverPhotoRetrofitModel(
+data class CoverPhotoDto(
     @Json(name = "id")
     val id: String,
     @Json(name = "width")
