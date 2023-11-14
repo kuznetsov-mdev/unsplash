@@ -45,3 +45,31 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         }
     }
 }
+
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "CREATE TABLE IF NOT EXISTS `collections` " +
+                    "(`id` TEXT NOT NULL, " +
+                    "`author_id` TEXT NOT NULL, " +
+                    "`title` TEXT NOT NULL, " +
+                    "`description` TEXT NOT NULL, " +
+                    "`published_at` TEXT NOT NULL, " +
+                    "`updated_at` TEXT NOT NULL, " +
+                    "`total_photos` INTEGER NOT NULL, " +
+                    "`cached_cover_photo` TEXT NOT NULL, " +
+                    "PRIMARY KEY(`id`))"
+        )
+    }
+}
+
+val MIGRATION_6_7 = object : Migration(6, 7) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "CREATE TABLE IF NOT EXISTS `collection_image` " +
+                    "(`collection_id` TEXT NOT NULL, " +
+                    "`image_id` TEXT NOT NULL, " +
+                    "PRIMARY KEY(`collection_id`, `image_id`))"
+        )
+    }
+}
