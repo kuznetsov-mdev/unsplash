@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.images.service
+package com.skillbox.unsplash.data.common.service
 
 import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
+import com.skillbox.unsplash.data.common.storage.external.ImageExternalStorage
 import javax.inject.Inject
 
 class DownloadFactory @Inject constructor(

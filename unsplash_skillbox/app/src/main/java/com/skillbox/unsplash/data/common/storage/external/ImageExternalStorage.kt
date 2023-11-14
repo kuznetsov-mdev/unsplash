@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.images.storage.external
+package com.skillbox.unsplash.data.common.storage.external
 
 import android.net.Uri
 import androidx.lifecycle.LiveData

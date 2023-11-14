@@ -7,14 +7,14 @@ import com.skillbox.unsplash.data.collections.room.dao.CollectionDao
 import com.skillbox.unsplash.data.collections.room.model.CollectionEntity
 import com.skillbox.unsplash.data.collections.room.model.CollectionImageCrossRefEntity
 import com.skillbox.unsplash.data.images.room.dao.ImageDao
-import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
-import com.skillbox.unsplash.data.images.room.model.UserRoomModel
-import com.skillbox.unsplash.data.user.UserDao
+import com.skillbox.unsplash.data.images.room.model.ImageEntity
+import com.skillbox.unsplash.data.user.room.dao.UserDao
+import com.skillbox.unsplash.data.user.room.model.UserEntity
 
 @Database(
     entities = [
-        ImageRoomModel::class,
-        UserRoomModel::class,
+        ImageEntity::class,
+        UserEntity::class,
         CollectionEntity::class,
         CollectionImageCrossRefEntity::class
     ],

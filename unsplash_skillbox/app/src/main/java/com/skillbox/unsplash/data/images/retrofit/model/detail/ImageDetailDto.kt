@@ -2,7 +2,7 @@ package com.skillbox.unsplash.data.images.retrofit.model.detail
 
 import com.skillbox.unsplash.data.images.retrofit.model.PreviewDto
 import com.skillbox.unsplash.data.images.retrofit.model.detail.location.LocationDto
-import com.skillbox.unsplash.data.images.retrofit.model.user.UserRetrofitModel
+import com.skillbox.unsplash.data.user.retrofit.UserDto
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -18,7 +18,7 @@ data class ImageDetailDto(
     @Json(name = "liked_by_user")
     val likedByUser: Boolean,
     @Json(name = "user")
-    val user: UserRetrofitModel,
+    val user: UserDto,
     @Json(name = "urls")
     val urls: PreviewDto,
     @Json(name = "downloads")

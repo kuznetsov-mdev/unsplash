@@ -9,10 +9,10 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.extensions.toImageUiModel
+import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
-import com.skillbox.unsplash.data.images.room.RoomImageRepository
+import com.skillbox.unsplash.data.images.room.RoomImageRepositoryApi
 import com.skillbox.unsplash.data.images.room.paging.ImageRemoteMediator
-import com.skillbox.unsplash.data.images.storage.DiskImageRepository
 import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 class ImageRepository(
     private val context: Application,
     private val diskImageRepository: DiskImageRepository,
-    private val roomImageRepository: RoomImageRepository,
+    private val roomImageRepository: RoomImageRepositoryApi,
     private val retrofitImageRepository: RetrofitImageRepositoryApi
 ) {
     @OptIn(ExperimentalPagingApi::class)

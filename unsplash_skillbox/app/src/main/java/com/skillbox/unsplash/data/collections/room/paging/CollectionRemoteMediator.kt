@@ -10,7 +10,7 @@ import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsReposi
 import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.data.images.storage.DiskImageRepository
+import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

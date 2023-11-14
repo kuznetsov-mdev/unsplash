@@ -1,11 +1,11 @@
-package com.skillbox.unsplash.data.images.service
+package com.skillbox.unsplash.data.common.service
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
+import com.skillbox.unsplash.data.common.storage.external.ImageExternalStorage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.images.storage.internal
+package com.skillbox.unsplash.data.common.storage.internal
 
 interface ImageInternalStorage {
     suspend fun saveImage(id: String, uri: String, dir: String)

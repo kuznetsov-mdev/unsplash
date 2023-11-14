@@ -4,13 +4,13 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.extensions.toImageUiModel
-import com.skillbox.unsplash.data.images.room.model.UserRoomModel
-import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserRoomModel
+import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
+import com.skillbox.unsplash.data.user.room.model.UserEntity
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomImageRepository {
+class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomImageRepositoryApi {
 
     override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserUiModel> {
         return withContext(Dispatchers.IO) {
@@ -18,7 +18,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override suspend fun insertAll(images: List<ImageWithUserRoomModel>) {
+    override suspend fun insertAll(images: List<ImageWithUserEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 dataBase.userDao().insertUsers(images.map { it.user })
@@ -27,7 +27,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override suspend fun clear(users: List<UserRoomModel>) {
+    override suspend fun clear(users: List<UserEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 dataBase.imageDao().deleteImages()
@@ -36,7 +36,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override suspend fun refresh(query: String?, images: List<ImageWithUserRoomModel>) {
+    override suspend fun refresh(query: String?, images: List<ImageWithUserEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
                 if (query == null) {
@@ -50,7 +50,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
         }
     }
 
-    override fun getPagingSource(query: String?): PagingSource<Int, ImageWithUserRoomModel> {
+    override fun getPagingSource(query: String?): PagingSource<Int, ImageWithUserEntity> {
         return if (query == null) {
             dataBase.imageDao().getPagingSource()
         } else {

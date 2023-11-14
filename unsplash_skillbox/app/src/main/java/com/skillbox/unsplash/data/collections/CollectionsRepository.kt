@@ -10,7 +10,7 @@ import com.skillbox.unsplash.common.extensions.toCollectionUiModel
 import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepository
 import com.skillbox.unsplash.data.collections.room.paging.CollectionRemoteMediator
-import com.skillbox.unsplash.data.images.storage.DiskImageRepository
+import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

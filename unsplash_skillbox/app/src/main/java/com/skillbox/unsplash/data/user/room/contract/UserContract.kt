@@ -1,6 +1,6 @@
-package com.skillbox.unsplash.data.images.room.contract
+package com.skillbox.unsplash.data.user.room.contract
 
-object AuthorContract {
+object UserContract {
     const val TABLE_NAME = "authors"
 
     object Columns {

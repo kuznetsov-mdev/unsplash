@@ -6,9 +6,9 @@ import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWit
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
 import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailDto
-import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
-import com.skillbox.unsplash.data.images.room.model.UserRoomModel
-import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserRoomModel
+import com.skillbox.unsplash.data.images.room.model.ImageEntity
+import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
+import com.skillbox.unsplash.data.user.room.model.UserEntity
 import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import com.skillbox.unsplash.feature.images.detail.model.ExifUiModel
 import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
@@ -22,8 +22,8 @@ fun ImageDto.toRoomImageEntity(
     cachedImagePath: String,
     cachedAvatarPath: String,
     searchQuery: String
-): ImageWithUserRoomModel {
-    val userRoomModel = UserRoomModel(
+): ImageWithUserEntity {
+    val userEntity = UserEntity(
         this.user.id,
         this.user.name,
         this.user.nickname,
@@ -31,7 +31,7 @@ fun ImageDto.toRoomImageEntity(
         cachedAvatarPath,
         this.user.biography ?: ""
     )
-    val imageRoomModel = ImageRoomModel(
+    val imageEntity = ImageEntity(
         this.id,
         this.user.id,
         this.description ?: "",
@@ -41,10 +41,10 @@ fun ImageDto.toRoomImageEntity(
         cachedImagePath,
         searchQuery
     )
-    return ImageWithUserRoomModel(imageRoomModel, userRoomModel)
+    return ImageWithUserEntity(imageEntity, userEntity)
 }
 
-fun ImageWithUserRoomModel.toImageUiModel(): ImageWithUserUiModel {
+fun ImageWithUserEntity.toImageUiModel(): ImageWithUserUiModel {
     return ImageWithUserUiModel(
         ImageUiModel(
             this.image.id,
@@ -121,7 +121,7 @@ fun CollectionDto.toRoomEntity(
                 previewLocation
             )
         ),
-        UserRoomModel(
+        UserEntity(
             this.user.id,
             this.user.name,
             this.user.nickname,

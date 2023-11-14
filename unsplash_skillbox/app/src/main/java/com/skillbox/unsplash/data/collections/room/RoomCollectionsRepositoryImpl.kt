@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.data.images.room.model.UserRoomModel
+import com.skillbox.unsplash.data.user.room.model.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -30,7 +30,7 @@ class RoomCollectionsRepositoryImpl(private val dataBase: UnsplashRoomDataBase) 
         }
     }
 
-    override suspend fun clear(users: List<UserRoomModel>) {
+    override suspend fun clear(users: List<UserEntity>) {
         dataBase.userDao().deleteUsers(users)
         dataBase.collectionDao().clearAll()
 

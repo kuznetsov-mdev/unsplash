@@ -2,7 +2,7 @@ package com.skillbox.unsplash.data.collections.room
 
 import androidx.paging.PagingSource
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.data.images.room.model.UserRoomModel
+import com.skillbox.unsplash.data.user.room.model.UserEntity
 
 interface RoomCollectionsRepository {
 
@@ -12,7 +12,7 @@ interface RoomCollectionsRepository {
 
     suspend fun refresh(collections: List<CollectionWithUserAndImagesEntity>)
 
-    suspend fun clear(users: List<UserRoomModel>)
+    suspend fun clear(users: List<UserEntity>)
 
     fun getPagingSource(): PagingSource<Int, CollectionWithUserAndImagesEntity>
 }

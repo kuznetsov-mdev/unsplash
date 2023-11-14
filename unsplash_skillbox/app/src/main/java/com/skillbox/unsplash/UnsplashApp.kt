@@ -13,7 +13,7 @@ import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.common.notification.NotificationChannels
-import com.skillbox.unsplash.data.images.service.DownloadFactory
+import com.skillbox.unsplash.data.common.service.DownloadFactory
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject

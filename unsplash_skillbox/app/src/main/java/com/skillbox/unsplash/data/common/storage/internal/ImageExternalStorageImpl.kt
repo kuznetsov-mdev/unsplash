@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.images.storage.internal
+package com.skillbox.unsplash.data.common.storage.internal
 
 import android.content.ContentValues
 import android.content.Context
@@ -15,8 +15,8 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.images.service.DownloadWorker
-import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
+import com.skillbox.unsplash.data.common.service.DownloadWorker
+import com.skillbox.unsplash.data.common.storage.external.ImageExternalStorage
 import com.skillbox.unsplash.util.haveQ
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

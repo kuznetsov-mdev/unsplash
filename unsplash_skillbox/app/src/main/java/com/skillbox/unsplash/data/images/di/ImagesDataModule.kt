@@ -3,16 +3,16 @@ package com.skillbox.unsplash.data.images.di
 import android.app.Application
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
+import com.skillbox.unsplash.data.common.storage.DiskImageRepository
+import com.skillbox.unsplash.data.common.storage.external.ImageExternalStorage
+import com.skillbox.unsplash.data.common.storage.external.ImageInternalStorageImpl
+import com.skillbox.unsplash.data.common.storage.internal.ImageExternalStorageImpl
+import com.skillbox.unsplash.data.common.storage.internal.ImageInternalStorage
 import com.skillbox.unsplash.data.images.ImageRepository
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApiImpl
-import com.skillbox.unsplash.data.images.room.RoomImageRepository
+import com.skillbox.unsplash.data.images.room.RoomImageRepositoryApi
 import com.skillbox.unsplash.data.images.room.RoomImageRepositoryImpl
-import com.skillbox.unsplash.data.images.storage.DiskImageRepository
-import com.skillbox.unsplash.data.images.storage.external.ImageExternalStorage
-import com.skillbox.unsplash.data.images.storage.external.ImageInternalStorageImpl
-import com.skillbox.unsplash.data.images.storage.internal.ImageExternalStorageImpl
-import com.skillbox.unsplash.data.images.storage.internal.ImageInternalStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +27,7 @@ class ImagesDataModule {
     @Singleton
     fun provideLocalDataSource(
         roomDatabase: UnsplashRoomDataBase
-    ): RoomImageRepository = RoomImageRepositoryImpl(roomDatabase)
+    ): RoomImageRepositoryApi = RoomImageRepositoryImpl(roomDatabase)
 
     @Provides
     @Singleton
@@ -39,7 +39,7 @@ class ImagesDataModule {
     fun providesImagesRepository(
         context: Application,
         inMemory: DiskImageRepository,
-        local: RoomImageRepository,
+        local: RoomImageRepositoryApi,
         remote: RetrofitImageRepositoryApi
     ): ImageRepository = ImageRepository(context, inMemory, local, remote)
 

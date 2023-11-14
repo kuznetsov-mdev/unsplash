@@ -1,10 +1,10 @@
-package com.skillbox.unsplash.data.images.retrofit.model.user
+package com.skillbox.unsplash.data.user.retrofit
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class UserRetrofitModel(
+data class UserDto(
     @Json(name = "id")
     val id: String,
     @Json(name = "name")

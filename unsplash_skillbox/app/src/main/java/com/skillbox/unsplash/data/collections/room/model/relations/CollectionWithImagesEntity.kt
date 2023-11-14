@@ -8,14 +8,14 @@ import com.skillbox.unsplash.data.collections.room.contract.CollectionImageContr
 import com.skillbox.unsplash.data.collections.room.model.CollectionEntity
 import com.skillbox.unsplash.data.collections.room.model.CollectionImageCrossRefEntity
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
-import com.skillbox.unsplash.data.images.room.model.ImageRoomModel
+import com.skillbox.unsplash.data.images.room.model.ImageEntity
 
 data class CollectionWithImagesEntity(
     @Embedded
     val collection: CollectionEntity,
     @Relation(
         parentColumn = CollectionContract.Columns.ID,
-        entity = ImageRoomModel::class,
+        entity = ImageEntity::class,
         entityColumn = ImageContract.Columns.ID,
         associateBy = Junction(
             CollectionImageCrossRefEntity::class,
@@ -23,5 +23,5 @@ data class CollectionWithImagesEntity(
             entityColumn = CollectionImageContract.Columns.IMAGE_ID
         )
     )
-    val images: List<ImageRoomModel>? = null
+    val images: List<ImageEntity>? = null
 )
