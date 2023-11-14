@@ -12,7 +12,7 @@ data class UserRetrofitModel(
     @Json(name = "username")
     val nickname: String,
     @Json(name = "profile_image")
-    val profileImage: AvatarRetrofitModel,
+    val profileImage: AvatarDto,
     @Json(name = "bio")
     val biography: String?
 )

@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ImageDetailLinksRetrofitModel(
+data class ImageDetailLinksDto(
     @Json(name = "self")
     val self: String,
     @Json(name = "html")

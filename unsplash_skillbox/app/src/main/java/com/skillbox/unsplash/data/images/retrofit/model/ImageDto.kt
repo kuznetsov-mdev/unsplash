@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ImageRetrofitModel(
+data class ImageDto(
     @Json(name = "id")
     val id: String,
     @Json(name = "description")
@@ -17,5 +17,5 @@ data class ImageRetrofitModel(
     @Json(name = "user")
     val user: UserRetrofitModel,
     @Json(name = "urls")
-    val urls: PreviewRetrofitModel
+    val urls: PreviewDto
 )

@@ -4,8 +4,8 @@ import android.app.Application
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.images.ImageRepository
-import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
-import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryImpl
+import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
+import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApiImpl
 import com.skillbox.unsplash.data.images.room.RoomImageRepository
 import com.skillbox.unsplash.data.images.room.RoomImageRepositoryImpl
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
@@ -31,8 +31,8 @@ class ImagesDataModule {
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(network: Network): RetrofitImageRepository =
-        RetrofitImageRepositoryImpl(network)
+    fun provideRemoteDataSource(network: Network): RetrofitImageRepositoryApi =
+        RetrofitImageRepositoryApiImpl(network)
 
     @Provides
     @Singleton
@@ -40,7 +40,7 @@ class ImagesDataModule {
         context: Application,
         inMemory: DiskImageRepository,
         local: RoomImageRepository,
-        remote: RetrofitImageRepository
+        remote: RetrofitImageRepositoryApi
     ): ImageRepository = ImageRepository(context, inMemory, local, remote)
 
     @Provides

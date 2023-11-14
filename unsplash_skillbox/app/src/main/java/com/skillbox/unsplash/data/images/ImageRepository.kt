@@ -9,7 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.extensions.toImageUiModel
-import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepository
+import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.data.images.room.RoomImageRepository
 import com.skillbox.unsplash.data.images.room.paging.ImageRemoteMediator
 import com.skillbox.unsplash.data.images.storage.DiskImageRepository
@@ -23,7 +23,7 @@ class ImageRepository(
     private val context: Application,
     private val diskImageRepository: DiskImageRepository,
     private val roomImageRepository: RoomImageRepository,
-    private val retrofitImageRepository: RetrofitImageRepository
+    private val retrofitImageRepository: RetrofitImageRepositoryApi
 ) {
     @OptIn(ExperimentalPagingApi::class)
     fun search(query: String?): Flow<PagingData<ImageWithUserUiModel>> {

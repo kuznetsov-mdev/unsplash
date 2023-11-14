@@ -2,16 +2,16 @@ package com.skillbox.unsplash.data.images.retrofit
 
 import com.skillbox.unsplash.common.extensions.toDetailImageItem
 import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.images.retrofit.model.ImageRetrofitModel
+import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
 import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RetrofitImageRepositoryImpl(
+class RetrofitImageRepositoryApiImpl(
     private val network: Network,
-) : RetrofitImageRepository {
+) : RetrofitImageRepositoryApi {
 
-    override suspend fun getImages(searchQuery: String?, pageNumber: Int, pageSize: Int): List<ImageRetrofitModel> {
+    override suspend fun getImages(searchQuery: String?, pageNumber: Int, pageSize: Int): List<ImageDto> {
         return withContext(Dispatchers.IO) {
             if (searchQuery == null) {
                 network.imagesApi.getImages(pageNumber, pageSize)
