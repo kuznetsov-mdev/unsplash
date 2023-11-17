@@ -9,7 +9,7 @@
     <string name="skip">Пропустить</string>
     <string name="get_started">Начать</string>
     <string name="unsplash_app">Unsplash application</string>
-    <string name="sign_in">Войти с помощью Google</string>
+    <string name="sign_in">Войти</string>
 
     <string name="auth_login">Войти</string>
     <string name="auth_canceled">Аутентификация не выполнена</string>

@@ -9,7 +9,7 @@
     <string name="skip">Perder</string>
     <string name="get_started">Empezary</string>
     <string name="unsplash_app">Unsplash applicaсion</string>
-    <string name="sign_in">Iniciar sesión con Google</string>
+    <string name="sign_in">Iniciar sesión</string>
 
     <string name="auth_login">Entra</string>
     <string name="auth_canceled">Autenticación fallida</string>
