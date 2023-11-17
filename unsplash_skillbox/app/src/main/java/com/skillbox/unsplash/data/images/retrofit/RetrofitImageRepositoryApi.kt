@@ -5,7 +5,11 @@ import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
 
 interface RetrofitImageRepositoryApi {
 
-    suspend fun getImages(searchQuery: String?, pageNumber: Int, pageSize: Int): List<ImageDto>
+    suspend fun getImages(pageNumber: Int, pageSize: Int): List<ImageDto>
+
+    suspend fun searchImages(searchQuery: String, pageNumber: Int, pageSize: Int): List<ImageDto>
+
+    suspend fun getCollectionImages(collectionId: String, pageNumber: Int, pageSize: Int): List<ImageDto>
 
     suspend fun setLike(imageId: String)
 

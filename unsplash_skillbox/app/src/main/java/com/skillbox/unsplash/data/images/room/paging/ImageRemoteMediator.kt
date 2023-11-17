@@ -6,6 +6,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.extensions.toRoomImageEntity
+import com.skillbox.unsplash.data.common.SearchCondition
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
@@ -19,7 +20,7 @@ import java.io.File
 
 @OptIn(ExperimentalPagingApi::class)
 class ImageRemoteMediator(
-    private val query: String?,
+    private val condition: SearchCondition,
     private val roomImageRepository: RoomImageRepositoryApi,
     private val retrofitImageRepository: RetrofitImageRepositoryApi,
     private val diskImageRepository: DiskImageRepository,
@@ -39,10 +40,10 @@ class ImageRemoteMediator(
             val images: List<ImageWithUserEntity> = getImages(pageSize, pageIndex)
 
             if (loadType == LoadType.REFRESH) {
-                roomImageRepository.refresh(query, images)
+                roomImageRepository.refresh(condition, images)
                 removeImagesFromDisk(images)
             } else {
-                roomImageRepository.insertAll(images)
+                roomImageRepository.insertAll(condition, images)
             }
             MediatorResult.Success(endOfPaginationReached = images.size < pageSize)
         } catch (e: Error) {
@@ -59,7 +60,19 @@ class ImageRemoteMediator(
     }
 
     private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithUserEntity> {
-        val searchResult: List<ImageDto> = retrofitImageRepository.getImages(query, pageNumber, pageSize);
+        val searchResult: List<ImageDto> = when (condition) {
+            is SearchCondition.Empty ->
+                retrofitImageRepository.getImages(pageNumber, pageSize)
+
+            is SearchCondition.SearchString ->
+                retrofitImageRepository.searchImages(condition.searchQuery, pageNumber, pageSize)
+
+            is SearchCondition.CollectionImages ->
+                retrofitImageRepository.getCollectionImages(condition.collectionId, pageNumber, pageSize)
+
+            else -> error("Not implemented yet")
+        }
+
         saveImageDataOnDisk(searchResult)
         return convertToImageWithAuthorEntity(searchResult)
     }
@@ -92,9 +105,16 @@ class ImageRemoteMediator(
                 remoteImage.toRoomImageEntity(
                     File(context.cacheDir.path).resolve("thumbnails").resolve("${remoteImage.id}.jpg").toString(),
                     File(context.cacheDir.path).resolve("avatars").resolve("${remoteImage.user.id}.jpg").toString(),
-                    query ?: ""
+                    getSearchQueryFromSearchCondition()
                 )
             }
+        }
+    }
+
+    private fun getSearchQueryFromSearchCondition(): String {
+        return when (condition) {
+            is SearchCondition.SearchString -> condition.searchQuery
+            else -> "";
         }
     }
 }

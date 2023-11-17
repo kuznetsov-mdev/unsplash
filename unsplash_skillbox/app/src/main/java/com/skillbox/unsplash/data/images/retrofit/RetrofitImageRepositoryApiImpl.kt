@@ -11,13 +11,21 @@ class RetrofitImageRepositoryApiImpl(
     private val network: Network,
 ) : RetrofitImageRepositoryApi {
 
-    override suspend fun getImages(searchQuery: String?, pageNumber: Int, pageSize: Int): List<ImageDto> {
+    override suspend fun getImages(pageNumber: Int, pageSize: Int): List<ImageDto> {
         return withContext(Dispatchers.IO) {
-            if (searchQuery == null) {
-                network.imagesApi.getImages(pageNumber, pageSize)
-            } else {
-                network.imagesApi.searchImages(searchQuery, pageNumber, pageSize).result
-            }
+            network.imagesApi.getImages(pageNumber, pageSize)
+        }
+    }
+
+    override suspend fun searchImages(searchQuery: String, pageNumber: Int, pageSize: Int): List<ImageDto> {
+        return withContext(Dispatchers.IO) {
+            network.imagesApi.searchImages(searchQuery, pageNumber, pageSize).result
+        }
+    }
+
+    override suspend fun getCollectionImages(collectionId: String, pageNumber: Int, pageSize: Int): List<ImageDto> {
+        return withContext(Dispatchers.IO) {
+            network.imagesApi.getCollectionImages(collectionId, pageNumber, pageSize)
         }
     }
 

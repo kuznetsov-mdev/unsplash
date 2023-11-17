@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase.Companion.DB_VERSION
 import com.skillbox.unsplash.data.collections.room.dao.CollectionDao
+import com.skillbox.unsplash.data.collections.room.dao.CollectionImageDao
 import com.skillbox.unsplash.data.collections.room.model.CollectionEntity
 import com.skillbox.unsplash.data.collections.room.model.CollectionImageCrossRefEntity
 import com.skillbox.unsplash.data.images.room.dao.ImageDao
@@ -26,6 +27,8 @@ abstract class UnsplashRoomDataBase : RoomDatabase() {
     abstract fun imageDao(): ImageDao
 
     abstract fun collectionDao(): CollectionDao
+
+    abstract fun collectionImageDao(): CollectionImageDao
 
     abstract fun userDao(): UserDao
 

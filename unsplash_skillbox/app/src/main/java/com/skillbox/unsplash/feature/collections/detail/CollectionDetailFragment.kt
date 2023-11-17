@@ -2,16 +2,23 @@ package com.skillbox.unsplash.feature.collections.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentCollectionDetailBinding
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
@@ -31,14 +38,14 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
         super.onViewCreated(view, savedInstanceState)
         bindCollectionImagesHeader()
         initCollectionImagesList()
-
+        observeImages()
+        viewModel.searchImages(collectionArgs.collectionItem.id)
     }
 
     private fun initCollectionImagesList() {
         with(binding.imageCollectionsList) {
             adapter = collectionAdapter
         }
-
     }
 
     private fun bindCollectionImagesHeader() {
@@ -78,6 +85,17 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
         findNavController().navigate(
             CollectionDetailFragmentDirections.actionCollectionDetailFragmentToImageFragment(imageId)
         )
+    }
+
+    private fun observeImages() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.collectionImageList.collectLatest(collectionAdapter::submitData)
+        }
+
+        collectionAdapter.addLoadStateListener { state: CombinedLoadStates ->
+            binding.imageCollectionsList.isVisible = state.refresh != LoadState.Loading
+            binding.imagesLoginProgress.isVisible = state.refresh == LoadState.Loading
+        }
     }
 
 }

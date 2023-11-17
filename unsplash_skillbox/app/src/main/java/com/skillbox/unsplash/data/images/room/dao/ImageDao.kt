@@ -24,14 +24,25 @@ interface ImageDao {
 
     @Transaction
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE ${ImageContract.Columns.SEARCH_QUERY}=:query")
-    fun getPagingSource(query: String): PagingSource<Int, ImageWithUserEntity>
+    fun getImagesPagingSource(query: String): PagingSource<Int, ImageWithUserEntity>
+
+    @Transaction
+    @Query(
+        "SELECT images.* FROM images " +
+                "INNER JOIN collection_image ON images.id = collection_image.image_id " +
+                "WHERE collection_image.collection_id = :collectionId"
+    )
+    fun getCollectionImagesPagingSource(collectionId: String): PagingSource<Int, ImageWithUserEntity>
 
     @Transaction
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME}")
-    fun getPagingSource(): PagingSource<Int, ImageWithUserEntity>
+    fun getImagesPagingSource(): PagingSource<Int, ImageWithUserEntity>
 
     @Query("DELETE FROM ${ImageContract.TABLE_NAME} WHERE ${ImageContract.Columns.SEARCH_QUERY}=:query")
-    fun clear(query: String)
+    fun clearImages(query: String)
+
+    @Query("DELETE FROM images WHERE id IN (SELECT image_id FROM collection_image WHERE collection_id = :collectionId)")
+    fun clearCollectionImages(collectionId: String)
 
     @Transaction
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE id=:id")

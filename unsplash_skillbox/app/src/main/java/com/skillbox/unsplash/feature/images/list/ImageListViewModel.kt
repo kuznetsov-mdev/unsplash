@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
+import com.skillbox.unsplash.data.common.SearchCondition
 import com.skillbox.unsplash.data.images.ImageRepository
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,7 +61,7 @@ class ImageListViewModel @Inject constructor(
 
     fun searchImages(searchQuery: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.search(searchQuery).cachedIn(viewModelScope).collectLatest {
+            repository.search(getSearchCondition(searchQuery)).cachedIn(viewModelScope).collectLatest {
                 imagesStateFlow.value = it
             }
         }
@@ -71,6 +72,14 @@ class ImageListViewModel @Inject constructor(
             connectivityStateFlow.collectLatest {
                 isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
             }
+        }
+    }
+
+    private fun getSearchCondition(searchQuery: String?): SearchCondition {
+        return if (searchQuery != null) {
+            SearchCondition.SearchString(searchQuery)
+        } else {
+            SearchCondition.Empty
         }
     }
 }

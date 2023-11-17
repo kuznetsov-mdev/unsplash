@@ -38,4 +38,11 @@ interface ImagesApi {
         @Query("page") pageNumber: Int,
         @Query("per_page") pageSize: Int
     ): ImageSearchResultDto
+
+    @GET("/collections/{id}/photos")
+    suspend fun getCollectionImages(
+        @Path("id") collectionId: String,
+        @Query("page") pageNumber: Int,
+        @Query("per_page") pageSize: Int
+    ): List<ImageDto>
 }
