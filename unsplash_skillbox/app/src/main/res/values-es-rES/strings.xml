@@ -9,7 +9,7 @@
     <string name="skip">Perder</string>
     <string name="get_started">Empezary</string>
     <string name="unsplash_app">Unsplash applicaсion</string>
-    <string name="sign_in">sign in</string>
+    <string name="sign_in">Iniciar sesión con Google</string>
 
     <string name="auth_login">Entra</string>
     <string name="auth_canceled">Autenticación fallida</string>
@@ -43,4 +43,5 @@
     <string name="title">Título:</string>
     <string name="total_photo">Total foto:</string>
     <string name="author">Autor:</string>
+    <string name="sign_in_with">Iniciar sesión con</string>
 </resources>

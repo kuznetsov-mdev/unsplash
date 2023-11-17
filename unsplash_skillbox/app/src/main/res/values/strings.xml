@@ -10,7 +10,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="unsplash_app">Unsplash application</string>
-    <string name="sign_in">sign in</string>
+    <string name="sign_in">Sign in with Google</string>
 
     <string name="auth_login">Sign in</string>
     <string name="auth_canceled">Authentication failed</string>
@@ -44,5 +44,6 @@
     <string name="title">Title:</string>
     <string name="total_photo">Total photo:</string>
     <string name="author">Author:</string>
+    <string name="sign_in_with">Sign in with</string>
 
 </resources>
