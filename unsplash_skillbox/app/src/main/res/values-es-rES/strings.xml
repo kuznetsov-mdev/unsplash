@@ -40,4 +40,10 @@
     <string name="chose_one">Seleccione una aplicación</string>
     <string name="search">Búsqueda</string>
     <string name="photos">Foto</string>
+    <string name="title">Título:</string>
+    <string name="total_photo">Total foto:</string>
+    <string name="author">Autor:</string>
+    <string name="creation_date">Fecha de creacíon:</string>
+    <string name="published_at">Publicada:</string>
+    <string name="updated_at">Acatualizada</string>
 </resources>

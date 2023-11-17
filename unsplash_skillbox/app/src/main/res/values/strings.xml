@@ -41,5 +41,11 @@
     <string name="chose_one">Chose one</string>
     <string name="search">Search</string>
     <string name="photos">Photos</string>
+    <string name="title">Title:</string>
+    <string name="total_photo">Total photo:</string>
+    <string name="author">Author:</string>
+    <string name="creation_date">Creation date:</string>
+    <string name="published_at">Published at:</string>
+    <string name="updated_at">Updated at</string>
 
 </resources>
