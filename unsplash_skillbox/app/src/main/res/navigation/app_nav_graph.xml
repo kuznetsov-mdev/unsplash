@@ -51,23 +51,11 @@
         <action
             android:id="@+id/action_collectionDetailFragment_to_collectionsFragment"
             app:destination="@id/collectionsFragment" />
-        <argument
-            android:name="collectionId"
-            app:argType="string" />
         <action
             android:id="@+id/action_collectionDetailFragment_to_imageFragment"
             app:destination="@id/imageFragment" />
         <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="totalPhoto"
-            app:argType="integer" />
-        <argument
-            android:name="author"
-            app:argType="string" />
-        <argument
-            android:name="creationDate"
-            app:argType="string" />
+            android:name="collectionItem"
+            app:argType="com.skillbox.unsplash.feature.collections.model.CollectionUiModel" />
     </fragment>
 </navigation>

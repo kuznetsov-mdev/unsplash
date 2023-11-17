@@ -9,5 +9,5 @@ import javax.inject.Inject
 class CollectionDetailViewModel @Inject constructor(
     private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
-
+    var isNetworkAvailableState = true
 }

@@ -13,7 +13,7 @@ import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import com.skillbox.unsplash.util.inflate
 
 class CollectionAdapter(
-    private val onCollectionClick: (String) -> Unit
+    private val onCollectionClick: (CollectionUiModel) -> Unit
 ) : PagingDataAdapter<CollectionUiModel, CollectionAdapter.Holder>(CollectionDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -40,14 +40,14 @@ class CollectionAdapter(
 
     class Holder(
         private val binding: ItemCollectionBinding,
-        private val onCollectionClick: (String) -> Unit
+        private val onCollectionClick: (CollectionUiModel) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var collectionUiModel: CollectionUiModel? = null
         private var position: Int? = null
 
         init {
             binding.collectionItemView.setOnClickListener {
-                onCollectionClick(collectionUiModel?.id ?: "")
+                onCollectionClick(collectionUiModel!!)
             }
         }
 

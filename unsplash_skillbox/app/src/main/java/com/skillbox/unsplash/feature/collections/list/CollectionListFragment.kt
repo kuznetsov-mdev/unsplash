@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentCollectionsBinding
 import com.skillbox.unsplash.feature.collections.list.adapter.CollectionAdapter
+import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -54,9 +55,9 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
         }
     }
 
-    private fun navigateToDetailInfo(itemId: String) {
+    private fun navigateToDetailInfo(collectionItem: CollectionUiModel) {
         findNavController().navigate(
-            CollectionListFragmentDirections.actionCollectionsFragmentToCollectionDetailFragment(itemId)
+            CollectionListFragmentDirections.actionCollectionsFragmentToCollectionDetailFragment(collectionItem)
         )
     }
 }
