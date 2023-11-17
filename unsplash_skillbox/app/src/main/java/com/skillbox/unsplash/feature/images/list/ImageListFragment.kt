@@ -69,15 +69,23 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
 
         searchViewBinding.searchBarView.setEndIconOnClickListener {
+            searchViewBinding.searchInputTextView.text?.let {
+                if (it.isNotBlank()) {
+                    searchViewBinding.searchInputTextView.setText("")
+                    viewModel.searchImages(null)
+                }
+            }
             searchViewBinding.searchIconView.visibility = View.VISIBLE
             searchViewBinding.searchBarView.visibility = View.GONE
-            searchViewBinding.searchInputTextView.setText("")
-            viewModel.searchImages(null)
         }
 
         searchViewBinding.searchBarView.setStartIconOnClickListener {
-            searchViewBinding.searchInputTextView.setText(R.string.empty)
-            viewModel.searchImages(null)
+            searchViewBinding.searchInputTextView.text?.let {
+                if (it.isNotBlank()) {
+                    searchViewBinding.searchInputTextView.setText(R.string.empty)
+                    viewModel.searchImages(null)
+                }
+            }
         }
 
         searchViewBinding.searchInputTextView.textChangedFlow()
@@ -112,6 +120,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
         imageAdapter.addLoadStateListener { state: CombinedLoadStates ->
             viewBinding.imagesList.isVisible = state.refresh != LoadState.Loading
+            searchViewBinding.searchIconView.isVisible = state.refresh != LoadState.Loading
             viewBinding.imagesLoginProgress.isVisible = state.refresh == LoadState.Loading
         }
     }
