@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/avatarImageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,74 +30,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        tools:text="Maximilian Enero"
         app:layout_constraintBottom_toBottomOf="@+id/avatarCard"
         app:layout_constraintStart_toEndOf="@+id/avatarCard"
-        app:layout_constraintTop_toTopOf="@+id/avatarCard" />
+        app:layout_constraintTop_toTopOf="@+id/avatarCard"
+        tools:text="Maximilian Enero" />
 
     <TextView
         android:id="@+id/textCollectionHeaderTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        tools:text="Ocean Waves"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAuthorName" />
+        app:layout_constraintTop_toBottomOf="@+id/avatarCard"
+        tools:text="Ocean Waves" />
 
     <TextView
         android:id="@+id/labelTotalPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:text="@string/total_photo"
-        app:layout_constraintStart_toStartOf="@+id/avatarCard"
-        app:layout_constraintTop_toBottomOf="@+id/textCollectionHeaderTitle" />
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarCard"
+        app:layout_constraintEnd_toStartOf="@+id/textTotalPhoto"
+        app:layout_constraintTop_toTopOf="@+id/avatarCard" />
 
     <TextView
         android:id="@+id/textTotalPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        tools:text="240"
+
         app:layout_constraintBottom_toBottomOf="@+id/labelTotalPhoto"
-        app:layout_constraintStart_toEndOf="@+id/labelTotalPhoto"
-        app:layout_constraintTop_toTopOf="@+id/labelTotalPhoto" />
-
-    <TextView
-        android:id="@+id/textPublishedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="26.08.23"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textAuthorName" />
+        app:layout_constraintTop_toTopOf="@+id/labelTotalPhoto"
+        tools:text="240" />
 
-    <TextView
-        android:id="@+id/labelPublishedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:text="@string/published_at"
-        app:layout_constraintEnd_toStartOf="@+id/textPublishedAt"
-        app:layout_constraintTop_toTopOf="@+id/textPublishedAt" />
 
-    <TextView
-        android:id="@+id/labelUpdatedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/updated_at"
-        app:layout_constraintStart_toStartOf="@+id/labelPublishedAt"
-        app:layout_constraintTop_toTopOf="@+id/labelTotalPhoto" />
-
-    <TextView
-        android:id="@+id/textUpdatedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="16.10.2023"
-        app:layout_constraintBottom_toBottomOf="@+id/labelUpdatedAt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/labelUpdatedAt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

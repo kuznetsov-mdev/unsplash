@@ -54,8 +54,6 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
             textAuthorName.text = collectionItem.user.name
             textCollectionHeaderTitle.text = collectionItem.title
             textTotalPhoto.text = collectionItem.count.toString()
-            textPublishedAt.text = "stub"
-            textUpdatedAt.text = "stub"
         }
     }
 

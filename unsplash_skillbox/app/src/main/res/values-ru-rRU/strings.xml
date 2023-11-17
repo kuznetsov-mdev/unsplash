@@ -43,7 +43,4 @@
     <string name="title">Заголовок:</string>
     <string name="total_photo">Всего фото:</string>
     <string name="author">Автор:</string>
-    <string name="creation_date">Дата создания:</string>
-    <string name="published_at">Опубликована:</string>
-    <string name="updated_at">Обновлена</string>
 </resources>
