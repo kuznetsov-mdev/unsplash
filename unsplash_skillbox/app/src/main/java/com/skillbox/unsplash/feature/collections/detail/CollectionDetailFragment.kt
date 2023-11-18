@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
@@ -47,6 +48,8 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
     private fun initCollectionImagesList() {
         with(binding.imageCollectionsList) {
             adapter = collectionAdapter
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
