@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.skillbox.unsplash.data.collections.room.contract.CollectionImageContract
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
@@ -28,9 +29,10 @@ interface ImageDao {
 
     @Transaction
     @Query(
-        "SELECT images.* FROM images " +
-                "INNER JOIN collection_image ON images.id = collection_image.image_id " +
-                "WHERE collection_image.collection_id = :collectionId"
+        "SELECT ${ImageContract.TABLE_NAME}.* FROM ${ImageContract.TABLE_NAME} " +
+                "INNER JOIN ${CollectionImageContract.TABLE_NAME} " +
+                "ON ${ImageContract.TABLE_NAME}.${ImageContract.Columns.ID} = ${CollectionImageContract.TABLE_NAME}.${CollectionImageContract.Columns.IMAGE_ID} " +
+                "WHERE ${CollectionImageContract.TABLE_NAME}.${CollectionImageContract.Columns.COLLECTION_ID} = :collectionId"
     )
     fun getCollectionImagesPagingSource(collectionId: String): PagingSource<Int, ImageWithUserEntity>
 

@@ -11,9 +11,9 @@ import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.extensions.toImageUiModel
 import com.skillbox.unsplash.data.common.SearchCondition
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
+import com.skillbox.unsplash.data.images.paging.ImageRemoteMediator
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.data.images.room.RoomImageRepositoryApi
-import com.skillbox.unsplash.data.images.room.paging.ImageRemoteMediator
 import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import kotlinx.coroutines.flow.Flow

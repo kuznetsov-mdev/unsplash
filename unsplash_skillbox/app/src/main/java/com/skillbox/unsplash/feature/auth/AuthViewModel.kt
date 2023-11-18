@@ -52,8 +52,8 @@ class AuthViewModel @Inject constructor(
             authRequest,
             customTabsIntent
         )
-
         openAuthPageEventChannel.trySendBlocking(openAuthPageIntent)
+
         Timber.tag("Oauth").d("2. Open auth page: ${authRequest.toUri()}")
     }
 
