@@ -5,7 +5,9 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
@@ -88,8 +90,10 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
     }
 
     private fun observeImages() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.collectionImageList.collectLatest(collectionAdapter::submitData)
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.collectionImageList.collectLatest(collectionAdapter::submitData)
+            }
         }
 
         collectionAdapter.addLoadStateListener { state: CombinedLoadStates ->

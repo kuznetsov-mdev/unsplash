@@ -5,7 +5,9 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,8 +39,10 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     }
 
     private fun observeCollections() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.collectionList.collectLatest(collectionAdapter::submitData)
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.collectionList.collectLatest(collectionAdapter::submitData)
+            }
         }
 
         collectionAdapter.addLoadStateListener { loadState ->

@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -46,8 +48,10 @@ class OnBoardingFragment : Fragment(R.layout.fragment_on_boarding) {
     }
 
     private fun navigateToLoginScreen() {
-        lifecycleScope.launch(Dispatchers.IO){
-            onBoardingViewModel.setOnBoardingCompletedStatus(requireContext(), true)
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                onBoardingViewModel.setOnBoardingCompletedStatus(requireContext(), true)
+            }
         }
 
         val action = OnBoardingFragmentDirections.actionMainFragmentToAuthFragment()

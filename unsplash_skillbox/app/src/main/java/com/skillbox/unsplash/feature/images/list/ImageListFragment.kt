@@ -5,7 +5,9 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -41,12 +43,17 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             ::onImageClicked
         )
     }
+
     //https://stackoverflow.com/questions/9727173/support-fragmentpageradapter-holds-reference-to-old-fragments
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
         initSearchBar()
         observeImages()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     private fun initList() {
@@ -114,8 +121,10 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun observeImages() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.imageList.collectLatest(imageAdapter::submitData)
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.imageList.collectLatest(imageAdapter::submitData)
+            }
         }
 
         imageAdapter.addLoadStateListener { state: CombinedLoadStates ->

@@ -17,7 +17,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.work.WorkInfo
@@ -71,27 +73,31 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
     }
 
     private fun observeDataLoading() {
-        lifecycleScope.launch {
-            viewModel.isDataLoadingFlow.collectLatest { isDataLoading ->
-                imageDetailBinding.imageLoadingProgress.isVisible = isDataLoading
-                imageDetailBinding.contentLayout.isVisible = !isDataLoading
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isDataLoadingFlow.collectLatest { isDataLoading ->
+                    imageDetailBinding.imageLoadingProgress.isVisible = isDataLoading
+                    imageDetailBinding.contentLayout.isVisible = !isDataLoading
+                }
             }
         }
     }
 
     private fun observeImageDetailInfo() {
-        lifecycleScope.launch {
-            viewModel.imageDetailFlow.collectLatest { detailImgItem: ImageDetailUiModel? ->
-                detailImgItem?.let {
-                    imageDownloader = {
-                        showNotification()
-                        viewModel.startImageSavingToGalleryWork(args.imageId, detailImgItem.downloadLink)
-                            .observe(viewLifecycleOwner, ::handleWorkInfo)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.imageDetailFlow.collectLatest { detailImgItem: ImageDetailUiModel? ->
+                    detailImgItem?.let {
+                        imageDownloader = {
+                            showNotification()
+                            viewModel.startImageSavingToGalleryWork(args.imageId, detailImgItem.downloadLink)
+                                .observe(viewLifecycleOwner, ::handleWorkInfo)
+                        }
+                        bindImageDetail(detailImgItem)
+                        bindCameraInfo(detailImgItem.exif)
+                        bindStatisticInfo(detailImgItem.statistic)
+                        bindLocation(detailImgItem)
                     }
-                    bindImageDetail(detailImgItem)
-                    bindCameraInfo(detailImgItem.exif)
-                    bindStatisticInfo(detailImgItem.statistic)
-                    bindLocation(detailImgItem)
                 }
             }
         }
@@ -112,11 +118,13 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
     }
 
     private fun observePermissionGranted() {
-        lifecycleScope.launch {
-            viewModel.permissionGrantedStateFlow.collectLatest { isGranted ->
-                if (isGranted) {
-                    imageDownloader.invoke()
-                    Timber.d("Save image to gallery")
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.permissionGrantedStateFlow.collectLatest { isGranted ->
+                    if (isGranted) {
+                        imageDownloader.invoke()
+                        Timber.d("Save image to gallery")
+                    }
                 }
             }
         }
