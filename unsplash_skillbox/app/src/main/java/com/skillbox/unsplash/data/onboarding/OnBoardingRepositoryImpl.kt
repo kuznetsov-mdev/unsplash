@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class OnBoardingRepositoryImpl @Inject constructor() : OnBoardingRepositoryApi {
     private val onBoardingScreenModels: List<OnBoardingScreenModel> = listOf(
-        OnBoardingScreenModel(R.drawable.on_boarding_bkg, R.string.intro_first),
-        OnBoardingScreenModel(R.drawable.on_boarding_bkg, R.string.intro_second),
-        OnBoardingScreenModel(R.drawable.on_boarding_bkg, R.string.intro_third)
+        OnBoardingScreenModel(R.drawable.picture, R.string.intro_first),
+        OnBoardingScreenModel(R.drawable.message, R.string.intro_second),
+        OnBoardingScreenModel(R.drawable.photo_camera, R.string.intro_third)
     )
 
     override fun getScreens(): List<OnBoardingScreenModel> {
