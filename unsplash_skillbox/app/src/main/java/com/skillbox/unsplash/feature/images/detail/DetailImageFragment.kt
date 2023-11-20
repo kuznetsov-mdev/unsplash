@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.skillbox.unsplash.R
+import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.notification.NotificationChannels
 import com.skillbox.unsplash.data.common.service.DownloadWorker
 import com.skillbox.unsplash.databinding.FragmentImageDetailBinding
@@ -58,6 +59,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
     private val imageLocationBinding: ImageLayoutLocationBinding by viewBinding()
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var imageDownloader: ImageDownloader
+    private var isNetworkAvailableState = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,6 +128,10 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
                         Timber.d("Save image to gallery")
                     }
                 }
+
+                viewModel.connectivityStateFlow.collectLatest {
+                    isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
+                }
             }
         }
     }
@@ -145,7 +151,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
             tagsTextValue.text = detailImgItem.tags.map { "#$it" }.toString()
 
             activeLikesIconView.setOnClickListener {
-                if (viewModel.isNetworkAvailableState) {
+                if (isNetworkAvailableState) {
                     viewModel.removeLike(detailImgItem.image.id)
                     activeLikesIconView.isVisible = false
                     inactiveLikesIconView.isVisible = true
@@ -153,7 +159,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
             }
 
             inactiveLikesIconView.setOnClickListener {
-                if (viewModel.isNetworkAvailableState) {
+                if (isNetworkAvailableState) {
                     viewModel.setLike(detailImgItem.image.id)
                     activeLikesIconView.isVisible = true
                     inactiveLikesIconView.isVisible = false

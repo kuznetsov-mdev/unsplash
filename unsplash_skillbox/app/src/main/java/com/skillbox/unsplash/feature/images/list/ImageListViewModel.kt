@@ -27,17 +27,11 @@ class ImageListViewModel @Inject constructor(
 
     private val imagesStateFlow = MutableStateFlow<PagingData<ImageWithUserUiModel>>(PagingData.empty())
 
-    var isNetworkAvailableState = true
-
     val imageList: StateFlow<PagingData<ImageWithUserUiModel>>
         get() = imagesStateFlow
 
-    private val connectivityStateFlow: Flow<ConnectivityStatus>
+    val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
-
-    init {
-        observeConnectivityState()
-    }
 
     fun setLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -63,14 +57,6 @@ class ImageListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.search(getSearchCondition(searchQuery)).cachedIn(viewModelScope).collectLatest {
                 imagesStateFlow.value = it
-            }
-        }
-    }
-
-    private fun observeConnectivityState() {
-        viewModelScope.launch(Dispatchers.IO) {
-            connectivityStateFlow.collectLatest {
-                isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
             }
         }
     }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,9 +26,7 @@ class DetailImageViewModel @Inject constructor(
     private val isDataLoadingMutableFlow: MutableStateFlow<Boolean> = MutableStateFlow(true)
     private val permissionGrantedMutableStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    var isNetworkAvailableState = true
-
-    private val connectivityStateFlow: Flow<ConnectivityStatus>
+    val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
 
     val imageDetailFlow: StateFlow<ImageDetailUiModel?>
@@ -40,10 +37,6 @@ class DetailImageViewModel @Inject constructor(
 
     val permissionGrantedStateFlow: StateFlow<Boolean>
         get() = permissionGrantedMutableStateFlow
-
-    init {
-        observeConnectivityState()
-    }
 
     fun setLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -74,14 +67,6 @@ class DetailImageViewModel @Inject constructor(
 
     fun startImageSavingToGalleryWork(id: String, downloadImageUrl: String): LiveData<WorkInfo> {
         return repository.startImageSavingToGalleryWork(id, downloadImageUrl)
-    }
-
-    private fun observeConnectivityState() {
-        viewModelScope.launch(Dispatchers.IO) {
-            connectivityStateFlow.collectLatest {
-                isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
-            }
-        }
     }
 
     fun permissionGranted() {

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
+import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.databinding.LayoutSearchBinding
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
@@ -36,6 +37,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewModel: ImageListViewModel by viewModels()
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val searchViewBinding: LayoutSearchBinding by viewBinding()
+    private var isNetworkAvailableState = true
     private val imageAdapter by lazy(LazyThreadSafetyMode.NONE) {
         ImageAdapter(
             ::markPhoto,
@@ -49,11 +51,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         super.onViewCreated(view, savedInstanceState)
         initList()
         initSearchBar()
-        observeImages()
-    }
-
-    override fun onStop() {
-        super.onStop()
+        observeData()
     }
 
     private fun initList() {
@@ -112,7 +110,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         imageAdapter.notifyItemChanged(imagePosition)
     }
 
-    private fun isNetworkAvailable(): Boolean = viewModel.isNetworkAvailableState
+    private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun onImageClicked(imageId: String) {
         findNavController().navigate(
@@ -120,10 +118,14 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         )
     }
 
-    private fun observeImages() {
+    private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.imageList.collectLatest(imageAdapter::submitData)
+
+                viewModel.connectivityStateFlow.collectLatest {
+                    isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
+                }
             }
         }
 
