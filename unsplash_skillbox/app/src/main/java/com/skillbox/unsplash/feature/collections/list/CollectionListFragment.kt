@@ -13,6 +13,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
+import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentCollectionsBinding
 import com.skillbox.unsplash.feature.collections.list.adapter.CollectionAdapter
 import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
@@ -25,9 +26,11 @@ import kotlinx.coroutines.launch
 class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     private val viewBinding: FragmentCollectionsBinding by viewBinding()
     private val viewModel: CollectionListViewModel by viewModels()
+    private var isNetworkAvailableState = true
     private val collectionAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CollectionAdapter(
-            ::navigateToDetailInfo
+            ::navigateToDetailInfo,
+            ::isNetworkAvailable
         )
     }
 
@@ -35,13 +38,17 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
         super.onViewCreated(view, savedInstanceState)
         initCollectionList()
         viewModel.getCollections()
-        observeCollections()
+        observeData()
     }
 
-    private fun observeCollections() {
+    private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.collectionList.collectLatest(collectionAdapter::submitData)
+
+                viewModel.connectivityStateFlow.collectLatest {
+                    isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
+                }
             }
         }
 
@@ -64,4 +71,6 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
             CollectionListFragmentDirections.actionCollectionsFragmentToCollectionDetailFragment(collectionItem)
         )
     }
+
+    private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 }

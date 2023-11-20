@@ -25,30 +25,16 @@ class CollectionDetailViewModel @Inject constructor(
 ) : ViewModel() {
     private val collectionImagesStateFlow = MutableStateFlow<PagingData<ImageWithUserUiModel>>(PagingData.empty())
 
-    var isNetworkAvailableState = true
-
     val collectionImageList: StateFlow<PagingData<ImageWithUserUiModel>>
         get() = collectionImagesStateFlow
 
-    private val connectivityStateFlow: Flow<ConnectivityStatus>
+    val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
-
-    init {
-        observeConnectivityState()
-    }
 
     fun searchImages(collectionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             imagesRepository.search(SearchCondition.CollectionImages(collectionId)).cachedIn(viewModelScope).collectLatest {
                 collectionImagesStateFlow.value = it
-            }
-        }
-    }
-
-    private fun observeConnectivityState() {
-        viewModelScope.launch(Dispatchers.IO) {
-            connectivityStateFlow.collectLatest {
-                isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
             }
         }
     }

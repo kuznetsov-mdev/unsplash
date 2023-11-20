@@ -13,7 +13,8 @@ import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import com.skillbox.unsplash.util.inflate
 
 class CollectionAdapter(
-    private val onCollectionClick: (CollectionUiModel) -> Unit
+    private val onCollectionClick: (CollectionUiModel) -> Unit,
+    private val isNetworkAvailable: () -> Boolean,
 ) : PagingDataAdapter<CollectionUiModel, CollectionAdapter.Holder>(CollectionDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -24,7 +25,8 @@ class CollectionAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
             binding = parent.inflate(ItemCollectionBinding::inflate),
-            onCollectionClick = onCollectionClick
+            onCollectionClick = onCollectionClick,
+            isNetworkAvailable = isNetworkAvailable
         )
     }
 
@@ -40,14 +42,17 @@ class CollectionAdapter(
 
     class Holder(
         private val binding: ItemCollectionBinding,
-        private val onCollectionClick: (CollectionUiModel) -> Unit
+        private val onCollectionClick: (CollectionUiModel) -> Unit,
+        private val isNetworkAvailable: () -> Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
         private var collectionUiModel: CollectionUiModel? = null
         private var position: Int? = null
 
         init {
             binding.collectionItemView.setOnClickListener {
-                onCollectionClick(collectionUiModel!!)
+                if (isNetworkAvailable()) {
+                    onCollectionClick(collectionUiModel!!)
+                }
             }
         }
 

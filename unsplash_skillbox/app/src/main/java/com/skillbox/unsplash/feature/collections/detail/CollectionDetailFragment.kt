@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
+import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentCollectionDetailBinding
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,8 +29,9 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
     private val collectionArgs: CollectionDetailFragmentArgs by navArgs()
     private val binding: FragmentCollectionDetailBinding by viewBinding()
     private val viewModel: CollectionDetailViewModel by viewModels()
+    private var isNetworkAvailableState = true
 
-    private val collectionAdapter by lazy(LazyThreadSafetyMode.NONE) {
+    private val collectionImageAdapter by lazy(LazyThreadSafetyMode.NONE) {
         ImageAdapter(
             ::markPhoto,
             ::isNetworkAvailable,
@@ -38,16 +40,21 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        bindCollectionImagesHeader()
-        initCollectionImagesList()
-        observeImages()
-        viewModel.searchImages(collectionArgs.collectionItem.id)
+        if (isNetworkAvailableState) {
+            super.onViewCreated(view, savedInstanceState)
+            bindCollectionImagesHeader()
+            initCollectionImagesList()
+            observeImages()
+            viewModel.searchImages(collectionArgs.collectionItem.id)
+        } else {
+            binding.imageCollectionsList.isVisible = isNetworkAvailableState
+            binding.dataIsNotAvailableMsg.isVisible = !isNetworkAvailableState
+        }
     }
 
     private fun initCollectionImagesList() {
         with(binding.imageCollectionsList) {
-            adapter = collectionAdapter
+            adapter = collectionImageAdapter
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
         }
@@ -69,22 +76,16 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
         }
     }
 
-    private fun navigateToDetailInfo(imageId: String) {
-        findNavController().navigate(
-            CollectionDetailFragmentDirections.actionCollectionDetailFragmentToImageFragment(imageId)
-        )
-    }
-
     private fun markPhoto(imageId: String, imagePosition: Int, isLiked: Boolean) {
 //        if (isLiked) {
 //            viewModel.setLike(imageId)
 //        } else {
 //            viewModel.removeLike(imageId)
 //        }
-//        imageAdapter.notifyItemChanged(imagePosition)
+//        collectionImageAdapter.notifyItemChanged(imagePosition)
     }
 
-    private fun isNetworkAvailable(): Boolean = viewModel.isNetworkAvailableState
+    private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun onImageClicked(imageId: String) {
         findNavController().navigate(
@@ -95,11 +96,15 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
     private fun observeImages() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.collectionImageList.collectLatest(collectionAdapter::submitData)
+                viewModel.collectionImageList.collectLatest(collectionImageAdapter::submitData)
+
+                viewModel.connectivityStateFlow.collectLatest {
+                    isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
+                }
             }
         }
 
-        collectionAdapter.addLoadStateListener { state: CombinedLoadStates ->
+        collectionImageAdapter.addLoadStateListener { state: CombinedLoadStates ->
             binding.imageCollectionsList.isVisible = state.refresh != LoadState.Loading
             binding.imagesLoginProgress.isVisible = state.refresh == LoadState.Loading
         }
