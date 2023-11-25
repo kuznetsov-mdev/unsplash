@@ -44,4 +44,6 @@
     <string name="total_photo">Total foto:</string>
     <string name="author">Autor:</string>
     <string name="sign_in_with">Iniciar sesión con</string>
+    <string name="liked">Apreciado</string>
+    <string name="collections">Сolecciones</string>
 </resources>

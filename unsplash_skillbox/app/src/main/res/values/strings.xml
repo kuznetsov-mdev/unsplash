@@ -45,5 +45,7 @@
     <string name="total_photo">Total photo:</string>
     <string name="author">Author:</string>
     <string name="sign_in_with">Sign in with</string>
+    <string name="liked">Liked</string>
+    <string name="collections">Collections</string>
 
 </resources>

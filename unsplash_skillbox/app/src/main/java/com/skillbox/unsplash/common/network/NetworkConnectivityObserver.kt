@@ -65,5 +65,6 @@ class NetworkConnectivityObserver @Inject constructor(
         }
             .flowOn(Dispatchers.IO)
             .distinctUntilChanged()
+
     }
 }

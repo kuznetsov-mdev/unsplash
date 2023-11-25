@@ -2,16 +2,154 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userInfoLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Account view"
-        android:textSize="24sp"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/avatarCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/avatarImageView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/authorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/authorNickName"
+            app:layout_constraintStart_toEndOf="@+id/avatarCard"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Аркадий Муько" />
+
+        <TextView
+            android:id="@+id/authorNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/authorName"
+            app:layout_constraintTop_toBottomOf="@+id/authorName"
+            tools:text="\@arkashm" />
+
+        <TextView
+            android:id="@+id/aboutText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/authorNickName"
+            app:layout_constraintTop_toBottomOf="@+id/authorNickName"
+            tools:text="Follow by follow is my credo" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/aboutText"
+            app:layout_constraintTop_toBottomOf="@+id/aboutText">
+
+            <ImageView
+                android:id="@+id/iconLocationView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_inactive_location"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/locationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iconLocationView"
+                app:layout_constraintStart_toEndOf="@+id/iconLocationView"
+                app:layout_constraintTop_toTopOf="@+id/iconLocationView"
+                tools:text="San Francisco" />
+
+            <ImageView
+                android:id="@+id/userEmailIconView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iconLocationView"
+                app:srcCompat="@drawable/ic_mail_outline_24"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/downloadCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iconDownloadsView"
+                app:layout_constraintStart_toEndOf="@+id/iconDownloadsView"
+                app:layout_constraintTop_toBottomOf="@+id/userEmailIconView"
+                tools:text="64" />
+
+            <ImageView
+                android:id="@+id/iconDownloadsView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userEmailIconView"
+                app:srcCompat="@drawable/ic_download_black"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/emailTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/userEmailIconView"
+                app:layout_constraintStart_toEndOf="@+id/userEmailIconView"
+                app:layout_constraintTop_toBottomOf="@+id/iconLocationView"
+                tools:text="arkashm@gmial.com" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"></com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tabsLayout">
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
