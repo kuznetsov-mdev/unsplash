@@ -3,14 +3,18 @@ package com.skillbox.unsplash.feature.account
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentAccountBinding
 import com.skillbox.unsplash.feature.account.adapter.AccountAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountFragment : Fragment(R.layout.fragment_account) {
     private val viewBinding: FragmentAccountBinding by viewBinding()
+    private val viewModel: AccountViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
