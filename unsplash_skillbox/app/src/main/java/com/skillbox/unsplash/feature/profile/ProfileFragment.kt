@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.feature.account
+package com.skillbox.unsplash.feature.profile
 
 import android.os.Bundle
 import android.view.View
@@ -8,21 +8,22 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentAccountBinding
-import com.skillbox.unsplash.feature.account.adapter.AccountAdapter
+import com.skillbox.unsplash.feature.profile.adapter.ProfileAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AccountFragment : Fragment(R.layout.fragment_account) {
+class ProfileFragment : Fragment(R.layout.fragment_account) {
     private val viewBinding: FragmentAccountBinding by viewBinding()
-    private val viewModel: AccountViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
+        viewModel.getAccountInfo()
     }
 
     private fun initViewPager() {
-        val pagerAdapter = AccountAdapter(requireActivity())
+        val pagerAdapter = ProfileAdapter(requireActivity())
         with(viewBinding) {
             viewPager.adapter = pagerAdapter
             TabLayoutMediator(tabsLayout, viewPager) { tab, position ->

@@ -4,6 +4,7 @@ import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.skillbox.unsplash.common.network.api.CollectionsApi
 import com.skillbox.unsplash.common.network.api.ImagesApi
+import com.skillbox.unsplash.common.network.api.ProfileApi
 import com.skillbox.unsplash.common.network.api.UploaderApi
 import com.skillbox.unsplash.data.auth.model.TokenStorageDataModel
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
@@ -37,6 +38,9 @@ class Network @Inject constructor(
         get() = retrofit.create()
 
     val uploaderApi: UploaderApi
+        get() = retrofit.create()
+
+    val profileApi: ProfileApi
         get() = retrofit.create()
 
     companion object {

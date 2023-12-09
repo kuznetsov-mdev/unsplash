@@ -8,6 +8,7 @@ import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
 import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailDto
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
+import com.skillbox.unsplash.data.profile.retrofit.model.UserProfileDto
 import com.skillbox.unsplash.data.user.room.model.UserEntity
 import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import com.skillbox.unsplash.feature.images.detail.model.ExifUiModel
@@ -17,6 +18,7 @@ import com.skillbox.unsplash.feature.images.detail.model.StatisticUiModel
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import com.skillbox.unsplash.feature.images.model.ImageUiModel
 import com.skillbox.unsplash.feature.images.model.UserUiModel
+import com.skillbox.unsplash.feature.profile.model.ProfileUiModel
 
 fun ImageDto.toRoomImageEntity(
     cachedImagePath: String,
@@ -147,5 +149,20 @@ fun CollectionWithUserAndImagesEntity.toCollectionUiModel(): CollectionUiModel {
             this.user.profileImage,
             this.user.cachedProfileImage
         )
+    )
+}
+
+fun UserProfileDto.toUiModel(): ProfileUiModel {
+    return ProfileUiModel(
+        this.id,
+        this.fullName,
+        this.nickname,
+        this.email,
+        this.location,
+        this.totalPhotos,
+        this.totalLikes,
+        this.totalCollections,
+        this.biography
+
     )
 }
