@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.feature.account.adapter
+package com.skillbox.unsplash.feature.profile.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
