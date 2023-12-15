@@ -90,8 +90,8 @@ class ImageAdapter(
             this.imagePosition = position
 
             with(binding) {
-                authorName.text = imageItem.author.name
-                authorNickName.text = imageItem.author.nickname
+                userNameTextView.text = imageItem.author.name
+                userNicknameTextView.text = imageItem.author.nickname
                 likesCountView.text = imageItem.image.likes.toString()
                 activeLikesIconView.visibility = if (imageItem.image.likedByUser) View.VISIBLE else View.GONE
                 inactiveLikesIconView.visibility = if (!imageItem.image.likedByUser) View.VISIBLE else View.GONE

@@ -12,7 +12,7 @@ data class UserDto(
     @Json(name = "username")
     val nickname: String,
     @Json(name = "profile_image")
-    val profileImage: AvatarDto,
+    val profileImage: ProfileImageDto,
     @Json(name = "bio")
     val biography: String?
 )

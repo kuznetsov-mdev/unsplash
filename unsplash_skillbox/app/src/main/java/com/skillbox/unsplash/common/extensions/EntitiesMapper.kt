@@ -158,11 +158,12 @@ fun UserProfileDto.toUiModel(): ProfileUiModel {
         this.fullName,
         this.nickname,
         this.email,
-        this.location,
+        this.location ?: "No information",
         this.totalPhotos,
         this.totalLikes,
         this.totalCollections,
-        this.biography
-
+        this.downloads,
+        this.biography,
+        this.profileImage?.medium ?: ""
     )
 }

@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.data.profile.retrofit.model
 
+import com.skillbox.unsplash.data.user.retrofit.ProfileImageDto
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -25,8 +26,10 @@ data class UserProfileDto(
     val totalLikes: Int,
     @Json(name = "total_collections")
     val totalCollections: Int,
-    @Json(name = "portfolio_url")
-    val profileImage: String?,
+    @Json(name = "downloads")
+    val downloads: Int,
+    @Json(name = "profile_image")
+    val profileImage: ProfileImageDto?,
     @Json(name = "bio")
     val biography: String?
 )

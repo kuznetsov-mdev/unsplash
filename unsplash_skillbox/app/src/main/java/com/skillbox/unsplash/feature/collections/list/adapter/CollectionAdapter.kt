@@ -64,7 +64,7 @@ class CollectionAdapter(
                 imageCountInCollection.text = collectionItem.count.toString()
                 collectionTitle.text = collectionItem.title
                 collectionAuthorName.text = collectionItem.user.name
-                authorNickName.text = collectionItem.user.nickname
+                userNicknameTextView.text = collectionItem.user.nickname
                 loadImagesFromCache(collectionItem, avatarCollectionView, collectionItemView)
             }
         }

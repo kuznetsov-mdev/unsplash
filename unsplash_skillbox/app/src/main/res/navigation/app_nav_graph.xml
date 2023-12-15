@@ -26,7 +26,7 @@
         android:id="@+id/accountFragment"
         android:name="com.skillbox.unsplash.feature.profile.ProfileFragment"
         android:label="AccountFragment"
-        tools:layout="@layout/fragment_account">
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_accountFragment_to_collectionDetailFragment"
             app:destination="@id/collectionDetailFragment" />

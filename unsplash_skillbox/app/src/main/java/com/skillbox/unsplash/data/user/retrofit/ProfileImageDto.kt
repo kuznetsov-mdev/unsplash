@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class AvatarDto(
+data class ProfileImageDto(
     @Json(name = "large")
     val large: String,
     @Json(name = "medium")

@@ -5,9 +5,11 @@ data class ProfileUiModel(
     val userName: String,
     val nickname: String,
     val email: String,
-    val location: String?,
+    val location: String,
     val totalPhotos: Int,
     val totalLikes: Int,
     val totalCollections: Int,
-    val bio: String?
+    val downloads: Int,
+    val bio: String?,
+    val profileImage: String
 )

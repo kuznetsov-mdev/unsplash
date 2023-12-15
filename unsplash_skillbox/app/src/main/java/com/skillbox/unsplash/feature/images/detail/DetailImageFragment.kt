@@ -142,8 +142,8 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
             uploadImageToView(imageItemView, detailImgItem.image.url)
             uploadImageToView(avatarImageView, detailImgItem.author.avatarUrl)
 
-            authorName.text = detailImgItem.author.name
-            authorNickName.text = detailImgItem.author.nickname
+            userNameTextView.text = detailImgItem.author.name
+            userNicknameTextView.text = detailImgItem.author.nickname
             activeLikesIconView.isVisible = detailImgItem.image.likedByUser
             inactiveLikesIconView.isVisible = !detailImgItem.image.likedByUser
             aboutAuthorNickname.text = "@${detailImgItem.author.nickname} ${detailImgItem.author.biography}"

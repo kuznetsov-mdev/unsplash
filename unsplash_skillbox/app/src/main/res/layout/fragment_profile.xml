@@ -33,35 +33,35 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/authorName"
+            android:id="@+id/userNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textSize="26sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/authorNickName"
+            app:layout_constraintBottom_toTopOf="@+id/userNicknameTextView"
             app:layout_constraintStart_toEndOf="@+id/avatarCard"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Аркадий Муько" />
 
         <TextView
-            android:id="@+id/authorNickName"
+            android:id="@+id/userNicknameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/authorName"
-            app:layout_constraintTop_toBottomOf="@+id/authorName"
+            app:layout_constraintStart_toStartOf="@+id/userNameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/userNameTextView"
             tools:text="\@arkashm" />
 
         <TextView
-            android:id="@+id/aboutText"
+            android:id="@+id/biographyTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/authorNickName"
-            app:layout_constraintTop_toBottomOf="@+id/authorNickName"
+            app:layout_constraintStart_toStartOf="@+id/userNicknameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/userNicknameTextView"
             tools:text="Follow by follow is my credo" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/aboutText"
-            app:layout_constraintTop_toBottomOf="@+id/aboutText">
+            app:layout_constraintStart_toStartOf="@+id/biographyTextView"
+            app:layout_constraintTop_toBottomOf="@+id/biographyTextView">
 
             <ImageView
                 android:id="@+id/iconLocationView"
@@ -105,10 +105,10 @@
                 android:id="@+id/downloadCountTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginBottom="2dp"
                 app:layout_constraintBottom_toBottomOf="@+id/iconDownloadsView"
-                app:layout_constraintStart_toEndOf="@+id/iconDownloadsView"
-                app:layout_constraintTop_toBottomOf="@+id/userEmailIconView"
+                app:layout_constraintStart_toStartOf="@+id/emailTextView"
+                app:layout_constraintTop_toTopOf="@+id/iconDownloadsView"
                 tools:text="64" />
 
             <ImageView
@@ -124,9 +124,8 @@
                 android:id="@+id/emailTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/userEmailIconView"
-                app:layout_constraintStart_toEndOf="@+id/userEmailIconView"
+                app:layout_constraintStart_toStartOf="@+id/locationTextView"
                 app:layout_constraintTop_toBottomOf="@+id/iconLocationView"
                 tools:text="arkashm@gmial.com" />
         </androidx.constraintlayout.widget.ConstraintLayout>
