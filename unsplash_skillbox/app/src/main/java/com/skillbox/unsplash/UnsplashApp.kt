@@ -51,13 +51,13 @@ class UnsplashApp : Application(), Configuration.Provider {
         }
     }
 
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
-            .setMinimumLoggingLevel(Log.DEBUG)
-            .setWorkerFactory(workerFactory)
-            .build()
-
     private fun createDownloadChannel(context: Context) {
         NotificationChannels.create(context)
     }
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setMinimumLoggingLevel(Log.DEBUG)
+            .setWorkerFactory(workerFactory)
+            .build()
 }

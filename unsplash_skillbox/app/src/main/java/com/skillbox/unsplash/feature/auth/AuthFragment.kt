@@ -58,7 +58,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         getAuthResponse.launch(intent)
     }
 
-
     private fun updateIsLoading(isLoading: Boolean) = with(binding) {
         loginButton.isVisible = !isLoading
         loginProgress.isVisible = isLoading
