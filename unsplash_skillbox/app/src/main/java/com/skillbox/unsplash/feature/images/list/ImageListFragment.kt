@@ -130,6 +130,9 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
 
         imageAdapter.addLoadStateListener { state: CombinedLoadStates ->
+            viewBinding.noDataImageView.isVisible =
+                !(imageAdapter.itemCount != 0 && state.refresh != LoadState.Loading || state.refresh == LoadState.Loading)
+
             viewBinding.imagesList.isVisible = state.refresh != LoadState.Loading
             searchViewBinding.searchIconView.isVisible = state.refresh != LoadState.Loading
             viewBinding.imagesLoginProgress.isVisible = state.refresh == LoadState.Loading
