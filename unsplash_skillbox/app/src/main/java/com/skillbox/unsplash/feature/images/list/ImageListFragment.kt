@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -31,10 +32,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewModel: ImageListViewModel by viewModels()
+    private val arguments: ImageListFragmentArgs by navArgs()
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val searchViewBinding: LayoutSearchBinding by viewBinding()
     private var isNetworkAvailableState = true
@@ -55,6 +58,10 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun initList() {
+        arguments.username.let {
+            Timber.tag("NAV ARGS").d("username = ${arguments.username}")
+        }
+
         with(viewBinding.imagesList) {
             adapter = imageAdapter
             setHasFixedSize(true)

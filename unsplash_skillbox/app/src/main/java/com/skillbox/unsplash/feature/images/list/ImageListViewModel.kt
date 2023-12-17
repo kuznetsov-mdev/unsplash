@@ -55,9 +55,12 @@ class ImageListViewModel @Inject constructor(
 
     fun searchImages(searchQuery: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.search(getSearchCondition(searchQuery)).cachedIn(viewModelScope).collectLatest {
-                imagesStateFlow.value = it
-            }
+            repository.search(getSearchCondition(searchQuery))
+                .cachedIn(viewModelScope)
+                .collectLatest {
+//                imagesStateFlow.value = it
+                    imagesStateFlow.value = PagingData.empty()
+                }
         }
     }
 
