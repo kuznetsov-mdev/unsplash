@@ -26,27 +26,31 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViewPager()
         observeData()
         viewModel.getAccountInfo()
     }
 
-    private fun initViewPager() {
-        val pagerAdapter = ProfileAdapter(requireActivity())
+    private fun initViewPager(profile: ProfileUiModel) {
+        val pagerAdapter = ProfileAdapter(requireActivity(), profile)
         with(viewBinding) {
             viewPager.adapter = pagerAdapter
-            TabLayoutMediator(tabsLayout, viewPager) { tab, position ->
-                tab.text = getString(getTabName(position))
-            }.attach()
         }
-
     }
 
-    private fun getTabName(tabPosition: Int): Int {
+    private fun getTabName(tabPosition: Int): String {
         return when (tabPosition) {
-            0 -> R.string.photos
-            1 -> R.string.liked
-            2 -> R.string.collections
+            0 -> getString(R.string.photos).lowercase()
+            1 -> getString(R.string.liked).lowercase()
+            2 -> getString(R.string.collections).lowercase()
+            else -> throw Error("Unreached tab index")
+        }
+    }
+
+    private fun getTabCountValue(tabPosition: Int, profile: ProfileUiModel): Int {
+        return when (tabPosition) {
+            0 -> profile.totalPhotos
+            1 -> profile.totalLikes
+            2 -> profile.totalCollections
             else -> throw Error("Unreached tab index")
         }
     }
@@ -71,7 +75,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun bindUserProfileData(profile: ProfileUiModel) {
+        initViewPager(profile)
         with(viewBinding) {
+            TabLayoutMediator(tabsLayout, viewPager) { tab, position ->
+                tab.text = "${getTabCountValue(position, profile)} \n ${getTabName(position)}".lowercase()
+            }.attach()
+
             uploadImageToView(avatarImageView, profile.profileImage)
             userNameTextView.text = profile.userName
             userNicknameTextView.text = profile.nickname
@@ -80,7 +89,5 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             emailTextView.text = profile.email
             downloadCountTextView.text = profile.downloads.toString()
         }
-
-
     }
 }

@@ -12,6 +12,10 @@
         <action
             android:id="@+id/action_imagesFragment_to_imageFragment"
             app:destination="@id/imageFragment" />
+        <argument
+            android:name="username"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/collectionsFragment"
@@ -21,6 +25,10 @@
         <action
             android:id="@+id/action_collectionsFragment_to_collectionDetailFragment"
             app:destination="@id/collectionDetailFragment" />
+        <argument
+            android:name="username"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -28,11 +36,11 @@
         android:label="AccountFragment"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_accountFragment_to_collectionDetailFragment"
-            app:destination="@id/collectionDetailFragment" />
+            android:id="@+id/action_accountFragment_to_imagesFragment"
+            app:destination="@id/imagesFragment" />
         <action
-            android:id="@+id/action_accountFragment_to_imageFragment"
-            app:destination="@id/imageFragment" />
+            android:id="@+id/action_accountFragment_to_collectionsFragment"
+            app:destination="@id/collectionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/imageFragment"

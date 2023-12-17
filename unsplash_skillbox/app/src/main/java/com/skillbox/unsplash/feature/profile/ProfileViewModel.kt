@@ -24,7 +24,6 @@ class ProfileViewModel @Inject constructor(
 
     private val mutableProfileStateFlow: MutableStateFlow<ProfileUiModel?> = MutableStateFlow(null)
 
-
     val profileStateFlow: Flow<ProfileUiModel?>
         get() = mutableProfileStateFlow
 

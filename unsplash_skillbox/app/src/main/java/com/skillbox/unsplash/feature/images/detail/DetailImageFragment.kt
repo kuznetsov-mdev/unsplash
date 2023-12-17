@@ -175,7 +175,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
             }
 
             backArrowIcon.setOnClickListener {
-                findNavController().navigate(DetailImageFragmentDirections.actionImageFragmentToImagesFragment())
+                findNavController().navigate(DetailImageFragmentDirections.actionImageFragmentToImagesFragment(null))
             }
 
             shareImageIcon.setOnClickListener {
