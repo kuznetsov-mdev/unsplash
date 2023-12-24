@@ -8,6 +8,7 @@ import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.common.SearchCondition
 import com.skillbox.unsplash.data.images.ImageRepository
+import com.skillbox.unsplash.feature.data.UnsplashSearchQuery
 import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -53,22 +54,35 @@ class ImageListViewModel @Inject constructor(
         }
     }
 
-    fun searchImages(searchQuery: String?) {
+    fun searchImages(searchQuery: UnsplashSearchQuery) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.search(getSearchCondition(searchQuery))
                 .cachedIn(viewModelScope)
                 .collectLatest {
-//                imagesStateFlow.value = it
-                    imagesStateFlow.value = PagingData.empty()
+                    imagesStateFlow.value = it
                 }
         }
     }
 
-    private fun getSearchCondition(searchQuery: String?): SearchCondition {
-        return if (searchQuery != null) {
-            SearchCondition.SearchString(searchQuery)
-        } else {
-            SearchCondition.Empty
+    private fun getSearchCondition(searchQuery: UnsplashSearchQuery): SearchCondition {
+        with(searchQuery) {
+            val isImagesSearched = userName == null
+            val isUserImagesSearched = userName != null && !likedByUser
+            val isLikedByUserImagesSearched = userName != null && likedByUser
+
+            return if (isImagesSearched) {
+                return if (query != null) {
+                    SearchCondition.SearchString(query)
+                } else {
+                    SearchCondition.Empty
+                }
+            } else if (isUserImagesSearched) {
+                SearchCondition.UserImages(userName!!)
+            } else if (isLikedByUserImagesSearched) {
+                SearchCondition.LikedUserImages(userName!!)
+            } else {
+                SearchCondition.Empty
+            }
         }
     }
 }

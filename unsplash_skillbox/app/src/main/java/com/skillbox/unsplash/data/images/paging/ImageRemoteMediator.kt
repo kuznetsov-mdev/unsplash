@@ -70,6 +70,12 @@ class ImageRemoteMediator(
             is SearchCondition.CollectionImages ->
                 retrofitImageRepository.getCollectionImages(condition.collectionId, pageNumber, pageSize)
 
+            is SearchCondition.UserImages ->
+                retrofitImageRepository.getUserImages(condition.userName, pageNumber, pageSize)
+
+            is SearchCondition.LikedUserImages ->
+                retrofitImageRepository.getLikedUserImages(condition.userName, pageNumber, pageSize)
+
             else -> error("Not implemented yet")
         }
 

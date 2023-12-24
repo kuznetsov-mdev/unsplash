@@ -10,6 +10,7 @@ import com.skillbox.unsplash.data.collections.room.contract.CollectionImageContr
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
 import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
+import com.skillbox.unsplash.data.user.room.contract.UserContract
 
 @Dao
 interface ImageDao {
@@ -49,4 +50,18 @@ interface ImageDao {
     @Transaction
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE id=:id")
     fun getById(id: String): ImageWithUserEntity
+
+    @Transaction
+    @Query(
+        "SELECT ${ImageContract.TABLE_NAME}.* " +
+                "FROM ${ImageContract.TABLE_NAME} " +
+                "INNER JOIN ${UserContract.TABLE_NAME} " +
+                "ON ${ImageContract.TABLE_NAME}.${ImageContract.Columns.AUTHOR_ID} = ${UserContract.TABLE_NAME}.${UserContract.Columns.ID} " +
+                "WHERE authors.nickname =:userName"
+    )
+    fun getUserImages(userName: String): PagingSource<Int, ImageWithUserEntity>
+
+    @Transaction
+    @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE ${ImageContract.Columns.LIKED_BY_USER}= 1")
+    fun getLikedUserImages(): PagingSource<Int, ImageWithUserEntity>
 }

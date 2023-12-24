@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/images_nav_graph"
-    app:startDestination="@id/imagesFragment">
+    app:startDestination="@id/accountFragment">
     <fragment
         android:id="@+id/imagesFragment"
         android:name="com.skillbox.unsplash.feature.images.list.ImageListFragment"
@@ -16,6 +16,10 @@
             android:name="username"
             app:argType="string"
             android:defaultValue="" />
+        <argument
+            android:name="likedByUser"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/collectionsFragment"

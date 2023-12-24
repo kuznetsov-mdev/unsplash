@@ -17,4 +17,8 @@ interface RetrofitImageRepositoryApi {
 
     suspend fun getImageDetailInfo(imageId: String): ImageDetailUiModel
 
+    suspend fun getUserImages(userName: String, pageNumber: Int, pageSize: Int): List<ImageDto>
+
+    suspend fun getLikedUserImages(userName: String, pageNumber: Int, pageSize: Int): List<ImageDto>
+
 }

@@ -49,4 +49,16 @@ class RetrofitImageRepositoryApiImpl(
             )
         }
     }
+
+    override suspend fun getUserImages(userName: String, pageNumber: Int, pageSize: Int): List<ImageDto> {
+        return withContext(Dispatchers.IO) {
+            network.imagesApi.getUserImages(userName, pageNumber, pageSize)
+        }
+    }
+
+    override suspend fun getLikedUserImages(userName: String, pageNumber: Int, pageSize: Int): List<ImageDto> {
+        return withContext(Dispatchers.IO) {
+            network.imagesApi.getLikedUserImages(userName, pageNumber, pageSize)
+        }
+    }
 }

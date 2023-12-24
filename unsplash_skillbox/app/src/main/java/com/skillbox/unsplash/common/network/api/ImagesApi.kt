@@ -45,4 +45,18 @@ interface ImagesApi {
         @Query("page") pageNumber: Int,
         @Query("per_page") pageSize: Int
     ): List<ImageDto>
+
+    @GET("/users/{userName}/photos")
+    suspend fun getUserImages(
+        @Path("userName") username: String,
+        @Query("page") pageNumber: Int,
+        @Query("per_page") pageSize: Int
+    ): List<ImageDto>
+
+    @GET("/users/{userName}/likes")
+    suspend fun getLikedUserImages(
+        @Path("userName") username: String,
+        @Query("page") pageNumber: Int,
+        @Query("per_page") pageSize: Int
+    ): List<ImageDto>
 }

@@ -48,6 +48,8 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
                 when (condition) {
                     is SearchCondition.Empty -> clear(images.map { it.user })
                     is SearchCondition.SearchString -> dataBase.imageDao().clearImages(condition.searchQuery)
+                    is SearchCondition.UserImages -> Unit
+                    is SearchCondition.LikedUserImages -> Unit
                     is SearchCondition.CollectionImages -> {
                         dataBase.imageDao().clearCollectionImages(condition.collectionId)
                         dataBase.collectionImageDao().clearCollectionImages(condition.collectionId)
@@ -68,6 +70,8 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
             is SearchCondition.Empty -> dataBase.imageDao().getImagesPagingSource()
             is SearchCondition.SearchString -> dataBase.imageDao().getImagesPagingSource(condition.searchQuery)
             is SearchCondition.CollectionImages -> dataBase.imageDao().getCollectionImagesPagingSource(condition.collectionId)
+            is SearchCondition.UserImages -> dataBase.imageDao().getUserImages(condition.userName)
+            is SearchCondition.LikedUserImages -> dataBase.imageDao().getLikedUserImages()
             else -> error("Not implemented yet")
         }
     }

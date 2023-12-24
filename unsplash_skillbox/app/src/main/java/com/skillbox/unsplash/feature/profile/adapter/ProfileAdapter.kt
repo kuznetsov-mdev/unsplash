@@ -19,27 +19,38 @@ class ProfileAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        val imageListWithLikedPhotosFragment = ImageListFragment().apply {
-            arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
-        }
-
-        val userImageListFragment = ImageListFragment().apply {
-            arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
-        }
-
-        val userCollectionListFragment = CollectionListFragment().apply {
-            arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
-        }
-
         return when (position) {
-            0 -> imageListWithLikedPhotosFragment
-            1 -> userImageListFragment
-            else -> userCollectionListFragment
+            0 -> getUserImagesFragment()
+            1 -> getLikedImagesFragment()
+            2 -> getUserCollectionsFragment()
+            else -> throw Error("Not implemented yet")
+        }
+    }
+
+    private fun getUserImagesFragment(): Fragment {
+        return ImageListFragment().apply {
+            arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
+        }
+    }
+
+    private fun getLikedImagesFragment(): Fragment {
+        return ImageListFragment().apply {
+            arguments = Bundle().apply {
+                putString(USERNAME_PARAM, profile.nickname)
+                putBoolean(LIKED_BY_USER, true)
+            }
+        }
+    }
+
+    private fun getUserCollectionsFragment(): Fragment {
+        return CollectionListFragment().apply {
+            arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
         }
     }
 
     companion object {
         private const val TABS_COUNT = 3
         const val USERNAME_PARAM = "username"
+        const val LIKED_BY_USER = "likedByUser"
     }
 }

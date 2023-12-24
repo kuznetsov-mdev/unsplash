@@ -19,6 +19,7 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.databinding.LayoutSearchBinding
+import com.skillbox.unsplash.feature.data.UnsplashSearchQuery
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
 import com.skillbox.unsplash.util.textChangedFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
@@ -52,16 +52,13 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     //https://stackoverflow.com/questions/9727173/support-fragmentpageradapter-holds-reference-to-old-fragments
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initList()
+        initRecyclerViewAdapter()
         initSearchBar()
         observeData()
+        searchImages()
     }
 
-    private fun initList() {
-        arguments.username.let {
-            Timber.tag("NAV ARGS").d("username = ${arguments.username}")
-        }
-
+    private fun initRecyclerViewAdapter() {
         with(viewBinding.imagesList) {
             adapter = imageAdapter
             setHasFixedSize(true)
@@ -84,7 +81,9 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText("")
-                    viewModel.searchImages(null)
+                    val forUser = arguments.username.ifBlank { null }
+                    val onlyLikedPhoto = arguments.likedByUser
+                    viewModel.searchImages(UnsplashSearchQuery(null, forUser, onlyLikedPhoto))
                 }
             }
             searchViewBinding.searchIconView.visibility = View.VISIBLE
@@ -95,7 +94,9 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText(R.string.empty)
-                    viewModel.searchImages(null)
+                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
+                    val onlyLikedPhoto = arguments.likedByUser
+                    viewModel.searchImages(UnsplashSearchQuery(null, forUser, onlyLikedPhoto))
                 }
             }
         }
@@ -104,7 +105,13 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             .debounce(700)
             .onStart { emit(null) }
             .distinctUntilChanged()
-            .mapLatest { text -> viewModel.searchImages(text) }
+            .mapLatest { text ->
+                {
+                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
+                    val onlyLikedPhoto = arguments.likedByUser
+                    viewModel.searchImages(UnsplashSearchQuery(text, forUser, onlyLikedPhoto))
+                }
+            }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
@@ -129,7 +136,6 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.imageList.collectLatest(imageAdapter::submitData)
-
                 viewModel.connectivityStateFlow.collectLatest {
                     isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
                 }
@@ -144,5 +150,10 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchIconView.isVisible = state.refresh != LoadState.Loading
             viewBinding.imagesLoginProgress.isVisible = state.refresh == LoadState.Loading
         }
+    }
+
+    private fun searchImages() {
+        val userName: String? = arguments.username.ifBlank { null }
+        viewModel.searchImages(UnsplashSearchQuery(null, userName, arguments.likedByUser))
     }
 }
