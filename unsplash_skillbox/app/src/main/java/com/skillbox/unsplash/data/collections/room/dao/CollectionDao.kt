@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import com.skillbox.unsplash.data.collections.room.contract.CollectionContract
 import com.skillbox.unsplash.data.collections.room.model.CollectionEntity
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
+import com.skillbox.unsplash.data.user.room.contract.UserContract
 
 @Dao
 interface CollectionDao {
@@ -22,5 +23,15 @@ interface CollectionDao {
 
     @Transaction
     @Query("SELECT * FROM ${CollectionContract.TABLE_NAME}")
-    fun getPagingSource(): PagingSource<Int, CollectionWithUserAndImagesEntity>
+    fun getCollections(): PagingSource<Int, CollectionWithUserAndImagesEntity>
+
+    @Transaction
+    @Query(
+        "SELECT ${CollectionContract.TABLE_NAME}.* " +
+                "FROM ${CollectionContract.TABLE_NAME} " +
+                "INNER JOIN ${UserContract.TABLE_NAME} " +
+                "ON ${CollectionContract.TABLE_NAME}.${CollectionContract.Columns.AUTHOR_ID} = ${UserContract.TABLE_NAME}.${UserContract.Columns.ID} " +
+                "WHERE authors.nickname =:userName"
+    )
+    fun getUserCollections(userName: String): PagingSource<Int, CollectionWithUserAndImagesEntity>
 }

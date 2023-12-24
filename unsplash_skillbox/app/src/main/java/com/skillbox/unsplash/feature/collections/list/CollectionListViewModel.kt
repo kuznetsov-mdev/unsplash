@@ -30,11 +30,12 @@ class CollectionListViewModel @Inject constructor(
     val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
 
-    fun getCollections() {
+    fun getCollections(userName: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            collectionsRepository.getAll().cachedIn(viewModelScope).collectLatest {
-                collectionsStateFlow.value = it
-            }
+            collectionsRepository.getCollections(userName)
+                .cachedIn(viewModelScope).collectLatest {
+                    collectionsStateFlow.value = it
+                }
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CollectionListFragment : Fragment(R.layout.fragment_collections) {
+    private val arguments: CollectionListFragmentArgs by navArgs()
     private val viewBinding: FragmentCollectionsBinding by viewBinding()
     private val viewModel: CollectionListViewModel by viewModels()
     private var isNetworkAvailableState = true
@@ -37,15 +39,14 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initCollectionList()
-        viewModel.getCollections()
         observeData()
+        getCollections()
     }
 
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.collectionList.collectLatest(collectionAdapter::submitData)
-
                 viewModel.connectivityStateFlow.collectLatest {
                     isNetworkAvailableState = it.name == ConnectivityStatus.Available.name
                 }
@@ -53,6 +54,9 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
         }
 
         collectionAdapter.addLoadStateListener { loadState ->
+            viewBinding.noDataImageView.isVisible =
+                !(collectionAdapter.itemCount != 0 && loadState.refresh != LoadState.Loading || loadState.refresh == LoadState.Loading)
+
             viewBinding.collectionListView.isVisible = loadState.refresh != LoadState.Loading
             viewBinding.imagesLoginProgress.isVisible = loadState.refresh == LoadState.Loading
         }
@@ -73,4 +77,9 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     }
 
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
+
+    private fun getCollections() {
+        val userName = arguments.username.ifBlank { null }
+        viewModel.getCollections(userName)
+    }
 }

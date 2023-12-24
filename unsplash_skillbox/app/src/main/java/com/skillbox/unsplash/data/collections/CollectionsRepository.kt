@@ -23,16 +23,17 @@ class CollectionsRepository @Inject constructor(
     private val roomCollectionsRepository: RoomCollectionsRepositoryApi
 ) {
     @OptIn(ExperimentalPagingApi::class)
-    suspend fun getAll(): Flow<PagingData<CollectionUiModel>> {
+    suspend fun getCollections(userName: String? = null): Flow<PagingData<CollectionUiModel>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = CollectionRemoteMediator(
                 retrofitCollectionsRepositoryApi,
                 roomCollectionsRepository,
                 diskImageRepository,
-                context
+                context,
+                userName
             ),
-            pagingSourceFactory = { roomCollectionsRepository.getPagingSource() }
+            pagingSourceFactory = { roomCollectionsRepository.getCollections(userName) }
         ).flow
             .map { pagingData ->
                 pagingData.map { collectionRoomModel -> collectionRoomModel.toCollectionUiModel() }

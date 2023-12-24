@@ -22,7 +22,8 @@ class CollectionRemoteMediator(
     private val retrofitCollectionsRepository: RetrofitCollectionsRepositoryApi,
     private val roomCollectionsRepository: RoomCollectionsRepositoryApi,
     private val diskImageRepository: DiskImageRepository,
-    private val context: Context
+    private val context: Context,
+    private val userName: String?
 ) : RemoteMediator<Int, CollectionWithUserAndImagesEntity>() {
     private var pageIndex = 1
 
@@ -54,12 +55,14 @@ class CollectionRemoteMediator(
     }
 
     private suspend fun getCollections(pageIndex: Int, pageSize: Int): List<CollectionWithUserAndImagesEntity> {
-        val collections: List<CollectionDto> = retrofitCollectionsRepository.getAll(pageIndex, pageSize)
-        saveImageDataOnDisk(collections)
+        val collections: List<CollectionDto> =
+            if (userName == null) retrofitCollectionsRepository.getAll(pageIndex, pageSize)
+            else retrofitCollectionsRepository.getUserCollections(userName, pageIndex, pageSize)
+        saveCollectionImageDataOnDisk(collections)
         return convertToImageWithAuthorEntity(collections)
     }
 
-    private suspend fun saveImageDataOnDisk(models: List<CollectionDto>) {
+    private suspend fun saveCollectionImageDataOnDisk(models: List<CollectionDto>) {
         CoroutineScope(Dispatchers.IO).launch {
             models.forEach { saveImageToInternalStorage(it) }
         }

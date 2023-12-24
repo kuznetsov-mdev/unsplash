@@ -9,6 +9,10 @@ class RetrofitRetrofitCollectionsRepositoryImpl @Inject constructor(
 ) : RetrofitCollectionsRepositoryApi {
 
     override suspend fun getAll(pageNumber: Int, pageSize: Int): List<CollectionDto> {
-        return network.collectionsApi.getCollections(pageNumber, pageSize);
+        return network.collectionsApi.getCollections(pageNumber, pageSize)
+    }
+
+    override suspend fun getUserCollections(userName: String, pageNumber: Int, pageSize: Int): List<CollectionDto> {
+        return network.collectionsApi.getUserCollection(userName, pageNumber, pageSize)
     }
 }

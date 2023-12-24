@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.data.user.room.model.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -25,23 +24,18 @@ class RoomCollectionsRepositoryImpl(private val dataBase: UnsplashRoomDataBase) 
     override suspend fun refresh(collections: List<CollectionWithUserAndImagesEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
-                clear(collections.map { it.user })
+                dataBase.collectionDao().clearAll()
                 dataBase.userDao().insertUsers(collections.map { it.user })
                 dataBase.collectionDao().insertAll(collections.map { it.collectionWithImages.collection })
             }
         }
     }
 
-    override suspend fun clear(users: List<UserEntity>) {
-        withContext(Dispatchers.IO) {
-            dataBase.withTransaction {
-                dataBase.userDao().deleteUsers(users)
-                dataBase.collectionDao().clearAll()
-            }
+    override fun getCollections(userName: String?): PagingSource<Int, CollectionWithUserAndImagesEntity> {
+        return if (userName == null) {
+            dataBase.collectionDao().getCollections()
+        } else {
+            dataBase.collectionDao().getUserCollections(userName)
         }
-    }
-
-    override fun getPagingSource(): PagingSource<Int, CollectionWithUserAndImagesEntity> {
-        return dataBase.collectionDao().getPagingSource()
     }
 }
