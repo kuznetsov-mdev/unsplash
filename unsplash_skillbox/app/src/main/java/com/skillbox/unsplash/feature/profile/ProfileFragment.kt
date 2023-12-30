@@ -15,9 +15,11 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentProfileBinding
 import com.skillbox.unsplash.feature.profile.adapter.ProfileAdapter
 import com.skillbox.unsplash.feature.profile.model.ProfileUiModel
+import com.skillbox.unsplash.feature.profile.model.ResponseResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -66,8 +68,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.profileStateFlow.collectLatest { profile ->
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    profile?.let {
-                        bindUserProfileData(it)
+                    profile.let {
+                        when (it) {
+                            is ResponseResult.Content -> bindUserProfileData(it.content)
+                            is ResponseResult.Error -> showErrorMessage(it.throwable)
+                            is ResponseResult.Empty -> showPreloader()
+                        }
                     }
                 }
             }
@@ -77,9 +83,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private fun bindUserProfileData(profile: ProfileUiModel) {
         initViewPager(profile)
         with(viewBinding) {
+
             TabLayoutMediator(tabsLayout, viewPager) { tab, position ->
                 tab.text = "${getTabCountValue(position, profile)} \n ${getTabName(position)}".lowercase()
             }.attach()
+
+            userInfoLayout.visibility = View.VISIBLE
+            profileProgress.visibility = View.GONE
 
             uploadImageToView(avatarImageView, profile.profileImage)
             userNameTextView.text = profile.userName
@@ -88,6 +98,29 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             locationTextView.text = profile.location
             emailTextView.text = profile.email
             downloadCountTextView.text = profile.downloads.toString()
+        }
+    }
+
+    private fun showErrorMessage(t: Throwable) {
+        with(viewBinding) {
+            val errorText = if (t is HttpException && t.code() == 403) {
+                "Тестовая верси приложения. Вы привысили допустимое количество запросов в час"
+            } else {
+                "При запросе данных пользователя произошла ошибка"
+            }
+
+            errorMessageLayout.errorText.text = errorText
+            errorMessageLayout.root.visibility = View.VISIBLE
+            userInfoLayout.visibility = View.GONE
+            tabsLayout.visibility = View.GONE
+            viewPager.visibility = View.GONE
+        }
+    }
+
+    private fun showPreloader() {
+        with(viewBinding) {
+            userInfoLayout.visibility = View.GONE
+            profileProgress.visibility = View.VISIBLE
         }
     }
 }

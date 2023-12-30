@@ -6,6 +6,7 @@ import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.profile.ProfileRepository
 import com.skillbox.unsplash.feature.profile.model.ProfileUiModel
+import com.skillbox.unsplash.feature.profile.model.ResponseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,9 +23,9 @@ class ProfileViewModel @Inject constructor(
     val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
 
-    private val mutableProfileStateFlow: MutableStateFlow<ProfileUiModel?> = MutableStateFlow(null)
+    private val mutableProfileStateFlow: MutableStateFlow<ResponseResult<ProfileUiModel>> = MutableStateFlow(ResponseResult.Empty)
 
-    val profileStateFlow: Flow<ProfileUiModel?>
+    val profileStateFlow: Flow<ResponseResult<ProfileUiModel>>
         get() = mutableProfileStateFlow
 
     fun getAccountInfo() {
