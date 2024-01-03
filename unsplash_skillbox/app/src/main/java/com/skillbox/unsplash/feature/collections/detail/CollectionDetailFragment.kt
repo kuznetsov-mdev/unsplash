@@ -89,7 +89,7 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
 
     private fun onImageClicked(imageId: String) {
         findNavController().navigate(
-            CollectionDetailFragmentDirections.actionCollectionDetailFragmentToImageFragment(imageId)
+            CollectionDetailFragmentDirections.actionCollectionDetailFragment2ToDetailImageFragment(imageId)
         )
     }
 

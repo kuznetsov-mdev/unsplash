@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/appContainerView"
+        app:layout_constraintBottom_toTopOf="@id/mainContainerView"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,20 +46,20 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/appContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:id="@+id/mainContainerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/appBottomNavigation"
+        app:navGraph="@navigation/main_nav_graph"
+        app:layout_constraintBottom_toTopOf="@+id/mainBottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/offlineModeView"
-        app:navGraph="@navigation/app_nav_graph" />
+        app:layout_constraintTop_toBottomOf="@id/offlineModeView" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/appBottomNavigation"
+        android:id="@+id/mainBottomNavigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

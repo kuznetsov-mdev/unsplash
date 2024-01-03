@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/collections_nav_graph"
+    app:startDestination="@id/collectionListFragment2">
+
+    <fragment
+        android:id="@+id/collectionListFragment2"
+        android:name="com.skillbox.unsplash.feature.collections.list.CollectionListFragment"
+        android:label="CollectionListFragment"
+        tools:layout="@layout/fragment_collections">
+        <action
+            android:id="@+id/action_collectionListFragment_to_collectionDetailFragment2"
+            app:destination="@id/collectionDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/collectionDetailFragment2"
+        android:name="com.skillbox.unsplash.feature.collections.detail.CollectionDetailFragment"
+        android:label="CollectionDetailFragment"
+        tools:layout="@layout/fragment_collection_detail">
+        <action
+            android:id="@+id/action_collectionDetailFragment2_to_detailImageFragment"
+            app:destination="@id/imageDetailFragment3" />
+        <argument
+            android:name="collectionItem"
+            app:argType="com.skillbox.unsplash.feature.collections.model.CollectionUiModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageDetailFragment3"
+        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
+        android:label="DetailImageFragment"
+        tools:layout="@layout/fragment_image_detail">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+    </fragment>
+</navigation>

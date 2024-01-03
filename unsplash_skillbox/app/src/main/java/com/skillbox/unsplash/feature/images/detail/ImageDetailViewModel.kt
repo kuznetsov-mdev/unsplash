@@ -18,7 +18,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailImageViewModel @Inject constructor(
+class ImageDetailViewModel @Inject constructor(
     private val repository: ImageRepository,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {

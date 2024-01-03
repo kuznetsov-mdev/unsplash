@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navOptions
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -37,7 +37,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewModel: ImageListViewModel by viewModels()
-    private val arguments: ImageListFragmentArgs by navArgs()
+
+    //private val arguments: ImageListFragmentArgs by navArgs()
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val searchViewBinding: LayoutSearchBinding by viewBinding()
     private var isNetworkAvailableState = true
@@ -81,9 +82,9 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText("")
-                    val forUser = arguments.username.ifBlank { null }
-                    val onlyLikedPhoto = arguments.likedByUser
-                    viewModel.searchImages(UnsplashSearchQuery(null, forUser, onlyLikedPhoto))
+//                    val forUser = arguments.username.ifBlank { null }
+//                    val onlyLikedPhoto = arguments.likedByUser
+                    viewModel.searchImages(UnsplashSearchQuery(null, null, false))
                 }
             }
             searchViewBinding.searchIconView.visibility = View.VISIBLE
@@ -94,9 +95,9 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText(R.string.empty)
-                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
-                    val onlyLikedPhoto = arguments.likedByUser
-                    viewModel.searchImages(UnsplashSearchQuery(null, forUser, onlyLikedPhoto))
+//                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
+//                    val onlyLikedPhoto = arguments.likedByUser
+                    viewModel.searchImages(UnsplashSearchQuery(null, null, false))
                 }
             }
         }
@@ -107,9 +108,9 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             .distinctUntilChanged()
             .mapLatest { text ->
                 {
-                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
-                    val onlyLikedPhoto = arguments.likedByUser
-                    viewModel.searchImages(UnsplashSearchQuery(text, forUser, onlyLikedPhoto))
+//                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
+//                    val onlyLikedPhoto = arguments.likedByUser
+                    viewModel.searchImages(UnsplashSearchQuery(text, null, false))
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -128,7 +129,15 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
     private fun onImageClicked(imageId: String) {
         findNavController().navigate(
-            ImageListFragmentDirections.actionImagesFragmentToImageFragment(imageId)
+            ImageListFragmentDirections.actionImageListFragmentToDetailImageFragment2(imageId),
+            navOptions {
+                anim {
+                    enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
+                    popEnter = androidx.navigation.ui.R.anim.nav_default_pop_enter_anim
+                    popExit = androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
+                    exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
+                }
+            }
         )
     }
 
@@ -153,7 +162,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     }
 
     private fun searchImages() {
-        val userName: String? = arguments.username.ifBlank { null }
-        viewModel.searchImages(UnsplashSearchQuery(null, userName, arguments.likedByUser))
+//        val userName: String? = arguments.username.ifBlank { null }
+        viewModel.searchImages(UnsplashSearchQuery(null, null, false))
     }
 }

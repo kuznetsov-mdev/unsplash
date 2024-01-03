@@ -50,9 +50,9 @@ import timber.log.Timber
 typealias ImageDownloader = () -> Unit
 
 @AndroidEntryPoint
-class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
-    private val args: DetailImageFragmentArgs by navArgs()
-    private val viewModel: DetailImageViewModel by viewModels()
+class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
+    private val args: ImageDetailFragmentArgs by navArgs()
+    private val viewModel: ImageDetailViewModel by viewModels()
     private val imageDetailBinding: FragmentImageDetailBinding by viewBinding()
     private val cameraInfoBinding: ImageLayoutCameraInfoBinding by viewBinding()
     private val imageStatisticBinding: ImageLayoutImageStatisticBinding by viewBinding()
@@ -175,7 +175,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
             }
 
             backArrowIcon.setOnClickListener {
-                findNavController().navigate(DetailImageFragmentDirections.actionImageFragmentToImagesFragment())
+                findNavController().popBackStack();
             }
 
             shareImageIcon.setOnClickListener {
@@ -301,7 +301,7 @@ class DetailImageFragment : Fragment(R.layout.fragment_image_detail) {
     }
 
     private fun showSnackBar(imageUri: String) {
-        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.appBottomNavigation)
+        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.mainBottomNavigation)
         Snackbar.make(imageDetailBinding.contentLayout, R.string.download_is_finished, Snackbar.LENGTH_LONG)
             .setAnchorView(bottomNavView)
             .setAction(getString(R.string.open)) {

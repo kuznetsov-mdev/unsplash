@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/images_nav_graph"
+    app:startDestination="@id/imageListFragment2">
+
+    <fragment
+        android:id="@+id/imageListFragment2"
+        android:name="com.skillbox.unsplash.feature.images.list.ImageListFragment"
+        android:label="ImageListFragment"
+        tools:layout="@layout/fragment_images">
+        <action
+            android:id="@+id/action_imageListFragment_to_detailImageFragment2"
+            app:destination="@id/imageDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageDetailFragment2"
+        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
+        android:label="DetailImageFragment"
+        tools:layout="@layout/fragment_image_detail">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="https://unsplash.com/photos/{imageId}" />
+    </fragment>
+</navigation>
