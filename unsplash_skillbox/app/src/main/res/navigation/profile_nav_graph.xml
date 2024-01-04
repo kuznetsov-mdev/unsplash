@@ -8,4 +8,6 @@
         android:id="@+id/profileFragment"
         android:name="com.skillbox.unsplash.feature.profile.ProfileFragment"
         android:label="ProfileFragment" />
+    <include app:graph="@navigation/collections_nav_graph" />
+    <include app:graph="@navigation/images_nav_graph" />
 </navigation>

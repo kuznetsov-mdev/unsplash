@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.feature.images.list
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -129,7 +130,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
     private fun onImageClicked(imageId: String) {
         findNavController().navigate(
-            ImageListFragmentDirections.actionImageListFragmentToDetailImageFragment2(imageId),
+            Uri.parse("unsplash://imageDetail/$imageId"),
             navOptions {
                 anim {
                     enter = androidx.navigation.ui.R.anim.nav_default_enter_anim

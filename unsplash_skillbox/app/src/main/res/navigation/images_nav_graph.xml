@@ -9,21 +9,5 @@
         android:id="@+id/imageListFragment2"
         android:name="com.skillbox.unsplash.feature.images.list.ImageListFragment"
         android:label="ImageListFragment"
-        tools:layout="@layout/fragment_images">
-        <action
-            android:id="@+id/action_imageListFragment_to_detailImageFragment2"
-            app:destination="@id/imageDetailFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/imageDetailFragment2"
-        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
-        android:label="DetailImageFragment"
-        tools:layout="@layout/fragment_image_detail">
-        <argument
-            android:name="imageId"
-            app:argType="string" />
-        <deepLink
-            android:id="@+id/deepLink2"
-            app:uri="https://unsplash.com/photos/{imageId}" />
-    </fragment>
+        tools:layout="@layout/fragment_images" />
 </navigation>

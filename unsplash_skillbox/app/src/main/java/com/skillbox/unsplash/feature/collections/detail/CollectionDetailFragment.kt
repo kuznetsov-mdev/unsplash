@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.feature.collections.detail
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -88,9 +89,7 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun onImageClicked(imageId: String) {
-        findNavController().navigate(
-            CollectionDetailFragmentDirections.actionCollectionDetailFragment2ToDetailImageFragment(imageId)
-        )
+        findNavController().navigate((Uri.parse("unsplash://imageDetail/$imageId")))
     }
 
     private fun observeImages() {

@@ -19,20 +19,8 @@
         android:name="com.skillbox.unsplash.feature.collections.detail.CollectionDetailFragment"
         android:label="CollectionDetailFragment"
         tools:layout="@layout/fragment_collection_detail">
-        <action
-            android:id="@+id/action_collectionDetailFragment2_to_detailImageFragment"
-            app:destination="@id/imageDetailFragment3" />
         <argument
             android:name="collectionItem"
             app:argType="com.skillbox.unsplash.feature.collections.model.CollectionUiModel" />
-    </fragment>
-    <fragment
-        android:id="@+id/imageDetailFragment3"
-        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
-        android:label="DetailImageFragment"
-        tools:layout="@layout/fragment_image_detail">
-        <argument
-            android:name="imageId"
-            app:argType="string" />
     </fragment>
 </navigation>
