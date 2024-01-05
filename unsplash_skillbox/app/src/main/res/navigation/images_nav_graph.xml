@@ -3,11 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/images_nav_graph"
-    app:startDestination="@id/imageListFragment2">
+    app:startDestination="@id/imageListFragment">
 
     <fragment
-        android:id="@+id/imageListFragment2"
+        android:id="@+id/imageListFragment"
         android:name="com.skillbox.unsplash.feature.images.list.ImageListFragment"
         android:label="ImageListFragment"
-        tools:layout="@layout/fragment_images" />
+        tools:layout="@layout/fragment_images">
+        <action
+            android:id="@+id/action_imageListFragment_to_imageDetailFragment2"
+            app:destination="@id/imageDetailFragmentLocal" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageDetailFragmentLocal"
+        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
+        android:label="ImageDetailFragment"
+        tools:layout="@layout/fragment_image_detail">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+    </fragment>
+
+
 </navigation>

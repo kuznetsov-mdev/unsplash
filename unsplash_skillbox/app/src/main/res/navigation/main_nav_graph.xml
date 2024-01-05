@@ -6,7 +6,7 @@
     app:startDestination="@id/images_nav_graph">
 
     <fragment
-        android:id="@+id/imageDetailFragment2"
+        android:id="@+id/imageDetailFragment"
         android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
         tools:layout="@layout/fragment_image_detail"
         android:label="DetailImageFragment">
@@ -14,13 +14,18 @@
             android:name="imageId"
             app:argType="string" />
         <deepLink
-            android:id="@+id/deepLink2"
+            android:id="@+id/deeplink_outside"
             app:uri="https://unsplash.com/photos/{imageId}" />
         <deepLink
-            android:id="@+id/deepLink"
+            android:id="@+id/deeplink_inside"
             app:uri="unsplash://imageDetail/{imageId}" />
     </fragment>
     <include app:graph="@navigation/images_nav_graph" />
     <include app:graph="@navigation/collections_nav_graph" />
-    <include app:graph="@navigation/profile_nav_graph" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.skillbox.unsplash.feature.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

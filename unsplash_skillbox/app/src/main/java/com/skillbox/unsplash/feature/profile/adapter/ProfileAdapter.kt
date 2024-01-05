@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.skillbox.unsplash.feature.collections.list.CollectionListFragment
-import com.skillbox.unsplash.feature.images.list.ImageListFragment
 import com.skillbox.unsplash.feature.profile.model.ProfileUiModel
+import com.skillbox.unsplash.feature.profile.pager.CollectionsNavContainerFragment
+import com.skillbox.unsplash.feature.profile.pager.ImagesNavContainerFragment
 
 
 class ProfileAdapter(
@@ -28,13 +28,13 @@ class ProfileAdapter(
     }
 
     private fun getUserImagesFragment(): Fragment {
-        return ImageListFragment().apply {
+        return ImagesNavContainerFragment().apply {
             arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
         }
     }
 
     private fun getLikedImagesFragment(): Fragment {
-        return ImageListFragment().apply {
+        return ImagesNavContainerFragment().apply {
             arguments = Bundle().apply {
                 putString(USERNAME_PARAM, profile.nickname)
                 putBoolean(LIKED_BY_USER, true)
@@ -43,7 +43,7 @@ class ProfileAdapter(
     }
 
     private fun getUserCollectionsFragment(): Fragment {
-        return CollectionListFragment().apply {
+        return CollectionsNavContainerFragment().apply {
             arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
         }
     }

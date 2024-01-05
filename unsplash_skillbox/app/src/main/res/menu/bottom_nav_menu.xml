@@ -13,7 +13,7 @@
         android:title="@string/collections_desc" />
 
     <item
-        android:id="@+id/profile_nav_graph"
+        android:id="@+id/profileFragment"
         android:enabled="true"
         android:icon="@drawable/ic_user_account"
         android:title="@string/user_account" />

@@ -1,6 +1,5 @@
 package com.skillbox.unsplash.feature.images.list
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -10,7 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -105,7 +103,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
         searchViewBinding.searchInputTextView.textChangedFlow()
             .debounce(700)
-            .onStart { emit(null) }
+            .onStart { emit("") }
             .distinctUntilChanged()
             .mapLatest { text ->
                 {
@@ -130,15 +128,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
     private fun onImageClicked(imageId: String) {
         findNavController().navigate(
-            Uri.parse("unsplash://imageDetail/$imageId"),
-            navOptions {
-                anim {
-                    enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
-                    popEnter = androidx.navigation.ui.R.anim.nav_default_pop_enter_anim
-                    popExit = androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
-                    exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
-                }
-            }
+            ImageListFragmentDirections.actionImageListFragmentToImageDetailFragment2(imageId)
         )
     }
 

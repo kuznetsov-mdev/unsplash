@@ -22,5 +22,19 @@
         <argument
             android:name="collectionItem"
             app:argType="com.skillbox.unsplash.feature.collections.model.CollectionUiModel" />
+        <action
+            android:id="@+id/action_collectionDetailFragment2_to_imageDetailFragment4Collection"
+            app:destination="@id/imageDetailFragment4Collection" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/imageDetailFragment4Collection"
+        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
+        android:label="ImageDetailFragment"
+        tools:layout="@layout/fragment_image_detail">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
     </fragment>
 </navigation>
