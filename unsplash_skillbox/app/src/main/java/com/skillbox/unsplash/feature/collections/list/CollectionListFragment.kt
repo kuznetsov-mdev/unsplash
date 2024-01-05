@@ -2,6 +2,7 @@ package com.skillbox.unsplash.feature.collections.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -9,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -24,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CollectionListFragment : Fragment(R.layout.fragment_collections) {
-    //private val arguments: CollectionDetailFragmentArgs by navArgs()
+    private val args: CollectionListFragmentArgs by navArgs()
     private val viewBinding: FragmentCollectionsBinding by viewBinding()
     private val viewModel: CollectionListViewModel by viewModels()
     private var isNetworkAvailableState = true
@@ -70,15 +72,24 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     }
 
     private fun navigateToDetailInfo(collectionItem: CollectionUiModel) {
-        findNavController().navigate(
-            CollectionListFragmentDirections.actionCollectionListFragmentToCollectionDetailFragment2(collectionItem)
+        val username = args.username
+
+        val bundle = bundleOf(
+            COLLECTION_ITEM_KEY to collectionItem,
+            USER_NAME_KEY to username
         )
+        findNavController().navigate(R.id.collectionDetailFragment2, bundle)
     }
 
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun getCollections() {
-        // val userName = arguments.username.ifBlank { null }
-        viewModel.getCollections(null)
+        val userName = args.username
+        viewModel.getCollections(userName)
+    }
+
+    companion object {
+        const val USER_NAME_KEY = "username"
+        const val COLLECTION_ITEM_KEY = "collectionItem"
     }
 }

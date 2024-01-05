@@ -2,6 +2,7 @@ package com.skillbox.unsplash.feature.images.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -9,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,6 +22,7 @@ import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.databinding.LayoutSearchBinding
 import com.skillbox.unsplash.feature.data.UnsplashSearchQuery
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
+import com.skillbox.unsplash.util.findTopNavController
 import com.skillbox.unsplash.util.textChangedFlow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -36,8 +39,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ImageListFragment : Fragment(R.layout.fragment_images) {
     private val viewModel: ImageListViewModel by viewModels()
-
-    //private val arguments: ImageListFragmentArgs by navArgs()
+    private val arguments: ImageListFragmentArgs by navArgs()
     private val viewBinding: FragmentImagesBinding by viewBinding()
     private val searchViewBinding: LayoutSearchBinding by viewBinding()
     private var isNetworkAvailableState = true
@@ -81,9 +83,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText("")
-//                    val forUser = arguments.username.ifBlank { null }
-//                    val onlyLikedPhoto = arguments.likedByUser
-                    viewModel.searchImages(UnsplashSearchQuery(null, null, false))
+                    searchImages()
                 }
             }
             searchViewBinding.searchIconView.visibility = View.VISIBLE
@@ -94,9 +94,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText(R.string.empty)
-//                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
-//                    val onlyLikedPhoto = arguments.likedByUser
-                    viewModel.searchImages(UnsplashSearchQuery(null, null, false))
+                    searchImages()
                 }
             }
         }
@@ -105,13 +103,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             .debounce(700)
             .onStart { emit("") }
             .distinctUntilChanged()
-            .mapLatest { text ->
-                {
-//                    val forUser = if (arguments.username.isNotBlank()) arguments.username else null
-//                    val onlyLikedPhoto = arguments.likedByUser
-                    viewModel.searchImages(UnsplashSearchQuery(text, null, false))
-                }
-            }
+            .mapLatest { text -> searchImages(text) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
@@ -127,9 +119,17 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun onImageClicked(imageId: String) {
-        findNavController().navigate(
-            ImageListFragmentDirections.actionImageListFragmentToImageDetailFragment2(imageId)
-        )
+        if (arguments.username != null) {
+            val bundle = bundleOf(
+                IMAGE_ID_KEY to imageId
+            )
+            findTopNavController().navigate(R.id.imageDetailFragment, bundle)
+        } else {
+            findNavController().navigate(
+                ImageListFragmentDirections.actionImageListFragmentToImageDetailFragment2(imageId)
+            )
+        }
+
     }
 
     private fun observeData() {
@@ -152,8 +152,15 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         }
     }
 
-    private fun searchImages() {
-//        val userName: String? = arguments.username.ifBlank { null }
-        viewModel.searchImages(UnsplashSearchQuery(null, null, false))
+    private fun searchImages(
+        searchImageQuery: String? = null,
+    ) {
+        val userName = arguments.username
+        val onlyLikedPhoto = arguments.likedByUser
+        viewModel.searchImages(UnsplashSearchQuery(searchImageQuery, userName, onlyLikedPhoto))
+    }
+
+    companion object {
+        const val IMAGE_ID_KEY = "imageId"
     }
 }

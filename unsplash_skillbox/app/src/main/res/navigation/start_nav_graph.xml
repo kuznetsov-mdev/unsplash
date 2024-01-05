@@ -6,6 +6,19 @@
     app:startDestination="@id/splashFragment">
 
     <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
+        android:label="DetailImageFragment"
+        tools:layout="@layout/fragment_image_detail">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+        <deepLink
+            android:id="@+id/deeplink_outside"
+            app:uri="https://unsplash.com/photos/{imageId}" />
+
+    </fragment>
+    <fragment
         android:id="@+id/onBoardingFragment"
         android:name="com.skillbox.unsplash.feature.onboarding.OnBoardingFragment"
         android:label="MainFragment"

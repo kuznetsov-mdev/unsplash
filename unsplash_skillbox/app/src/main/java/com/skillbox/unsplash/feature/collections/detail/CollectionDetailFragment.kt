@@ -2,6 +2,7 @@ package com.skillbox.unsplash.feature.collections.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,7 +19,9 @@ import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentCollectionDetailBinding
+import com.skillbox.unsplash.feature.images.list.ImageListFragment.Companion.IMAGE_ID_KEY
 import com.skillbox.unsplash.feature.images.list.adapter.ImageAdapter
+import com.skillbox.unsplash.util.findTopNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -88,11 +91,12 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun onImageClicked(imageId: String) {
-        findNavController().navigate(
-            CollectionDetailFragmentDirections.actionCollectionDetailFragment2ToImageDetailFragment4Collection(
-                imageId
-            )
-        )
+        val bundle = bundleOf(IMAGE_ID_KEY to imageId)
+        if (collectionArgs.username != null) {
+            findTopNavController().navigate(R.id.imageDetailFragment, bundle)
+        } else {
+            findNavController().navigate(R.id.imageDetailFragment4Collection, bundle)
+        }
     }
 
     private fun observeImages() {

@@ -182,7 +182,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
                 val shareIntent = Intent(Intent.ACTION_SEND)
                 shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Image info")
-                val shareMessage = UNSPLASH_IMAGE_LINK + detailImgItem.image.id
+                val shareMessage = UNSPLASH_DEEP_LINK + detailImgItem.image.id
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.chose_one)))
             }
@@ -337,7 +337,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
 
         private const val DOWNLOAD_NOTIFICATION_ID = 100501
         private const val MAPS_INTENT_PACKAGE = "com.google.android.apps.maps"
-        private const val UNSPLASH_IMAGE_LINK = "https://unsplash.com/photos/"
+        private const val UNSPLASH_DEEP_LINK = "https://unsplash.com/photos/"
     }
 
 }

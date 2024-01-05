@@ -5,21 +5,6 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/images_nav_graph">
 
-    <fragment
-        android:id="@+id/imageDetailFragment"
-        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
-        tools:layout="@layout/fragment_image_detail"
-        android:label="DetailImageFragment">
-        <argument
-            android:name="imageId"
-            app:argType="string" />
-        <deepLink
-            android:id="@+id/deeplink_outside"
-            app:uri="https://unsplash.com/photos/{imageId}" />
-        <deepLink
-            android:id="@+id/deeplink_inside"
-            app:uri="unsplash://imageDetail/{imageId}" />
-    </fragment>
     <include app:graph="@navigation/images_nav_graph" />
     <include app:graph="@navigation/collections_nav_graph" />
 
