@@ -1,7 +1,6 @@
 package com.skillbox.unsplash.data.common.retrofit
 
-data class UnsplashResponse<T>(
-    val result: T?,
-    val errorCode: Int? = null,
-    val errorText: String = ""
-)
+sealed class UnsplashResponse<out T> {
+    data class Success<T>(val data: T) : UnsplashResponse<T>()
+    data class Error(val throwable: Throwable) : UnsplashResponse<Nothing>()
+}

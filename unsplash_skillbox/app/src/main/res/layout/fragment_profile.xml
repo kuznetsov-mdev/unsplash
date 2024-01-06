@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/errorMessageLayout"
-        layout="@layout/error_message_layout"
+        layout="@layout/layout_error_message"
         android:visibility="gone"
         tools:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"

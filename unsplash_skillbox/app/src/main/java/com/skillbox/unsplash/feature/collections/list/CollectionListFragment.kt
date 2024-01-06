@@ -1,5 +1,6 @@
 package com.skillbox.unsplash.feature.collections.list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -23,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class CollectionListFragment : Fragment(R.layout.fragment_collections) {
@@ -42,6 +44,7 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
         initCollectionList()
         observeData()
         getCollections()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onViewCreated hash = ${this.hashCode()}")
     }
 
     private fun observeData() {
@@ -55,11 +58,12 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
         }
 
         collectionAdapter.addLoadStateListener { loadState ->
-            viewBinding.noDataImageView.isVisible =
-                !(collectionAdapter.itemCount != 0 && loadState.refresh != LoadState.Loading || loadState.refresh == LoadState.Loading)
+            val isLoading = loadState.refresh == LoadState.Loading
+            val isThereAnyData = collectionAdapter.itemCount != 0
 
-            viewBinding.collectionListView.isVisible = loadState.refresh != LoadState.Loading
-            viewBinding.imagesLoginProgress.isVisible = loadState.refresh == LoadState.Loading
+            viewBinding.imagesLoginProgress.isVisible = isLoading
+            viewBinding.noDataImageView.isVisible = !isLoading && !isThereAnyData
+            viewBinding.collectionListView.isVisible = !isLoading && isThereAnyData
         }
     }
 
@@ -91,5 +95,50 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     companion object {
         const val USER_NAME_KEY = "username"
         const val COLLECTION_ITEM_KEY = "collectionItem"
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onAttach hash = ${this.hashCode()}")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onCreate hash = ${this.hashCode()}")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onStart hash = ${this.hashCode()}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onResume hash = ${this.hashCode()}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onPause hash = ${this.hashCode()}")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onStop hash = ${this.hashCode()}")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDestroyView hash = ${this.hashCode()}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDestroy hash = ${this.hashCode()}")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDetach hash = ${this.hashCode()}")
     }
 }
