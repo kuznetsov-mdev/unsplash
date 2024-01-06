@@ -18,7 +18,7 @@ import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
 class AuthServiceImpl @Inject constructor(
-    private val androidAuthService: AuthorizationService
+    private val authorizationService: AuthorizationService
 ) : AuthServiceApi {
     private val serviceConfiguration = AuthorizationServiceConfiguration(
         Uri.parse(AuthConfig.AUTH_URI),
@@ -61,7 +61,7 @@ class AuthServiceImpl @Inject constructor(
         tokenRequest: TokenRequest,
     ): TokensModel {
         return suspendCoroutine { continuation ->
-            androidAuthService.performTokenRequest(tokenRequest, getClientAuthentication()) { response, ex ->
+            authorizationService.performTokenRequest(tokenRequest, getClientAuthentication()) { response, ex ->
                 when {
                     response != null -> {
                         //получение токена произошло успешно
@@ -86,10 +86,14 @@ class AuthServiceImpl @Inject constructor(
         authRequest: AuthorizationRequest,
         customTabsIntent: CustomTabsIntent
     ): Intent {
-        return androidAuthService.getAuthorizationRequestIntent(
+        return authorizationService.getAuthorizationRequestIntent(
             authRequest,
             customTabsIntent
         )
+    }
+
+    override fun disposeAuthService() {
+        authorizationService.dispose()
     }
 
     private fun getClientAuthentication(): ClientAuthentication {

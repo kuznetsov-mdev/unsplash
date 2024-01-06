@@ -39,6 +39,11 @@ class AuthViewModel @Inject constructor(
     val loadingFlow: Flow<Boolean>
         get() = loadingMutableStateFlow.asStateFlow()
 
+    override fun onCleared() {
+        super.onCleared()
+        repository.disposeAuthService()
+    }
+
     fun openLoginPage() {
         val customTabsIntent = CustomTabsIntent.Builder().build()
         val authRequest = repository.getAuthRequest()
@@ -57,12 +62,12 @@ class AuthViewModel @Inject constructor(
         Timber.tag("Oauth").d("2. Open auth page: ${authRequest.toUri()}")
     }
 
-    fun onAuthCodeFailed(exception: AuthorizationException) {
+    private fun onAuthCodeFailed(exception: AuthorizationException) {
         toastEventChannel.trySendBlocking(R.string.auth_canceled)
         Timber.tag("Oauth").d("cause is ${exception.error}")
     }
 
-    fun onAuthCodeReceived(tokenRequest: TokenRequest) {
+    private fun onAuthCodeReceived(tokenRequest: TokenRequest) {
         //Процедура обмена кода на токен
         Timber.tag("Oauth").d("3. Received code = ${tokenRequest.authorizationCode}")
 

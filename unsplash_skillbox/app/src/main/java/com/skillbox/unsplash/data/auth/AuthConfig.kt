@@ -5,7 +5,7 @@ import net.openid.appauth.ResponseTypeValues
 object AuthConfig {
     const val AUTH_URI = "https://unsplash.com/oauth/authorize"
     const val TOKEN_URI = "https://unsplash.com/oauth/token"
-    const val END_SESSION_URI = ""
+    const val END_SESSION_URI = "https://unsplash.com/oauth/logout"
     const val RESPONSE_TYPE = ResponseTypeValues.CODE
     const val SCOPE = "public read_user read_photos read_collections write_likes"
 

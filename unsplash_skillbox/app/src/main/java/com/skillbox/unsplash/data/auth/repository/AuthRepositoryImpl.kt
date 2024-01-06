@@ -60,4 +60,8 @@ class AuthRepositoryImpl @Inject constructor(
             accessToken != null && refreshToken != null && idToken != null
         }
     }
+
+    override fun disposeAuthService() {
+        authService.disposeAuthService()
+    }
 }

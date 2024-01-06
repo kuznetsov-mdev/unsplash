@@ -21,4 +21,6 @@ interface AuthRepositoryApi {
     fun getAuthorizationRequestIntent(authRequest: AuthorizationRequest, customTabsIntent: CustomTabsIntent): Intent
 
     fun isUserLoggedIn(): Boolean
+
+    fun disposeAuthService()
 }

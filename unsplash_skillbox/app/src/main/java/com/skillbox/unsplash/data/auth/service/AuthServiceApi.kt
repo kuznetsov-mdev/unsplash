@@ -22,4 +22,6 @@ interface AuthServiceApi {
         customTabsIntent: CustomTabsIntent
     ): Intent
 
+    fun disposeAuthService()
+
 }
