@@ -10,6 +10,7 @@ import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsReposi
 import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
+import com.skillbox.unsplash.data.common.retrofit.UnsplashResponse
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +28,10 @@ class CollectionRemoteMediator(
 ) : RemoteMediator<Int, CollectionWithUserAndImagesEntity>() {
     private var pageIndex = 1
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, CollectionWithUserAndImagesEntity>): MediatorResult {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, CollectionWithUserAndImagesEntity>
+    ): MediatorResult {
         pageIndex = getPageIndex(loadType) ?: return MediatorResult.Success(endOfPaginationReached = true)
         val pageSize = state.config.pageSize
 
@@ -55,11 +59,20 @@ class CollectionRemoteMediator(
     }
 
     private suspend fun getCollections(pageIndex: Int, pageSize: Int): List<CollectionWithUserAndImagesEntity> {
-        val collections: List<CollectionDto> =
-            if (userName == null) retrofitCollectionsRepository.getAll(pageIndex, pageSize)
-            else retrofitCollectionsRepository.getUserCollections(userName, pageIndex, pageSize)
-        saveCollectionImageDataOnDisk(collections)
-        return convertToImageWithAuthorEntity(collections)
+        val collections: UnsplashResponse<List<CollectionDto>> =
+            if (userName == null) {
+                retrofitCollectionsRepository.getAll(pageIndex, pageSize)
+            } else {
+                retrofitCollectionsRepository.getUserCollections(userName, pageIndex, pageSize)
+            }
+
+        return when (collections) {
+            is UnsplashResponse.Error -> throw collections.throwable
+            is UnsplashResponse.Success -> {
+                saveCollectionImageDataOnDisk(collections.data)
+                convertToImageWithAuthorEntity(collections.data)
+            }
+        }
     }
 
     private suspend fun saveCollectionImageDataOnDisk(models: List<CollectionDto>) {
