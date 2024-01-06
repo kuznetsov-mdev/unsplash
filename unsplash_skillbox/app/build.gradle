@@ -128,5 +128,7 @@ dependencies {
     //WorkManager
     implementation "androidx.work:work-runtime-ktx:2.9.0"
     implementation "androidx.hilt:hilt-work:1.1.0"
+    //Chrome custom tabs
+    implementation 'androidx.browser:browser:1.7.0'
 }
 

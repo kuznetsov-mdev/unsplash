@@ -2,6 +2,7 @@ package com.skillbox.unsplash.data.auth.repository
 
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
+import com.skillbox.unsplash.data.auth.AuthConfig
 import com.skillbox.unsplash.data.auth.model.TokenStorageDataModel
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
 import kotlinx.coroutines.Dispatchers
@@ -10,6 +11,8 @@ import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.EndSessionRequest
 import net.openid.appauth.TokenRequest
 import timber.log.Timber
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -63,5 +66,15 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun disposeAuthService() {
         authService.disposeAuthService()
+    }
+
+    override suspend fun checkConnection(): Int {
+        val url = URL("${AuthConfig.AUTH_URI}/?${AuthConfig.CLIENT_KEY}=${AuthConfig.CLIENT_ID}")
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "GET"
+        connection.connect()
+        val responseCode = connection.responseCode
+        connection.disconnect()
+        return responseCode
     }
 }

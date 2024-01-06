@@ -23,4 +23,6 @@ interface AuthRepositoryApi {
     fun isUserLoggedIn(): Boolean
 
     fun disposeAuthService()
+
+    suspend fun checkConnection(): Int
 }

@@ -3,6 +3,7 @@ package com.skillbox.unsplash.feature.auth
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -21,12 +22,11 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private val viewModel: AuthViewModel by viewModels()
     private val binding by viewBinding(FragmentAuthBinding::class.java)
 
-    private val getAuthResponse: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        val dataIntent = it.data ?: return@registerForActivityResult
-        viewModel.handleAuthResponseIntent(dataIntent)
-    }
+    private val activityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val dataIntent = it.data ?: return@registerForActivityResult
+            viewModel.handleAuthResponseIntent(dataIntent)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,7 +34,17 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun bindViewModel() {
-        binding.loginButton.setOnClickListener { viewModel.openLoginPage() }
+        binding.loginButton.setOnClickListener {
+            viewModel.checkConnection()
+        }
+
+        viewModel.connectionLiveData.observe(viewLifecycleOwner) {
+            if (it >= 400) {
+                Toast.makeText(requireContext(), "Error 403!!!!", Toast.LENGTH_SHORT).show()
+            } else if (it != -1) {
+                viewModel.createOpenLoginPageIntent()
+            }
+        }
 
         viewModel.loadingFlow.launchAndCollectIn(viewLifecycleOwner) {
             updateIsLoading(it)
@@ -55,7 +65,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun openAuthPage(intent: Intent) {
-        getAuthResponse.launch(intent)
+        activityResultLauncher.launch(intent)
     }
 
     private fun updateIsLoading(isLoading: Boolean) = with(binding) {

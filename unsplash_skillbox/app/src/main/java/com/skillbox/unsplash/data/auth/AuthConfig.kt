@@ -13,4 +13,6 @@ object AuthConfig {
     const val CLIENT_SECRET = "M_0uyC3KmjL5f1Gc5_VRSAnxSFBY9RcAx2RzgG5A_Ic"
     const val CALLBACK_URL = "unsplash://com.skillbox.unsplash/callback"
     const val LOGOUT_CALLBACK_URL = "unsplash://com.skillbox.unsplash/logout_callback"
+
+    const val CLIENT_KEY = "client_id"
 }

@@ -2,6 +2,8 @@ package com.skillbox.unsplash.feature.auth
 
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.R
@@ -29,6 +31,7 @@ class AuthViewModel @Inject constructor(
     private val toastEventChannel = Channel<Int>(Channel.BUFFERED)
     private val authSuccessEventChannel = Channel<Unit>(Channel.BUFFERED)
     private val loadingMutableStateFlow = MutableStateFlow(false)
+    private val connectionStatusMutableLiveData = MutableLiveData(-1)
 
     val openAuthPageFlow: Flow<Intent>
         get() = openAuthPageEventChannel.receiveAsFlow()
@@ -38,14 +41,15 @@ class AuthViewModel @Inject constructor(
         get() = authSuccessEventChannel.receiveAsFlow()
     val loadingFlow: Flow<Boolean>
         get() = loadingMutableStateFlow.asStateFlow()
+    val connectionLiveData: LiveData<Int>
+        get() = connectionStatusMutableLiveData
 
     override fun onCleared() {
         super.onCleared()
         repository.disposeAuthService()
     }
 
-    fun openLoginPage() {
-        val customTabsIntent = CustomTabsIntent.Builder().build()
+    fun createOpenLoginPageIntent() {
         val authRequest = repository.getAuthRequest()
 
         Timber.tag("Oauth").d(
@@ -55,10 +59,9 @@ class AuthViewModel @Inject constructor(
 
         val openAuthPageIntent = repository.getAuthorizationRequestIntent(
             authRequest,
-            customTabsIntent
+            CustomTabsIntent.Builder().build()
         )
         openAuthPageEventChannel.trySendBlocking(openAuthPageIntent)
-
         Timber.tag("Oauth").d("2. Open auth page: ${authRequest.toUri()}")
     }
 
@@ -99,6 +102,12 @@ class AuthViewModel @Inject constructor(
             exception != null -> onAuthCodeFailed(exception)
             //авторизация прошла успешно
             tokenExchangeRequest != null -> onAuthCodeReceived(tokenExchangeRequest)
+        }
+    }
+
+    fun checkConnection() {
+        viewModelScope.launch(Dispatchers.IO) {
+            connectionStatusMutableLiveData.postValue(repository.checkConnection())
         }
     }
 }

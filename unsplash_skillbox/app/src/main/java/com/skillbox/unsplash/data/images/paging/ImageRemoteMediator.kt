@@ -7,6 +7,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.extensions.toRoomImageEntity
 import com.skillbox.unsplash.data.common.SearchCondition
+import com.skillbox.unsplash.data.common.retrofit.UnsplashResponse
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
@@ -46,8 +47,8 @@ class ImageRemoteMediator(
                 roomImageRepository.insertAll(condition, images)
             }
             MediatorResult.Success(endOfPaginationReached = images.size < pageSize)
-        } catch (e: Error) {
-            MediatorResult.Error(e)
+        } catch (t: Throwable) {
+            MediatorResult.Error(t)
         }
     }
 
@@ -60,7 +61,7 @@ class ImageRemoteMediator(
     }
 
     private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithUserEntity> {
-        val searchResult: List<ImageDto> = when (condition) {
+        val searchResult: UnsplashResponse<List<ImageDto>> = when (condition) {
             is SearchCondition.Empty ->
                 retrofitImageRepository.getImages(pageNumber, pageSize)
 
@@ -79,8 +80,13 @@ class ImageRemoteMediator(
             else -> error("Not implemented yet")
         }
 
-        saveImageDataOnDisk(searchResult)
-        return convertToImageWithAuthorEntity(searchResult)
+        return when (searchResult) {
+            is UnsplashResponse.Error -> throw searchResult.throwable
+            is UnsplashResponse.Success -> {
+                saveImageDataOnDisk(searchResult.data)
+                convertToImageWithAuthorEntity(searchResult.data)
+            }
+        }
     }
 
     private suspend fun saveImageDataOnDisk(models: List<ImageDto>) {
