@@ -4,14 +4,13 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.skillbox.unsplash.feature.profile.model.ProfileUiModel
 import com.skillbox.unsplash.feature.profile.pager.CollectionsNavContainerFragment
 import com.skillbox.unsplash.feature.profile.pager.ImagesNavContainerFragment
 
 
 class ProfileAdapter(
     fragment: FragmentActivity,
-    private val profile: ProfileUiModel
+    private val userName: String
 ) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int {
@@ -29,14 +28,14 @@ class ProfileAdapter(
 
     private fun getUserImagesFragment(): Fragment {
         return ImagesNavContainerFragment().apply {
-            arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
+            arguments = Bundle().apply { putString(USERNAME_PARAM, userName) }
         }
     }
 
     private fun getLikedImagesFragment(): Fragment {
         return ImagesNavContainerFragment().apply {
             arguments = Bundle().apply {
-                putString(USERNAME_PARAM, profile.nickname)
+                putString(USERNAME_PARAM, userName)
                 putBoolean(LIKED_BY_USER, true)
             }
         }
@@ -44,7 +43,7 @@ class ProfileAdapter(
 
     private fun getUserCollectionsFragment(): Fragment {
         return CollectionsNavContainerFragment().apply {
-            arguments = Bundle().apply { putString(USERNAME_PARAM, profile.nickname) }
+            arguments = Bundle().apply { putString(USERNAME_PARAM, userName) }
         }
     }
 

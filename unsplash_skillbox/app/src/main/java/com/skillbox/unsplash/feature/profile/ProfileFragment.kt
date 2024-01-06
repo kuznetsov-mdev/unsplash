@@ -31,12 +31,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
-        viewModel.getAccountInfo()
         Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onViewCreated hash = ${this.hashCode()}")
     }
 
     private fun initViewPager(profile: ProfileUiModel) {
-        val pagerAdapter = ProfileAdapter(requireActivity(), profile)
+        val pagerAdapter = ProfileAdapter(requireActivity(), profile.nickname)
         with(viewBinding) {
             viewPager.adapter = pagerAdapter
         }
@@ -144,6 +143,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onResume() {
         super.onResume()
+        viewModel.getAccountInfo()
         Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onResume hash = ${this.hashCode()}")
     }
 

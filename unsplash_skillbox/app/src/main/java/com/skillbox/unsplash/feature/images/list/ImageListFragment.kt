@@ -120,16 +120,13 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
 
     private fun onImageClicked(imageId: String) {
         if (arguments.username != null) {
-            val bundle = bundleOf(
-                IMAGE_ID_KEY to imageId
-            )
+            val bundle = bundleOf(IMAGE_ID_KEY to imageId)
             findTopNavController().navigate(R.id.imageDetailFragment, bundle)
         } else {
             findNavController().navigate(
                 ImageListFragmentDirections.actionImageListFragmentToImageDetailFragment2(imageId)
             )
         }
-
     }
 
     private fun observeData() {
