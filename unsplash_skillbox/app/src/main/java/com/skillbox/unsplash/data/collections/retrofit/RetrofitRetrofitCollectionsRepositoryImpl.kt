@@ -17,7 +17,7 @@ class RetrofitRetrofitCollectionsRepositoryImpl @Inject constructor(
             try {
                 UnsplashResponse.Success(network.collectionsApi.getCollections(pageNumber, pageSize))
             } catch (t: Throwable) {
-                Timber.tag("${this.javaClass.simpleName} - Networking").d(t)
+                Timber.tag("${this.javaClass.simpleName} - UnsplashResponse").d(t)
                 UnsplashResponse.Error(t)
             }
         }
@@ -28,7 +28,7 @@ class RetrofitRetrofitCollectionsRepositoryImpl @Inject constructor(
             try {
                 UnsplashResponse.Success(network.collectionsApi.getUserCollection(userName, pageNumber, pageSize))
             } catch (t: Throwable) {
-                Timber.tag("${this.javaClass.simpleName} - Networking").d(t)
+                Timber.tag("${this.javaClass.simpleName} - UnsplashResponse").d(t)
                 UnsplashResponse.Error(t)
             }
         }
