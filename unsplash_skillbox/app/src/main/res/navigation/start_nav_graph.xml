@@ -65,5 +65,9 @@
         android:id="@+id/mainFragment"
         android:name="com.skillbox.unsplash.feature.MainFragment"
         android:label="AppFragment"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_authFragment2"
+            app:destination="@id/authFragment" />
+    </fragment>
 </navigation>
