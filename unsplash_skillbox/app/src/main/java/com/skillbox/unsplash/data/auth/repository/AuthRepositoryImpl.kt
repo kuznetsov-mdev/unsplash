@@ -71,10 +71,19 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun checkConnection(): Int {
         val url = URL("${AuthConfig.AUTH_URI}/?${AuthConfig.CLIENT_KEY}=${AuthConfig.CLIENT_ID}")
         val connection = url.openConnection() as HttpURLConnection
-        connection.requestMethod = "GET"
-        connection.connect()
-        val responseCode = connection.responseCode
-        connection.disconnect()
-        return responseCode
+
+        return try {
+            connection.requestMethod = "GET"
+            connection.connect()
+            val responseCode = connection.responseCode
+            connection.disconnect()
+            responseCode
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            404
+        } finally {
+            connection.disconnect();
+        }
+
     }
 }

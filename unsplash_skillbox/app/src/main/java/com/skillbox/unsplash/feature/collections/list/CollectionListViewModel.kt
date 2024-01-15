@@ -11,8 +11,8 @@ import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,10 +22,10 @@ class CollectionListViewModel @Inject constructor(
     private val collectionsRepository: CollectionsRepository,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
-    private val collectionsStateFlow = MutableStateFlow<PagingData<CollectionUiModel>>(PagingData.empty())
+    private val collectionsSharedFlow = MutableSharedFlow<PagingData<CollectionUiModel>>()
 
-    val collectionList: StateFlow<PagingData<CollectionUiModel>>
-        get() = collectionsStateFlow
+    val collectionList: SharedFlow<PagingData<CollectionUiModel>>
+        get() = collectionsSharedFlow
 
     val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
@@ -34,7 +34,7 @@ class CollectionListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             collectionsRepository.getCollections(userName)
                 .cachedIn(viewModelScope).collectLatest {
-                    collectionsStateFlow.value = it
+                    collectionsSharedFlow.emit(it)
                 }
         }
     }

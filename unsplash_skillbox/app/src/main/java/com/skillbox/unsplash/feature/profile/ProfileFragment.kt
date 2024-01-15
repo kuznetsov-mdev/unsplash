@@ -1,6 +1,5 @@
 package com.skillbox.unsplash.feature.profile
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -21,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -31,11 +29,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onViewCreated hash = ${this.hashCode()}")
+        viewModel.getProfileInfo()
     }
 
     private fun initViewPager(profile: ProfileUiModel) {
-        val pagerAdapter = ProfileAdapter(requireActivity(), profile.nickname)
+        val pagerAdapter = ProfileAdapter(
+            requireActivity(),
+            profile.nickname,
+        )
+
         with(viewBinding) {
             viewPager.adapter = pagerAdapter
         }
@@ -68,8 +70,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.profileStateFlow.collectLatest { profile ->
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.profileInfoSharedFlow.collectLatest { profile ->
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     profile.let {
                         when (it) {
                             is ResponseResult.Content -> bindUserProfileData(it.content)
@@ -124,51 +126,5 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             userInfoLayout.visibility = View.GONE
             profileProgress.visibility = View.VISIBLE
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onAttach hash = ${this.hashCode()}")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onCreate hash = ${this.hashCode()}")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onStart hash = ${this.hashCode()}")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAccountInfo()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onResume hash = ${this.hashCode()}")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onPause hash = ${this.hashCode()}")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onStop hash = ${this.hashCode()}")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDestroyView hash = ${this.hashCode()}")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDestroy hash = ${this.hashCode()}")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDetach hash = ${this.hashCode()}")
     }
 }
