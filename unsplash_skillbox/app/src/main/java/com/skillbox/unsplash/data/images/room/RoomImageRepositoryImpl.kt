@@ -36,7 +36,7 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
     override suspend fun clear(users: List<UserEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {
-                dataBase.imageDao().deleteImages()
+                dataBase.imageDao().clearAll()
                 dataBase.userDao().deleteUsers(users)
             }
         }
@@ -74,5 +74,13 @@ class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : Room
             is SearchCondition.LikedUserImages -> dataBase.imageDao().getLikedUserImages()
             else -> error("Not implemented yet")
         }
+    }
+
+    override suspend fun clearAll() {
+        dataBase.imageDao().clearAll()
+    }
+
+    override suspend fun clearAllUsers() {
+        dataBase.userDao().clearAll()
     }
 }

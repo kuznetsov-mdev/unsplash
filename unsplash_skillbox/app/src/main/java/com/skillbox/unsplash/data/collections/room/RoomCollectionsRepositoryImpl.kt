@@ -38,4 +38,8 @@ class RoomCollectionsRepositoryImpl(private val dataBase: UnsplashRoomDataBase) 
             dataBase.collectionDao().getUserCollections(userName)
         }
     }
+
+    override suspend fun clearAll() {
+        dataBase.collectionDao().clearAll()
+    }
 }

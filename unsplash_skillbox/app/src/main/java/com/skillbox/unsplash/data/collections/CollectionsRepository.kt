@@ -40,6 +40,10 @@ class CollectionsRepository @Inject constructor(
             }
     }
 
+    suspend fun clearAllData() {
+        diskImageRepository.removeAllFromInternalStorage()
+    }
+
     private companion object {
         const val PAGE_SIZE = 10
     }

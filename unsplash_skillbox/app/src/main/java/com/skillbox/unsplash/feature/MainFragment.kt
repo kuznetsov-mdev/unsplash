@@ -1,9 +1,10 @@
 package com.skillbox.unsplash.feature
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,6 +20,7 @@ import com.skillbox.unsplash.R
 import com.skillbox.unsplash.common.extensions.launchAndCollectIn
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentMainBinding
+import com.skillbox.unsplash.util.resetNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,13 +31,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var topAppBar: MaterialToolbar
 
-    private val logoutResponse = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            viewModel.webLogoutComplete()
-        } else {
-            viewModel.webLogoutComplete()
+    private val logoutResponse: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            viewModel.webLogoutComplete(it)
         }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,9 +74,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         bottomNavView.setupWithNavController(navController)
 
         viewModel.logoutCompletedFlow.launchAndCollectIn(viewLifecycleOwner) {
-//            findNavController().clearBackStack(R.id.mainContainerView)
-            findNavController().popBackStack()
-//            findNavController().resetNavGraph(R.navigation.start_nav_graph)
+            findNavController().clearBackStack(R.id.mainFragment)
+            findNavController().resetNavGraph(R.navigation.start_nav_graph)
         }
 
         viewModel.logoutPageFlow.launchAndCollectIn(viewLifecycleOwner) {

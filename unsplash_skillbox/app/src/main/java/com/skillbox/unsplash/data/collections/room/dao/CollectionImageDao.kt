@@ -17,4 +17,7 @@ interface CollectionImageDao {
 
     @Query("DELETE FROM ${CollectionImageContract.TABLE_NAME} WHERE collection_id=:query")
     fun clearCollectionImages(query: String)
+
+    @Query("DELETE FROM ${CollectionImageContract.TABLE_NAME}")
+    fun clearAll()
 }

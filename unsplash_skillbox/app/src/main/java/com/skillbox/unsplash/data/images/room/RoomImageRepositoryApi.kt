@@ -18,4 +18,8 @@ interface RoomImageRepositoryApi {
 
     fun getPagingSource(searchCondition: SearchCondition): PagingSource<Int, ImageWithUserEntity>
 
+    suspend fun clearAll();
+
+    suspend fun clearAllUsers();
+
 }

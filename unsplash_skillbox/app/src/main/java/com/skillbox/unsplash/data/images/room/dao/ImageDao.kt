@@ -22,7 +22,7 @@ interface ImageDao {
     fun getImagesWithUser(): List<ImageWithUserEntity>
 
     @Query("DELETE FROM ${ImageContract.TABLE_NAME}")
-    fun deleteImages()
+    fun clearAll()
 
     @Transaction
     @Query("SELECT * FROM ${ImageContract.TABLE_NAME} WHERE ${ImageContract.Columns.SEARCH_QUERY}=:query")

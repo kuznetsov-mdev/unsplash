@@ -12,4 +12,6 @@ interface RoomCollectionsRepositoryApi {
     suspend fun refresh(collections: List<CollectionWithUserAndImagesEntity>)
 
     fun getCollections(userName: String?): PagingSource<Int, CollectionWithUserAndImagesEntity>
+
+    suspend fun clearAll()
 }

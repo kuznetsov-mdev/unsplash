@@ -63,4 +63,9 @@ class ImageRepository(
     private companion object {
         const val PAGE_SIZE = 10
     }
+
+    suspend fun clearAllData() {
+        diskImageRepository.removeAllFromInternalStorage()
+        roomImageRepository.clearAll()
+    }
 }
