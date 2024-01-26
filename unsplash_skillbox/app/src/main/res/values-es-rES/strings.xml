@@ -46,4 +46,5 @@
     <string name="sign_in_with">Iniciar sesión con</string>
     <string name="liked">Apreciado</string>
     <string name="collections">Сolecciones</string>
+    <string name="logout_desc">Logout</string>
 </resources>

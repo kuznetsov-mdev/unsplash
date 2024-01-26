@@ -6,7 +6,7 @@ import com.skillbox.unsplash.common.network.api.CollectionsApi
 import com.skillbox.unsplash.common.network.api.ImagesApi
 import com.skillbox.unsplash.common.network.api.ProfileApi
 import com.skillbox.unsplash.common.network.api.UploaderApi
-import com.skillbox.unsplash.data.auth.model.TokenStorageDataModel
+import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,7 +21,7 @@ class Network @Inject constructor(
     private val okHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .addNetworkInterceptor(AuthInterceptor())
-        .addNetworkInterceptor(AuthFailedInterceptor(TokenStorageDataModel, authServiceApi))
+        .addNetworkInterceptor(AuthFailedInterceptor(TokenStorage, authServiceApi))
         .addNetworkInterceptor(FlipperOkhttpInterceptor(NETWORK_FLIPPER_PLUGIN))
         .build()
 

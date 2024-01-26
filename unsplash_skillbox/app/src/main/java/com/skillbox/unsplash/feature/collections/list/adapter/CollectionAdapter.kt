@@ -30,7 +30,7 @@ class CollectionAdapter(
         )
     }
 
-    class CollectionDiffUtilCallback() : DiffUtil.ItemCallback<CollectionUiModel>() {
+    class CollectionDiffUtilCallback : DiffUtil.ItemCallback<CollectionUiModel>() {
         override fun areItemsTheSame(oldItem: CollectionUiModel, newItem: CollectionUiModel): Boolean {
             return oldItem.id == newItem.id
         }

@@ -10,7 +10,5 @@
         android:name="com.skillbox.unsplash.feature.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
-    <include app:graph="@navigation/images_nav_graph" />
-    <include app:graph="@navigation/collections_nav_graph" />
 
 </navigation>

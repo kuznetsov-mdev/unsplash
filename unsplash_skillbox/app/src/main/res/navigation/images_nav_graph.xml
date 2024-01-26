@@ -14,7 +14,7 @@
             android:id="@+id/action_imageListFragment_to_imageDetailFragment2"
             app:destination="@id/imageDetailFragmentLocal" />
         <argument
-            android:name="username"
+            android:name="userName"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />

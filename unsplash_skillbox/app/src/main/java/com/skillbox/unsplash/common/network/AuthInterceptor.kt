@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.common.network
 
-import com.skillbox.unsplash.data.auth.model.TokenStorageDataModel
+import com.skillbox.unsplash.data.auth.model.TokenStorage
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -18,7 +18,7 @@ class AuthInterceptor : Interceptor {
 
         return newBuilder()
             .apply {
-                TokenStorageDataModel.accessToken?.let { token ->
+                TokenStorage.accessToken?.let { token ->
                     header(authHeaderName, token.withBearer())
                 }
             }

@@ -11,6 +11,6 @@ class ImagesNavContainerFragment : Fragment(R.layout.fragment_images_nav_contain
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = (childFragmentManager.findFragmentById(R.id.imagesNavContainer) as NavHostFragment).navController
-        navController.navigate(R.id.images_nav_graph, arguments)
+        navController.setGraph(R.navigation.images_nav_graph, arguments)
     }
 }

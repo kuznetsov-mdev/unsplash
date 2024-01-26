@@ -27,6 +27,13 @@ class AuthServiceImpl @Inject constructor(
         Uri.parse(AuthConfig.END_SESSION_URI)
     )
 
+    override fun getEndSessionRequestIntent(customTabsIntent: CustomTabsIntent): Intent {
+        return authorizationService.getEndSessionRequestIntent(
+            getEndSessionRequest(),
+            customTabsIntent
+        )
+    }
+
     override fun getAuthRequest(): AuthorizationRequest {
         val redirectUri = AuthConfig.CALLBACK_URL.toUri()
 

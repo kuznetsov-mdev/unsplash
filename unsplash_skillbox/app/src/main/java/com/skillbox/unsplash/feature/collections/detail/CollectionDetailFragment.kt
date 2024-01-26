@@ -92,7 +92,7 @@ class CollectionDetailFragment : Fragment(R.layout.fragment_collection_detail) {
 
     private fun onImageClicked(imageId: String) {
         val bundle = bundleOf(IMAGE_ID_KEY to imageId)
-        if (collectionArgs.username != null) {
+        if (collectionArgs.userName != null) {
             findTopNavController().navigate(R.id.imageDetailFragment, bundle)
         } else {
             findNavController().navigate(R.id.imageDetailFragment4Collection, bundle)

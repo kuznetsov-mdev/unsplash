@@ -46,4 +46,5 @@
     <string name="sign_in_with">Войти с помощью</string>
     <string name="liked">Понравилось</string>
     <string name="collections">Коллекции</string>
+    <string name="logout_desc">Logout</string>
 </resources>

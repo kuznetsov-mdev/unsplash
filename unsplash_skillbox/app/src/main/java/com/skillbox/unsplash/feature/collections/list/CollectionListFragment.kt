@@ -32,6 +32,7 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     private val viewBinding: FragmentCollectionsBinding by viewBinding()
     private val viewModel: CollectionListViewModel by viewModels()
     private var isNetworkAvailableState = true
+    private var userName = "none"
     private val collectionAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CollectionAdapter(
             ::navigateToDetailInfo,
@@ -44,7 +45,8 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
         initCollectionList()
         observeData()
         getCollections()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onViewCreated hash = ${this.hashCode()}")
+        userName = arguments?.getString(USER_NAME_KEY) ?: userName
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onViewCreated user = $userName hash = ${this.hashCode()}")
     }
 
     private fun observeData() {
@@ -76,7 +78,7 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     }
 
     private fun navigateToDetailInfo(collectionItem: CollectionUiModel) {
-        val username = args.username
+        val username = arguments?.getString(USER_NAME_KEY)
 
         val bundle = bundleOf(
             COLLECTION_ITEM_KEY to collectionItem,
@@ -88,57 +90,57 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun getCollections() {
-        val userName = args.username
+        val userName = arguments?.getString(USER_NAME_KEY)
         viewModel.getCollections(userName)
     }
 
     companion object {
-        const val USER_NAME_KEY = "username"
+        const val USER_NAME_KEY = "userName"
         const val COLLECTION_ITEM_KEY = "collectionItem"
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onAttach hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onAttach hash = ${this.hashCode()}")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onCreate hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onCreate hash = ${this.hashCode()}")
     }
 
     override fun onStart() {
         super.onStart()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onStart hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onStart hash = ${this.hashCode()}")
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onResume hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onResume user = $userName hash = ${this.hashCode()}")
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onPause hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onPause user = $userName hash = ${this.hashCode()}")
     }
 
     override fun onStop() {
         super.onStop()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onStop hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onStop user = $userName hash = ${this.hashCode()}")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDestroyView hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onDestroyView user = $userName hash = ${this.hashCode()}")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDestroy hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onDestroy user = $userName hash = ${this.hashCode()}")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Timber.tag("Lifecycle").d("${this.javaClass.simpleName} -> onDetach hash = ${this.hashCode()}")
+        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onDetach user = $userName hash = ${this.hashCode()}")
     }
 }

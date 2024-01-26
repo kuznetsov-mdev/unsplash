@@ -24,4 +24,6 @@ interface AuthServiceApi {
 
     fun disposeAuthService()
 
+    fun getEndSessionRequestIntent(customTabsIntent: CustomTabsIntent): Intent
+
 }

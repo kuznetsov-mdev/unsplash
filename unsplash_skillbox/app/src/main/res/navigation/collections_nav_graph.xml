@@ -14,7 +14,7 @@
             android:id="@+id/action_collectionListFragment_to_collectionDetailFragment2"
             app:destination="@id/collectionDetailFragment2" />
         <argument
-            android:name="username"
+            android:name="userName"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
@@ -31,7 +31,7 @@
             android:id="@+id/action_collectionDetailFragment2_to_imageDetailFragment4Collection"
             app:destination="@id/imageDetailFragment4Collection" />
         <argument
-            android:name="username"
+            android:name="userName"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />

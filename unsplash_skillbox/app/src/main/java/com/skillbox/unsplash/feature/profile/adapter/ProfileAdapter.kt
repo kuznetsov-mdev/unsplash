@@ -42,14 +42,12 @@ class ProfileAdapter(
     }
 
     private fun getUserCollectionsFragment(): Fragment {
-        return CollectionsNavContainerFragment().apply {
-            arguments = Bundle().apply { putString(USERNAME_PARAM, userName) }
-        }
+        return CollectionsNavContainerFragment(userName)
     }
 
     companion object {
         private const val TABS_COUNT = 3
-        const val USERNAME_PARAM = "username"
+        const val USERNAME_PARAM = "userName"
         const val LIKED_BY_USER = "likedByUser"
     }
 }

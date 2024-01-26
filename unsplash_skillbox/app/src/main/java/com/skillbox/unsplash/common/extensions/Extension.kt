@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -86,4 +87,9 @@ fun TextInputEditText.textChangedFlow(): Flow<String?> {
         }
 
     }
+}
+
+fun NavController.resetNavGraph(@NavigationRes navGraph: Int) {
+    val newGraph = navInflater.inflate(navGraph)
+    graph = newGraph
 }

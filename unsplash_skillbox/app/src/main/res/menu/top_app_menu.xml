@@ -4,18 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search_top_bar_item"
-        android:title="Search"
-        android:icon="@drawable/ic_search"
-        android:contentDescription="Search"
-        app:showAsAction="ifRoom" />
-
-
-    <item
         android:id="@+id/logout_top_bar_item"
-        android:title="Logout"
+        android:title="@string/logout"
         android:icon="@drawable/ic_logout"
-        android:contentDescription="Logout"
+        android:contentDescription="@string/logout_desc"
         android:iconTint="@color/white"
         app:showAsAction="ifRoom"
         tools:targetApi="o" />

@@ -3,7 +3,7 @@ package com.skillbox.unsplash.data.auth.repository
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
 import com.skillbox.unsplash.data.auth.AuthConfig
-import com.skillbox.unsplash.data.auth.model.TokenStorageDataModel
+import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,13 +20,13 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepositoryApi {
 
     override fun corruptAccessToken() {
-        TokenStorageDataModel.accessToken = "fake token"
+        TokenStorage.accessToken = "fake token"
     }
 
     override fun logout() {
-        TokenStorageDataModel.accessToken = null
-        TokenStorageDataModel.refreshToken = null
-        TokenStorageDataModel.idToken = null
+        TokenStorage.accessToken = null
+        TokenStorage.refreshToken = null
+        TokenStorage.idToken = null
     }
 
     override fun getAuthRequest(): AuthorizationRequest {
@@ -40,9 +40,9 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun performTokenRequest(tokenRequest: TokenRequest) {
         withContext(Dispatchers.IO) {
             val tokens = authService.performTokenRequestSuspend(tokenRequest)
-            TokenStorageDataModel.accessToken = tokens.accessToken
-            TokenStorageDataModel.refreshToken = tokens.refreshToken
-            TokenStorageDataModel.idToken = tokens.idToken
+            TokenStorage.accessToken = tokens.accessToken
+            TokenStorage.refreshToken = tokens.refreshToken
+            TokenStorage.idToken = tokens.idToken
             Timber.tag("Oauth")
                 .d("5. Tokens accepted:\n access=${tokens.accessToken}\nrefresh=${tokens.refreshToken}\nidToken=${tokens.idToken}")
         }
@@ -58,8 +58,12 @@ class AuthRepositoryImpl @Inject constructor(
         )
     }
 
+    override fun getEndSessionRequestIntent(customTabsIntent: CustomTabsIntent): Intent {
+        return authService.getEndSessionRequestIntent(customTabsIntent)
+    }
+
     override fun isUserLoggedIn(): Boolean {
-        return with(TokenStorageDataModel) {
+        return with(TokenStorage) {
             accessToken != null && refreshToken != null && idToken != null
         }
     }

@@ -17,7 +17,7 @@ data class CoverPhotoDto(
     @Json(name = "color")
     val color: String,
     @Json(name = "blur_hash")
-    val blurHash: String,
+    val blurHash: String?,
     @Json(name = "likes")
     val likes: Int,
     @Json(name = "liked_by_user")

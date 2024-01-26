@@ -49,18 +49,13 @@ class AuthViewModel @Inject constructor(
         repository.disposeAuthService()
     }
 
-    fun createOpenLoginPageIntent() {
+    fun openLoginPage() {
+        checkConnection()
+        val customTabsIntent = CustomTabsIntent.Builder().build()
         val authRequest = repository.getAuthRequest()
+        Timber.tag("Oauth").d("1. Generated verifier=${authRequest.codeVerifier}, challenge=${authRequest.codeVerifierChallenge}")
 
-        Timber.tag("Oauth").d(
-            "1. Generated verifier=${authRequest.codeVerifier}," +
-                    "challenge=${authRequest.codeVerifierChallenge}"
-        )
-
-        val openAuthPageIntent = repository.getAuthorizationRequestIntent(
-            authRequest,
-            CustomTabsIntent.Builder().build()
-        )
+        val openAuthPageIntent = repository.getAuthorizationRequestIntent(authRequest, customTabsIntent)
         openAuthPageEventChannel.trySendBlocking(openAuthPageIntent)
         Timber.tag("Oauth").d("2. Open auth page: ${authRequest.toUri()}")
     }

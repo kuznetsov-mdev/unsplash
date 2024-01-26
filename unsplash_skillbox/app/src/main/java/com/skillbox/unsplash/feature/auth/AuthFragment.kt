@@ -3,7 +3,6 @@ package com.skillbox.unsplash.feature.auth
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -35,16 +34,17 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private fun bindViewModel() {
         binding.loginButton.setOnClickListener {
-            viewModel.checkConnection()
+//            viewModel.checkConnection()
+            viewModel.openLoginPage()
         }
 
-        viewModel.connectionLiveData.observe(viewLifecycleOwner) {
-            if (it >= 400) {
-                Toast.makeText(requireContext(), "Error 403!!!!", Toast.LENGTH_SHORT).show()
-            } else if (it != -1) {
-                viewModel.createOpenLoginPageIntent()
-            }
-        }
+//        viewModel.connectionLiveData.observe(viewLifecycleOwner) {
+//            if (it >= 400) {
+//                Toast.makeText(requireContext(), "Error 403!!!!", Toast.LENGTH_SHORT).show()
+//            } else if (it != -1) {
+//                viewModel.createOpenLoginPageIntent()
+//            }
+//        }
 
         viewModel.loadingFlow.launchAndCollectIn(viewLifecycleOwner) {
             updateIsLoading(it)
@@ -61,7 +61,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         viewModel.authSuccessFlow.launchAndCollectIn(viewLifecycleOwner) {
             findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToAppFragment())
         }
-
     }
 
     private fun openAuthPage(intent: Intent) {

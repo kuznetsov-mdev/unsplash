@@ -119,7 +119,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun onImageClicked(imageId: String) {
-        if (arguments.username != null) {
+        if (arguments.userName != null) {
             val bundle = bundleOf(IMAGE_ID_KEY to imageId)
             findTopNavController().navigate(R.id.imageDetailFragment, bundle)
         } else {
@@ -152,7 +152,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private fun searchImages(
         searchImageQuery: String? = null,
     ) {
-        val userName = arguments.username
+        val userName = arguments.userName
         val onlyLikedPhoto = arguments.likedByUser
         viewModel.searchImages(UnsplashSearchQuery(searchImageQuery, userName, onlyLikedPhoto))
     }
