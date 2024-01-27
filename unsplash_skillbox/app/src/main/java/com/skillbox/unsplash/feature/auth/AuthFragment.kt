@@ -8,6 +8,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
@@ -15,6 +18,8 @@ import com.skillbox.unsplash.common.extensions.launchAndCollectIn
 import com.skillbox.unsplash.databinding.FragmentAuthBinding
 import com.skillbox.unsplash.util.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AuthFragment : Fragment(R.layout.fragment_auth) {
@@ -34,17 +39,23 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private fun bindViewModel() {
         binding.loginButton.setOnClickListener {
-//            viewModel.checkConnection()
-            viewModel.openLoginPage()
+            binding.loginProgress.isVisible = true
+            viewModel.checkConnection()
         }
 
-//        viewModel.connectionLiveData.observe(viewLifecycleOwner) {
-//            if (it >= 400) {
-//                Toast.makeText(requireContext(), "Error 403!!!!", Toast.LENGTH_SHORT).show()
-//            } else if (it != -1) {
-//                viewModel.createOpenLoginPageIntent()
-//            }
-//        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.connectivityResult.collectLatest { resutl ->
+                    binding.rateLimitMsg.isVisible = false
+                    if (resutl >= 400) {
+                        binding.rateLimitMsg.isVisible = true
+                        binding.loginProgress.isVisible = false
+                    } else if (resutl != -1) {
+                        viewModel.openLoginPage()
+                    }
+                }
+            }
+        }
 
         viewModel.loadingFlow.launchAndCollectIn(viewLifecycleOwner) {
             updateIsLoading(it)

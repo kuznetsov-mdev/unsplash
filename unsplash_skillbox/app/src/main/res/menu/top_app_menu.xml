@@ -4,6 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/search_item"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search"
+        android:contentDescription="@string/search"
+        android:iconTint="@color/white"
+        app:showAsAction="ifRoom"
+        tools:targetApi="o" />
+
+    <item
+        android:id="@+id/share_item"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share_photo"
+        android:contentDescription="@string/share"
+        android:iconTint="@color/white"
+        app:showAsAction="ifRoom"
+        tools:targetApi="o" />
+
+    <item
         android:id="@+id/logout_top_bar_item"
         android:title="@string/logout"
         android:icon="@drawable/ic_logout"

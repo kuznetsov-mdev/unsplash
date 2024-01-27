@@ -48,5 +48,7 @@
     <string name="liked">Liked</string>
     <string name="collections">Collections</string>
     <string name="logout_desc">Logout</string>
+    <string name="share">Share</string>
+    <string name="rate_limit_message">The limit on the allowed number of calls to the Unsplash server has been reached. \n Please try again later.</string>
 
 </resources>

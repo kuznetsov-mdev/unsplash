@@ -47,4 +47,6 @@
     <string name="liked">Понравилось</string>
     <string name="collections">Коллекции</string>
     <string name="logout_desc">Logout</string>
+    <string name="share">Поделиться</string>
+    <string name="rate_limit_message">Исчерпан лимит допустимого количества обращений к серверу Unsplash. \n Повторите попытку позже.</string>
 </resources>

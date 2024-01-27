@@ -60,13 +60,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     findNavController().navigate(R.id.authFragment)
                     true
                 }
-
                 else -> true
             }
         }
 
         topAppBar.setNavigationOnClickListener {
-            viewModel.logout()
+            findNavController().popBackStack()
         }
 
         val bottomNavView = binding.mainBottomNavigation

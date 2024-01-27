@@ -2,8 +2,6 @@ package com.skillbox.unsplash.feature.auth
 
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.R
@@ -13,7 +11,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ class AuthViewModel @Inject constructor(
     private val toastEventChannel = Channel<Int>(Channel.BUFFERED)
     private val authSuccessEventChannel = Channel<Unit>(Channel.BUFFERED)
     private val loadingMutableStateFlow = MutableStateFlow(false)
-    private val connectionStatusMutableLiveData = MutableLiveData(-1)
+    private val connectionStatusMutableSharedFlow = MutableSharedFlow<Int>()
 
     val openAuthPageFlow: Flow<Intent>
         get() = openAuthPageEventChannel.receiveAsFlow()
@@ -41,8 +42,8 @@ class AuthViewModel @Inject constructor(
         get() = authSuccessEventChannel.receiveAsFlow()
     val loadingFlow: Flow<Boolean>
         get() = loadingMutableStateFlow.asStateFlow()
-    val connectionLiveData: LiveData<Int>
-        get() = connectionStatusMutableLiveData
+    val connectivityResult: SharedFlow<Int>
+        get() = connectionStatusMutableSharedFlow.asSharedFlow()
 
     override fun onCleared() {
         super.onCleared()
@@ -50,7 +51,6 @@ class AuthViewModel @Inject constructor(
     }
 
     fun openLoginPage() {
-        checkConnection()
         val customTabsIntent = CustomTabsIntent.Builder().build()
         val authRequest = repository.getAuthRequest()
         Timber.tag("Oauth").d("1. Generated verifier=${authRequest.codeVerifier}, challenge=${authRequest.codeVerifierChallenge}")
@@ -102,7 +102,7 @@ class AuthViewModel @Inject constructor(
 
     fun checkConnection() {
         viewModelScope.launch(Dispatchers.IO) {
-            connectionStatusMutableLiveData.postValue(repository.checkConnection())
+            connectionStatusMutableSharedFlow.emit(repository.checkConnection())
         }
     }
 }
