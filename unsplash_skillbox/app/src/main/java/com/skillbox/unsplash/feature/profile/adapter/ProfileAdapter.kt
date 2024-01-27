@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.skillbox.unsplash.feature.profile.pager.CollectionsNavContainerFragment
-import com.skillbox.unsplash.feature.profile.pager.ImagesNavContainerFragment
+import com.skillbox.unsplash.feature.profile.nav.CollectionsNavContainerFragment
+import com.skillbox.unsplash.feature.profile.nav.ImagesNavContainerFragment
 
 
 class ProfileAdapter(

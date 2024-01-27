@@ -1,6 +1,5 @@
 package com.skillbox.unsplash.feature.collections.list
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -97,50 +96,5 @@ class CollectionListFragment : Fragment(R.layout.fragment_collections) {
     companion object {
         const val USER_NAME_KEY = "userName"
         const val COLLECTION_ITEM_KEY = "collectionItem"
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onAttach hash = ${this.hashCode()}")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onCreate hash = ${this.hashCode()}")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onStart hash = ${this.hashCode()}")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onResume user = $userName hash = ${this.hashCode()}")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onPause user = $userName hash = ${this.hashCode()}")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onStop user = $userName hash = ${this.hashCode()}")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onDestroyView user = $userName hash = ${this.hashCode()}")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onDestroy user = $userName hash = ${this.hashCode()}")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Timber.tag("LifecycleLog").d("${this.javaClass.simpleName} -> onDetach user = $userName hash = ${this.hashCode()}")
     }
 }

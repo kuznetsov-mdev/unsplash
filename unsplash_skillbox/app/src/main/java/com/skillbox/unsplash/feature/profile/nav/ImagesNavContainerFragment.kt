@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.feature.profile.pager
+package com.skillbox.unsplash.feature.profile.nav
 
 import android.os.Bundle
 import android.view.View
