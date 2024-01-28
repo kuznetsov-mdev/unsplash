@@ -58,6 +58,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         initSearchBar()
         observeData()
         searchImages()
+
     }
 
     private fun initRecyclerViewAdapter() {

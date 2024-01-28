@@ -2,6 +2,7 @@ package com.skillbox.unsplash.feature
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.appbar.MaterialToolbar
@@ -38,8 +40,52 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        topAppBar = binding.topAppBar
+        initToolbar()
+        initBottomNavMenu()
+        observeData()
+    }
 
+    private fun initBottomNavMenu() {
+        val bottomNavView = binding.mainBottomNavigation
+        val navController = (childFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment).navController
+        bottomNavView.setupWithNavController(navController)
+    }
+
+    private fun initToolbar() {
+
+        topAppBar = binding.topAppBar
+        topAppBar.menu.findItem(R.id.share_item).isVisible = false
+
+        topAppBar.menu.findItem(R.id.search_item).setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                return true
+            }
+
+        })
+
+        topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.logout_top_bar_item -> {
+                    Toast.makeText(requireActivity(), "Logout pressed", Toast.LENGTH_LONG).show()
+                    viewModel.logout()
+                    findNavController().navigate(R.id.authFragment)
+                    true
+                }
+
+                else -> true
+            }
+        }
+
+        val navController = (childFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment).navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        topAppBar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.connectivityStateFlow.collectLatest { status ->
@@ -52,26 +98,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
-        topAppBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.logout_top_bar_item -> {
-                    Toast.makeText(requireActivity(), "Logout pressed", Toast.LENGTH_LONG).show()
-                    viewModel.logout()
-                    findNavController().navigate(R.id.authFragment)
-                    true
-                }
-                else -> true
-            }
-        }
-
-        topAppBar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        val bottomNavView = binding.mainBottomNavigation
-        val navController = (childFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment).navController
-        bottomNavView.setupWithNavController(navController)
-
         viewModel.logoutCompletedFlow.launchAndCollectIn(viewLifecycleOwner) {
             findNavController().clearBackStack(R.id.mainFragment)
             findNavController().resetNavGraph(R.navigation.start_nav_graph)
@@ -81,5 +107,4 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             logoutResponse.launch(it)
         }
     }
-
 }
