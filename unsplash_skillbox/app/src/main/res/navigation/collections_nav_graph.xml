@@ -8,43 +8,28 @@
     <fragment
         android:id="@+id/collectionListFragment2"
         android:name="com.skillbox.unsplash.feature.collections.list.CollectionListFragment"
-        android:label="CollectionListFragment"
         tools:layout="@layout/fragment_collections">
         <action
             android:id="@+id/action_collectionListFragment_to_collectionDetailFragment2"
             app:destination="@id/collectionDetailFragment2" />
         <argument
             android:name="userName"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/collectionDetailFragment2"
         android:name="com.skillbox.unsplash.feature.collections.detail.CollectionDetailFragment"
-        android:label="CollectionDetailFragment"
         tools:layout="@layout/fragment_collection_detail">
         <argument
             android:name="collectionItem"
             app:argType="com.skillbox.unsplash.feature.collections.model.CollectionUiModel" />
-        <action
-            android:id="@+id/action_collectionDetailFragment2_to_imageDetailFragment4Collection"
-            app:destination="@id/imageDetailFragment4Collection" />
         <argument
             android:name="userName"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
 
 
-    </fragment>
-    <fragment
-        android:id="@+id/imageDetailFragment4Collection"
-        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
-        android:label="ImageDetailFragment"
-        tools:layout="@layout/fragment_image_detail">
-        <argument
-            android:name="imageId"
-            app:argType="string" />
     </fragment>
 </navigation>

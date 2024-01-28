@@ -52,7 +52,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun initToolbar() {
-
         topAppBar = binding.topAppBar
         topAppBar.menu.findItem(R.id.share_item).isVisible = false
 
@@ -60,11 +59,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 return true
             }
-
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 return true
             }
-
         })
 
         topAppBar.setOnMenuItemClickListener { menuItem ->
@@ -75,7 +72,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     findNavController().navigate(R.id.authFragment)
                     true
                 }
-
                 else -> true
             }
         }

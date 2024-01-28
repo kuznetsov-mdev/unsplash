@@ -2,13 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/hall_nav_graph"
+    android:id="@+id/start_nav_graph"
     app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/imageDetailFragment"
         android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
-        android:label="DetailImageFragment"
         tools:layout="@layout/fragment_image_detail">
         <argument
             android:name="imageId"
@@ -66,4 +65,7 @@
         android:name="com.skillbox.unsplash.feature.MainFragment"
         android:label="AppFragment"
         tools:layout="@layout/fragment_main" />
+    <action
+        android:id="@+id/action_global_imageDetailFragment"
+        app:destination="@id/imageDetailFragment" />
 </navigation>

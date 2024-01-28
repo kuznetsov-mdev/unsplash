@@ -2,14 +2,12 @@ package com.skillbox.unsplash.feature.images.list
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -17,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
+import com.skillbox.unsplash.StartNavGraphDirections
 import com.skillbox.unsplash.common.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.databinding.LayoutSearchBinding
@@ -120,14 +119,8 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
     private fun isNetworkAvailable(): Boolean = isNetworkAvailableState
 
     private fun onImageClicked(imageId: String) {
-        if (arguments.userName != null) {
-            val bundle = bundleOf(IMAGE_ID_KEY to imageId)
-            findTopNavController().navigate(R.id.imageDetailFragment, bundle)
-        } else {
-            findNavController().navigate(
-                ImageListFragmentDirections.actionImageListFragmentToImageDetailFragment2(imageId)
-            )
-        }
+        val action = StartNavGraphDirections.actionGlobalImageDetailFragment(imageId)
+        findTopNavController().navigate(action)
     }
 
     private fun observeData() {

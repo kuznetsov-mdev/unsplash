@@ -8,29 +8,16 @@
     <fragment
         android:id="@+id/imageListFragment"
         android:name="com.skillbox.unsplash.feature.images.list.ImageListFragment"
-        android:label="ImageListFragment"
         tools:layout="@layout/fragment_images">
-        <action
-            android:id="@+id/action_imageListFragment_to_imageDetailFragment2"
-            app:destination="@id/imageDetailFragmentLocal" />
         <argument
             android:name="userName"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="likedByUser"
-            app:argType="boolean"
-            android:defaultValue="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/imageDetailFragmentLocal"
-        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
-        android:label="ImageDetailFragment"
-        tools:layout="@layout/fragment_image_detail">
-        <argument
-            android:name="imageId"
-            app:argType="string" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
 
 
