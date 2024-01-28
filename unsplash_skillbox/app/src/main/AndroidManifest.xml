@@ -35,7 +35,8 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+            <!--for deeplink-->
+            <nav-graph android:value="@navigation/start_nav_graph" />
         </activity>
 
         <provider

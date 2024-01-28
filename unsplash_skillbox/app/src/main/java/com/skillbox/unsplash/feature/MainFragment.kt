@@ -32,6 +32,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding by viewBinding(FragmentMainBinding::class.java)
     private val viewModel: MainViewModel by viewModels()
     private lateinit var topAppBar: MaterialToolbar
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val logoutResponse: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -40,7 +41,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initToolbar()
+        initTopAppbar()
         initBottomNavMenu()
         observeData()
     }
@@ -51,14 +52,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         bottomNavView.setupWithNavController(navController)
     }
 
-    private fun initToolbar() {
+    private fun initTopAppbar() {
         topAppBar = binding.topAppBar
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.images_nav_graph,
+                R.id.collections_nav_graph,
+                R.id.profile_nav_graph
+            )
+        )
         topAppBar.menu.findItem(R.id.share_item).isVisible = false
 
         topAppBar.menu.findItem(R.id.search_item).setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 return true
             }
+
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 return true
             }
@@ -77,7 +86,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         val navController = (childFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment).navController
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
         topAppBar.setupWithNavController(navController, appBarConfiguration)
     }
 

@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.skillbox.unsplash.feature.profile.ProfileFragment"
-        android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 
 </navigation>
