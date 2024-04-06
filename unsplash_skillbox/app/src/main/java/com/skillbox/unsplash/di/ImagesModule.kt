@@ -9,6 +9,7 @@ import com.skillbox.unsplash.data.repository.DiskImageRepository
 import com.skillbox.unsplash.data.repository.ImageRepository
 import com.skillbox.unsplash.data.repository.RetrofitImageRepositoryImpl
 import com.skillbox.unsplash.data.repository.RoomImageRepositoryImpl
+import com.skillbox.unsplash.data.service.AuthServiceImpl
 import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
 import com.skillbox.unsplash.domain.api.service.AuthServiceApi
@@ -18,11 +19,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import net.openid.appauth.AuthorizationService
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ImagesModule {
+
+    @Provides
+    @Singleton
+    fun providesAuthService(authorizationService: AuthorizationService): AuthServiceApi =
+        AuthServiceImpl(authorizationService)
 
     @Provides
     @Singleton

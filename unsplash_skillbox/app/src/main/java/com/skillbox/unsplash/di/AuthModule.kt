@@ -7,26 +7,21 @@ import com.skillbox.unsplash.domain.api.service.AuthServiceApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
 import net.openid.appauth.AuthorizationService
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 class AuthModule {
-
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun providesAuthorizationService(context: Application): AuthorizationService =
         AuthorizationService(context)
 
-//    @Provides
-//    @ViewModelScoped
-//    fun providesAuthService(authorizationService: AuthorizationService): AuthServiceApi =
-//        AuthServiceImpl(authorizationService)
-
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun providesAuthRepository(authService: AuthServiceApi): AuthRepositoryApi =
         AuthRepositoryImpl(authService)
+
 }

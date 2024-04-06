@@ -125,6 +125,7 @@ dependencies {
     implementation "androidx.room:room-paging:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     ksp "androidx.room:room-compiler:$room_version"//автоматическая генерация реализаций для DAO и DB
+
     //WorkManager
     implementation "androidx.work:work-runtime-ktx:2.9.0"
     implementation 'androidx.hilt:hilt-work:1.2.0'
