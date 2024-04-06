@@ -2,7 +2,8 @@ package com.skillbox.unsplash.data.common
 
 import androidx.room.withTransaction
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
-import com.skillbox.unsplash.data.db.UnsplashRoomDataBase
+import com.skillbox.unsplash.data.local.UnsplashRoomDataBase
+import com.skillbox.unsplash.data.remote.retrofit.AppRepositoryApi
 import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(

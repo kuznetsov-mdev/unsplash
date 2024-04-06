@@ -1,13 +1,15 @@
 package com.skillbox.unsplash.common.extensions
 
-import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
-import com.skillbox.unsplash.data.images.retrofit.model.detail.ImageDetailDto
-import com.skillbox.unsplash.data.images.room.model.ImageEntity
-import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
+import com.skillbox.unsplash.data.remote.dto.CollectionDto
+import com.skillbox.unsplash.data.remote.dto.ImageDto
+import com.skillbox.unsplash.data.remote.dto.image.ImageDetailDto
+import com.skillbox.unsplash.data.remote.dto.user.UserProfileDto
 import com.skillbox.unsplash.domain.model.db.CollectionEntity
+import com.skillbox.unsplash.domain.model.db.ImageEntity
 import com.skillbox.unsplash.domain.model.db.UserEntity
 import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithImagesEntity
 import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
+import com.skillbox.unsplash.domain.model.db.image.ImageWithUserEntity
 import com.skillbox.unsplash.domain.model.local.CollectionUiModel
 import com.skillbox.unsplash.domain.model.local.ImageUiModel
 import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
@@ -17,8 +19,6 @@ import com.skillbox.unsplash.domain.model.local.detail.ExifUiModel
 import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
 import com.skillbox.unsplash.domain.model.local.detail.LocationUiModel
 import com.skillbox.unsplash.domain.model.local.detail.StatisticUiModel
-import com.skillbox.unsplash.domain.model.remote.CollectionDto
-import com.skillbox.unsplash.domain.model.remote.UserProfileDto
 
 fun ImageDto.toRoomImageEntity(
     cachedImagePath: String,

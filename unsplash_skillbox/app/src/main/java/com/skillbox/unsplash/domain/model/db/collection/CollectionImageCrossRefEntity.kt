@@ -2,7 +2,7 @@ package com.skillbox.unsplash.domain.model.db.collection
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import com.skillbox.unsplash.data.collections.room.contract.CollectionImageContract
+import com.skillbox.unsplash.data.local.contract.CollectionImageContract
 
 @Entity(
     tableName = CollectionImageContract.TABLE_NAME,

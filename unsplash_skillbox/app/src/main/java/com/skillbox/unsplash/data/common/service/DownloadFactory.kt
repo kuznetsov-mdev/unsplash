@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.skillbox.unsplash.data.common.storage.external.ImageExternalStorage
+import com.skillbox.unsplash.domain.api.storage.ImageExternalStorage
 import javax.inject.Inject
 
 class DownloadFactory @Inject constructor(

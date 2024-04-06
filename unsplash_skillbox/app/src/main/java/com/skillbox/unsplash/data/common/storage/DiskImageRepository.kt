@@ -2,8 +2,8 @@ package com.skillbox.unsplash.data.common.storage
 
 import androidx.lifecycle.LiveData
 import androidx.work.WorkInfo
-import com.skillbox.unsplash.data.common.storage.external.ImageExternalStorage
-import com.skillbox.unsplash.data.common.storage.internal.ImageInternalStorage
+import com.skillbox.unsplash.domain.api.storage.ImageExternalStorage
+import com.skillbox.unsplash.domain.api.storage.ImageInternalStorage
 import javax.inject.Inject
 
 class DiskImageRepository @Inject constructor(

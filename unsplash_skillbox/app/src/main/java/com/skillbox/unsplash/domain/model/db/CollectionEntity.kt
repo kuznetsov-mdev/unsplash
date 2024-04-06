@@ -3,7 +3,7 @@ package com.skillbox.unsplash.domain.model.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.skillbox.unsplash.data.collections.room.contract.CollectionContract
+import com.skillbox.unsplash.data.local.contract.CollectionContract
 
 @Entity(tableName = CollectionContract.TABLE_NAME)
 data class CollectionEntity(

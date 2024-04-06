@@ -5,7 +5,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.data.auth.repository.AuthRepositoryApi
+import com.skillbox.unsplash.data.remote.retrofit.AuthRepositoryApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

@@ -1,0 +1,17 @@
+package com.skillbox.unsplash.domain.api.repository
+
+import androidx.paging.PagingSource
+import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
+
+interface RoomCollectionsRepositoryApi {
+
+    suspend fun insertAll(collections: List<CollectionWithUserAndImagesEntity>)
+
+    suspend fun getCollectionImages()
+
+    suspend fun refresh(collections: List<CollectionWithUserAndImagesEntity>)
+
+    fun getCollections(userName: String?): PagingSource<Int, CollectionWithUserAndImagesEntity>
+
+    suspend fun clearAll()
+}

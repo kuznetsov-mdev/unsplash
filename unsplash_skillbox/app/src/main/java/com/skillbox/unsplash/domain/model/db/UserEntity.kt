@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.skillbox.unsplash.data.user.room.contract.UserContract
+import com.skillbox.unsplash.domain.model.db.user.UserContract
 import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = UserContract.TABLE_NAME)
