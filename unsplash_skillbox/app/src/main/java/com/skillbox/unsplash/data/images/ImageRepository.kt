@@ -14,8 +14,8 @@ import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.images.paging.ImageRemoteMediator
 import com.skillbox.unsplash.data.images.retrofit.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.data.images.room.RoomImageRepositoryApi
-import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
-import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
+import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

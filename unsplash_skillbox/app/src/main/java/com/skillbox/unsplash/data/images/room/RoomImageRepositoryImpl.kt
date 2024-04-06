@@ -7,7 +7,7 @@ import com.skillbox.unsplash.common.extensions.toImageUiModel
 import com.skillbox.unsplash.data.common.SearchCondition
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
 import com.skillbox.unsplash.data.user.room.model.UserEntity
-import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
+import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

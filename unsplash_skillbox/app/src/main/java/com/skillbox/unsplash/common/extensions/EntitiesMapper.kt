@@ -10,15 +10,15 @@ import com.skillbox.unsplash.data.images.room.model.ImageEntity
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
 import com.skillbox.unsplash.data.profile.retrofit.model.UserProfileDto
 import com.skillbox.unsplash.data.user.room.model.UserEntity
-import com.skillbox.unsplash.feature.collections.model.CollectionUiModel
-import com.skillbox.unsplash.feature.images.detail.model.ExifUiModel
-import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
-import com.skillbox.unsplash.feature.images.detail.model.LocationUiModel
-import com.skillbox.unsplash.feature.images.detail.model.StatisticUiModel
-import com.skillbox.unsplash.feature.images.list.model.ImageWithUserUiModel
-import com.skillbox.unsplash.feature.images.model.ImageUiModel
-import com.skillbox.unsplash.feature.images.model.UserUiModel
-import com.skillbox.unsplash.feature.profile.model.ProfileUiModel
+import com.skillbox.unsplash.domain.model.local.CollectionUiModel
+import com.skillbox.unsplash.domain.model.local.ImageUiModel
+import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
+import com.skillbox.unsplash.domain.model.local.ProfileUiModel
+import com.skillbox.unsplash.domain.model.local.UserUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ExifUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
+import com.skillbox.unsplash.domain.model.local.detail.LocationUiModel
+import com.skillbox.unsplash.domain.model.local.detail.StatisticUiModel
 
 fun ImageDto.toRoomImageEntity(
     cachedImagePath: String,

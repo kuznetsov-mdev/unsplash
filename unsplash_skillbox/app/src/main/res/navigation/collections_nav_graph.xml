@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/collectionListFragment2"
-        android:name="com.skillbox.unsplash.feature.collections.list.CollectionListFragment"
+        android:name="com.skillbox.unsplash.presentation.collections.list.CollectionListFragment"
         tools:layout="@layout/fragment_collections">
         <action
             android:id="@+id/action_collectionListFragment_to_collectionDetailFragment2"
@@ -20,11 +20,11 @@
     </fragment>
     <fragment
         android:id="@+id/collectionDetailFragment2"
-        android:name="com.skillbox.unsplash.feature.collections.detail.CollectionDetailFragment"
+        android:name="com.skillbox.unsplash.presentation.collections.detail.CollectionDetailFragment"
         tools:layout="@layout/fragment_collection_detail">
         <argument
             android:name="collectionItem"
-            app:argType="com.skillbox.unsplash.feature.collections.model.CollectionUiModel" />
+            app:argType="com.skillbox.unsplash.domain.model.local.CollectionUiModel" />
         <argument
             android:name="userName"
             app:argType="string"

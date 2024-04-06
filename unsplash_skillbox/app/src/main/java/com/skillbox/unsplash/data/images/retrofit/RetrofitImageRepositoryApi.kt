@@ -2,7 +2,7 @@ package com.skillbox.unsplash.data.images.retrofit
 
 import com.skillbox.unsplash.data.common.retrofit.UnsplashResponse
 import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
-import com.skillbox.unsplash.feature.images.detail.model.ImageDetailUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
 
 interface RetrofitImageRepositoryApi {
 
