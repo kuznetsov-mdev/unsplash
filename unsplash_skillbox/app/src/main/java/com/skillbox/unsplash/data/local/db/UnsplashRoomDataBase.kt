@@ -2,15 +2,15 @@ package com.skillbox.unsplash.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.skillbox.unsplash.data.local.dao.CollectionDao
-import com.skillbox.unsplash.data.local.dao.CollectionImageDao
-import com.skillbox.unsplash.data.local.dao.ImageDao
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase.Companion.DB_VERSION
+import com.skillbox.unsplash.data.local.db.dao.CollectionDao
+import com.skillbox.unsplash.data.local.db.dao.CollectionImageDao
+import com.skillbox.unsplash.data.local.db.dao.ImageDao
+import com.skillbox.unsplash.data.local.db.entities.CollectionEntity
+import com.skillbox.unsplash.data.local.db.entities.ImageEntity
+import com.skillbox.unsplash.data.local.db.entities.UserEntity
+import com.skillbox.unsplash.data.local.db.entities.collection.CollectionImageCrossRefEntity
 import com.skillbox.unsplash.data.remote.retrofit.UserApi
-import com.skillbox.unsplash.domain.model.db.CollectionEntity
-import com.skillbox.unsplash.domain.model.db.ImageEntity
-import com.skillbox.unsplash.domain.model.db.UserEntity
-import com.skillbox.unsplash.domain.model.db.collection.CollectionImageCrossRefEntity
 
 @Database(
     entities = [

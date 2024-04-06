@@ -1,10 +1,10 @@
 package com.skillbox.unsplash.domain.api.repository
 
 import androidx.paging.PagingSource
-import com.skillbox.unsplash.data.common.SearchCondition
-import com.skillbox.unsplash.domain.model.db.UserEntity
-import com.skillbox.unsplash.domain.model.db.image.ImageWithUserEntity
-import com.skillbox.unsplash.domain.model.local.ImageWithUserModel
+import com.skillbox.unsplash.common.SearchCondition
+import com.skillbox.unsplash.data.local.db.entities.UserEntity
+import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
+import com.skillbox.unsplash.domain.model.ImageWithUserModel
 
 interface RoomImageRepositoryApi {
 

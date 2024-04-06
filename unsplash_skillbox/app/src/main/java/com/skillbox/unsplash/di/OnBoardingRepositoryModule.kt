@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.di
 
-import com.skillbox.unsplash.data.impl.OnBoardingRepositoryImpl
 import com.skillbox.unsplash.data.remote.retrofit.OnBoardingRepositoryApi
+import com.skillbox.unsplash.data.repository.OnBoardingRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

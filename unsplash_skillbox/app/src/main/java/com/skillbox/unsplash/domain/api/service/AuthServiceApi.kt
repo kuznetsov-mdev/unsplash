@@ -2,7 +2,7 @@ package com.skillbox.unsplash.domain.api.service
 
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
-import com.skillbox.unsplash.domain.model.remote.token.TokensModel
+import com.skillbox.unsplash.data.remote.token.TokensModel
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.EndSessionRequest
 import net.openid.appauth.TokenRequest

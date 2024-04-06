@@ -1,9 +1,9 @@
 package com.skillbox.unsplash.di
 
-import com.skillbox.unsplash.data.common.AppRepositoryImpl
-import com.skillbox.unsplash.data.impl.DiskImageRepository
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.remote.retrofit.AppRepositoryApi
+import com.skillbox.unsplash.data.repository.AppRepositoryImpl
+import com.skillbox.unsplash.data.repository.DiskImageRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

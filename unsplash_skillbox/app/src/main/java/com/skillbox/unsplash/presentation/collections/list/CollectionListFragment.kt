@@ -17,7 +17,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentCollectionsBinding
-import com.skillbox.unsplash.domain.model.local.CollectionModel
+import com.skillbox.unsplash.domain.model.CollectionModel
 import com.skillbox.unsplash.presentation.collections.list.adapter.CollectionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers

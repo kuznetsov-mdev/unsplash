@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_collection_detail">
         <argument
             android:name="collectionItem"
-            app:argType="com.skillbox.unsplash.domain.model.local.CollectionModel" />
+            app:argType="com.skillbox.unsplash.domain.model.CollectionModel" />
         <argument
             android:name="userName"
             app:argType="string"

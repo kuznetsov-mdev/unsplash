@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.data.remote.retrofit
 
 import android.content.Context
-import com.skillbox.unsplash.domain.model.local.OnBoardingScreenModel
+import com.skillbox.unsplash.domain.model.OnBoardingScreenModel
 
 interface OnBoardingRepositoryApi {
 

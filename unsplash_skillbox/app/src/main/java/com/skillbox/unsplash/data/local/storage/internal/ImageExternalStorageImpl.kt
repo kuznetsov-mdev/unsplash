@@ -14,8 +14,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.skillbox.unsplash.data.common.service.DownloadWorker
 import com.skillbox.unsplash.data.remote.network.Network
+import com.skillbox.unsplash.data.service.DownloadWorker
 import com.skillbox.unsplash.domain.api.storage.ImageExternalStorage
 import com.skillbox.unsplash.util.haveQ
 import kotlinx.coroutines.Dispatchers

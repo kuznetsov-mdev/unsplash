@@ -5,8 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.skillbox.unsplash.domain.model.db.UserEntity
-import com.skillbox.unsplash.domain.model.db.user.UserContract
+import com.skillbox.unsplash.data.local.db.entities.UserEntity
+import com.skillbox.unsplash.data.local.db.entities.user.UserContract
 
 @Dao
 interface UserApi {

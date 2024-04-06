@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.ItemImageBinding
-import com.skillbox.unsplash.domain.model.local.ImageWithUserModel
+import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import com.skillbox.unsplash.util.inflate
 
 class ImageAdapter(

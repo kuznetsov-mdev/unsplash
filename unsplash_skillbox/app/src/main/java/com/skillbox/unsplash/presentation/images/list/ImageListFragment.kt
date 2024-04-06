@@ -19,7 +19,7 @@ import com.skillbox.unsplash.StartNavGraphDirections
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.databinding.LayoutSearchBinding
-import com.skillbox.unsplash.domain.model.local.UnsplashSearchQuery
+import com.skillbox.unsplash.domain.model.UnsplashSearchQuery
 import com.skillbox.unsplash.presentation.images.list.adapter.ImageAdapter
 import com.skillbox.unsplash.util.findTopNavController
 import com.skillbox.unsplash.util.textChangedFlow

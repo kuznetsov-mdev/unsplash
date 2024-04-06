@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentProfileBinding
-import com.skillbox.unsplash.domain.model.local.ProfileModel
-import com.skillbox.unsplash.domain.model.local.ResponseResultType
+import com.skillbox.unsplash.domain.model.ProfileModel
+import com.skillbox.unsplash.domain.model.ResponseResultType
 import com.skillbox.unsplash.presentation.profile.adapter.ProfileAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

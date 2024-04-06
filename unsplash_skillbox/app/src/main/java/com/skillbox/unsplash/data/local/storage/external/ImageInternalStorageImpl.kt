@@ -3,7 +3,6 @@ package com.skillbox.unsplash.data.local.storage.external
 import android.content.Context
 import android.graphics.Bitmap
 import com.bumptech.glide.Glide
-import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.domain.api.storage.ImageInternalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,8 +13,7 @@ import java.io.OutputStream
 import javax.inject.Inject
 
 class ImageInternalStorageImpl @Inject constructor(
-    private val context: Context,
-    private val network: Network,
+    private val context: Context
 ) : ImageInternalStorage {
 
     override suspend fun saveImage(id: String, url: String, dir: String) {

@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.skillbox.unsplash.data.common.SearchCondition
-import com.skillbox.unsplash.data.impl.ImageRepository
+import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.model.local.ImageWithUserModel
+import com.skillbox.unsplash.data.repository.ImageRepository
+import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

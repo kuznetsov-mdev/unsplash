@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.ItemCollectionBinding
 
-import com.skillbox.unsplash.domain.model.local.CollectionModel
+import com.skillbox.unsplash.domain.model.CollectionModel
 import com.skillbox.unsplash.util.inflate
 
 class CollectionAdapter(

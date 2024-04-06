@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.di
 
-import com.skillbox.unsplash.data.impl.RetrofitProfileRepositoryImpl
 import com.skillbox.unsplash.data.remote.network.Network
+import com.skillbox.unsplash.data.repository.RetrofitProfileRepositoryImpl
 import com.skillbox.unsplash.domain.api.repository.RetrofitProfileRepositoryApi
 import dagger.Module
 import dagger.Provides

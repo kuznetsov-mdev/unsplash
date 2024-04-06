@@ -9,8 +9,9 @@ import okhttp3.Response
 import timber.log.Timber
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class AuthFailedInterceptor(
+class AuthFailedInterceptor @Inject constructor(
     private val tokenStorage: TokenStorage,
     private val appAuthService: AuthServiceApi
 ) : Interceptor {
