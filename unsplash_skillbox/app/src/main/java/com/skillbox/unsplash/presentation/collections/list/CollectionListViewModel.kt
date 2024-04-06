@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.skillbox.unsplash.data.impl.CollectionsRepository
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.model.local.CollectionUiModel
+import com.skillbox.unsplash.domain.model.local.CollectionModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -24,9 +24,9 @@ class CollectionListViewModel @Inject constructor(
     private val collectionsRepository: CollectionsRepository,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
-    private val collectionsSharedFlow = MutableSharedFlow<PagingData<CollectionUiModel>>()
+    private val collectionsSharedFlow = MutableSharedFlow<PagingData<CollectionModel>>()
 
-    val collectionList: SharedFlow<PagingData<CollectionUiModel>>
+    val collectionList: SharedFlow<PagingData<CollectionModel>>
         get() = collectionsSharedFlow.asSharedFlow()
 
     val connectivityStateFlow: Flow<ConnectivityStatus>

@@ -35,10 +35,10 @@ import com.skillbox.unsplash.databinding.FragmentImageDetailBinding
 import com.skillbox.unsplash.databinding.ImageLayoutCameraInfoBinding
 import com.skillbox.unsplash.databinding.ImageLayoutImageStatisticBinding
 import com.skillbox.unsplash.databinding.ImageLayoutLocationBinding
-import com.skillbox.unsplash.domain.model.local.detail.ExifUiModel
-import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
-import com.skillbox.unsplash.domain.model.local.detail.LocationUiModel
-import com.skillbox.unsplash.domain.model.local.detail.StatisticUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ExifModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailModel
+import com.skillbox.unsplash.domain.model.local.detail.LocationModel
+import com.skillbox.unsplash.domain.model.local.detail.StatisticModel
 import com.skillbox.unsplash.util.haveQ
 import com.skillbox.unsplash.util.haveTiramisu
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,7 +88,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
     private fun observeImageDetailInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.imageDetailFlow.collectLatest { detailImgItem: ImageDetailUiModel? ->
+                viewModel.imageDetailFlow.collectLatest { detailImgItem: ImageDetailModel? ->
                     detailImgItem?.let {
                         imageDownloader = {
                             showNotification()
@@ -137,7 +137,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun bindImageDetail(detailImgItem: ImageDetailUiModel) {
+    private fun bindImageDetail(detailImgItem: ImageDetailModel) {
         with(imageDetailBinding) {
             uploadImageToView(imageItemView, detailImgItem.image.url)
             uploadImageToView(avatarImageView, detailImgItem.author.avatarUrl)
@@ -196,7 +196,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
             .into(view)
     }
 
-    private fun bindCameraInfo(cameraInfo: ExifUiModel) {
+    private fun bindCameraInfo(cameraInfo: ExifModel) {
         with(cameraInfoBinding) {
             cameraValue.text = cameraInfo.name
             focalLengthValue.text = cameraInfo.focalLength
@@ -206,7 +206,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
         }
     }
 
-    private fun bindStatisticInfo(statistics: StatisticUiModel) {
+    private fun bindStatisticInfo(statistics: StatisticModel) {
         with(imageStatisticBinding) {
             viewsTextValue.text = statistics.views.toString()
             downloadsTextValue.text = statistics.downloads.toString()
@@ -214,8 +214,8 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
         }
     }
 
-    private fun bindLocation(detailImgItem: ImageDetailUiModel) {
-        val location: LocationUiModel = detailImgItem.location;
+    private fun bindLocation(detailImgItem: ImageDetailModel) {
+        val location: LocationModel = detailImgItem.location;
         val isLocationInfoAbsent = location.country == null && location.city == null && location.name == null
         val isAnyLocationInfoPresent = location.country != null || location.city != null
         val isLocationNamePresent = location.name != null
@@ -241,7 +241,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setLocationText(location: LocationUiModel) {
+    private fun setLocationText(location: LocationModel) {
         if (location.city != null || location.country != null) {
             imageLocationBinding.locationDescView.text = "${location.city ?: ""} ${location.country ?: ""}"
         } else {

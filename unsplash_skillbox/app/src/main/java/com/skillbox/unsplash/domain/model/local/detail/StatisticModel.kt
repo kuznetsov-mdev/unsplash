@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.domain.model.local.detail
 
-data class StatisticUiModel(
+data class StatisticModel(
     val downloads: Int,
     val views: Int,
     val likes: Int,

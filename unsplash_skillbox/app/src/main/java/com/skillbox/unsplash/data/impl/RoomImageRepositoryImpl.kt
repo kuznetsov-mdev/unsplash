@@ -8,13 +8,13 @@ import com.skillbox.unsplash.data.local.UnsplashRoomDataBase
 import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
 import com.skillbox.unsplash.domain.model.db.UserEntity
 import com.skillbox.unsplash.domain.model.db.image.ImageWithUserEntity
-import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
+import com.skillbox.unsplash.domain.model.local.ImageWithUserModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomImageRepositoryApi {
 
-    override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserUiModel> {
+    override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserModel> {
         return withContext(Dispatchers.IO) {
             dataBase.imageDao().getImagesWithUser().map { it.toImageUiModel() }
         }

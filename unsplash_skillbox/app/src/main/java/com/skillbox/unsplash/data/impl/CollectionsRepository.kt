@@ -11,7 +11,7 @@ import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.impl.paging.CollectionRemoteMediator
 import com.skillbox.unsplash.domain.api.repository.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi
-import com.skillbox.unsplash.domain.model.local.CollectionUiModel
+import com.skillbox.unsplash.domain.model.local.CollectionModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class CollectionsRepository @Inject constructor(
     private val roomCollectionsRepository: RoomCollectionsRepositoryApi
 ) {
     @OptIn(ExperimentalPagingApi::class)
-    suspend fun getCollections(userName: String? = null): Flow<PagingData<CollectionUiModel>> {
+    suspend fun getCollections(userName: String? = null): Flow<PagingData<CollectionModel>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = CollectionRemoteMediator(

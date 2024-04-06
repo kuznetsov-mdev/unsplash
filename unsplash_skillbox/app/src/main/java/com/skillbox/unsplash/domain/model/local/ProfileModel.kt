@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.domain.model.local
 
-data class ProfileUiModel(
+data class ProfileModel(
     val id: String,
     val userName: String,
     val nickname: String,

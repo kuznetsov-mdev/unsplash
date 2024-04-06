@@ -5,7 +5,7 @@ import com.skillbox.unsplash.common.extensions.toDetailImageItem
 import com.skillbox.unsplash.data.remote.dto.ImageDto
 import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
-import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -74,7 +74,7 @@ class RetrofitImageRepositoryImpl(
         }
     }
 
-    override suspend fun getImageDetailInfo(imageId: String): ImageDetailUiModel {
+    override suspend fun getImageDetailInfo(imageId: String): ImageDetailModel {
         return withContext(Dispatchers.IO) {
             try {
                 network.imagesApi.getImageDetailInfo(imageId).toDetailImageItem(

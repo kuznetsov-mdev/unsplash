@@ -7,7 +7,7 @@ import androidx.work.WorkInfo
 import com.skillbox.unsplash.data.impl.ImageRepository
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,14 +22,14 @@ class ImageDetailViewModel @Inject constructor(
     private val repository: ImageRepository,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
-    private val imageDetailMutableFlow: MutableStateFlow<ImageDetailUiModel?> = MutableStateFlow(null)
+    private val imageDetailMutableFlow: MutableStateFlow<ImageDetailModel?> = MutableStateFlow(null)
     private val isDataLoadingMutableFlow: MutableStateFlow<Boolean> = MutableStateFlow(true)
     private val permissionGrantedMutableStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
 
-    val imageDetailFlow: StateFlow<ImageDetailUiModel?>
+    val imageDetailFlow: StateFlow<ImageDetailModel?>
         get() = imageDetailMutableFlow
 
     val isDataLoadingFlow: StateFlow<Boolean>

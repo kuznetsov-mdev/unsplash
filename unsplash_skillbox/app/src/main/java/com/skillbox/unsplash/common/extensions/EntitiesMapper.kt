@@ -10,15 +10,15 @@ import com.skillbox.unsplash.domain.model.db.UserEntity
 import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithImagesEntity
 import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.domain.model.db.image.ImageWithUserEntity
-import com.skillbox.unsplash.domain.model.local.CollectionUiModel
-import com.skillbox.unsplash.domain.model.local.ImageUiModel
-import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
-import com.skillbox.unsplash.domain.model.local.ProfileUiModel
-import com.skillbox.unsplash.domain.model.local.UserUiModel
-import com.skillbox.unsplash.domain.model.local.detail.ExifUiModel
-import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
-import com.skillbox.unsplash.domain.model.local.detail.LocationUiModel
-import com.skillbox.unsplash.domain.model.local.detail.StatisticUiModel
+import com.skillbox.unsplash.domain.model.local.CollectionModel
+import com.skillbox.unsplash.domain.model.local.ImageModel
+import com.skillbox.unsplash.domain.model.local.ImageWithUserModel
+import com.skillbox.unsplash.domain.model.local.ProfileModel
+import com.skillbox.unsplash.domain.model.local.UserModel
+import com.skillbox.unsplash.domain.model.local.detail.ExifModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailModel
+import com.skillbox.unsplash.domain.model.local.detail.LocationModel
+import com.skillbox.unsplash.domain.model.local.detail.StatisticModel
 
 fun ImageDto.toRoomImageEntity(
     cachedImagePath: String,
@@ -46,9 +46,9 @@ fun ImageDto.toRoomImageEntity(
     return ImageWithUserEntity(imageEntity, userEntity)
 }
 
-fun ImageWithUserEntity.toImageUiModel(): ImageWithUserUiModel {
-    return ImageWithUserUiModel(
-        ImageUiModel(
+fun ImageWithUserEntity.toImageUiModel(): ImageWithUserModel {
+    return ImageWithUserModel(
+        ImageModel(
             this.image.id,
             this.image.description,
             this.image.likes,
@@ -56,7 +56,7 @@ fun ImageWithUserEntity.toImageUiModel(): ImageWithUserUiModel {
             this.image.preview,
             this.image.cachedPreview
         ),
-        UserUiModel(
+        UserModel(
             this.user.id,
             this.user.nickName,
             this.user.name,
@@ -67,12 +67,12 @@ fun ImageWithUserEntity.toImageUiModel(): ImageWithUserUiModel {
     )
 }
 
-fun ImageDetailDto.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): ImageDetailUiModel {
-    return ImageDetailUiModel(
-        ImageUiModel(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
+fun ImageDetailDto.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): ImageDetailModel {
+    return ImageDetailModel(
+        ImageModel(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
         this.width,
         this.height,
-        UserUiModel(
+        UserModel(
             this.user.id,
             this.user.nickname,
             this.user.name,
@@ -80,7 +80,7 @@ fun ImageDetailDto.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatar
             this.user.profileImage.small,
             cachedAuthorAvatarPath
         ),
-        ExifUiModel(
+        ExifModel(
             this.exif.make ?: "Unknown",
             this.exif.model ?: "Unknown",
             this.exif.name ?: "Unknown",
@@ -90,14 +90,14 @@ fun ImageDetailDto.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatar
             this.exif.iso ?: 0
         ),
         this.tags.map { it.title },
-        LocationUiModel(
+        LocationModel(
             this.location.city,
             this.location.country,
             this.location.name,
             this.location.position.latitude,
             this.location.position.longitude
         ),
-        StatisticUiModel(
+        StatisticModel(
             this.downloads,
             0,
             this.likes
@@ -134,14 +134,14 @@ fun CollectionDto.toRoomEntity(
     )
 }
 
-fun CollectionWithUserAndImagesEntity.toCollectionUiModel(): CollectionUiModel {
-    return CollectionUiModel(
+fun CollectionWithUserAndImagesEntity.toCollectionUiModel(): CollectionModel {
+    return CollectionModel(
         this.collectionWithImages.collection.id,
         this.collectionWithImages.collection.title,
         this.collectionWithImages.collection.description,
         this.collectionWithImages.collection.totalPhotos,
         this.collectionWithImages.collection.cachedCoverPhoto,
-        UserUiModel(
+        UserModel(
             this.user.id,
             this.user.nickName,
             this.user.name,
@@ -152,8 +152,8 @@ fun CollectionWithUserAndImagesEntity.toCollectionUiModel(): CollectionUiModel {
     )
 }
 
-fun UserProfileDto.toUiModel(): ProfileUiModel {
-    return ProfileUiModel(
+fun UserProfileDto.toUiModel(): ProfileModel {
+    return ProfileModel(
         this.id,
         this.fullName,
         this.nickname,

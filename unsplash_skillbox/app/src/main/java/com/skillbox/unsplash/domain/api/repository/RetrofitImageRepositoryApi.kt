@@ -2,7 +2,7 @@ package com.skillbox.unsplash.domain.api.repository
 
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.data.remote.dto.ImageDto
-import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailModel
 
 interface RetrofitImageRepositoryApi {
 
@@ -16,7 +16,7 @@ interface RetrofitImageRepositoryApi {
 
     suspend fun removeLike(imageId: String)
 
-    suspend fun getImageDetailInfo(imageId: String): ImageDetailUiModel
+    suspend fun getImageDetailInfo(imageId: String): ImageDetailModel
 
     suspend fun getUserImages(userName: String, pageNumber: Int, pageSize: Int): UnsplashResponse<List<ImageDto>>
 

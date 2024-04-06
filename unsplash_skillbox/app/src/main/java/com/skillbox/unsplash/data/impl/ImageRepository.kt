@@ -14,8 +14,8 @@ import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.impl.paging.ImageRemoteMediator
 import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
-import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
-import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
+import com.skillbox.unsplash.domain.model.local.ImageWithUserModel
+import com.skillbox.unsplash.domain.model.local.detail.ImageDetailModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -27,7 +27,7 @@ class ImageRepository(
     private val retrofitImageRepository: RetrofitImageRepositoryApi
 ) {
     @OptIn(ExperimentalPagingApi::class)
-    fun search(searchCondition: SearchCondition): Flow<PagingData<ImageWithUserUiModel>> {
+    fun search(searchCondition: SearchCondition): Flow<PagingData<ImageWithUserModel>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = ImageRemoteMediator(
@@ -44,7 +44,7 @@ class ImageRepository(
             }
     }
 
-    suspend fun getImageDetailInfo(imageId: String): ImageDetailUiModel {
+    suspend fun getImageDetailInfo(imageId: String): ImageDetailModel {
         return retrofitImageRepository.getImageDetailInfo(imageId)
     }
 

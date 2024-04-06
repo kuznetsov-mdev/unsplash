@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.FragmentProfileBinding
-import com.skillbox.unsplash.domain.model.local.ProfileUiModel
+import com.skillbox.unsplash.domain.model.local.ProfileModel
 import com.skillbox.unsplash.domain.model.local.ResponseResultType
 import com.skillbox.unsplash.presentation.profile.adapter.ProfileAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +34,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         viewModel.getProfileInfo()
     }
 
-    private fun initViewPager(profile: ProfileUiModel) {
+    private fun initViewPager(profile: ProfileModel) {
         val pagerAdapter = ProfileAdapter(
             requireActivity(),
             profile.nickname,
@@ -54,7 +54,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
-    private fun getTabCountValue(tabPosition: Int, profile: ProfileUiModel): Int {
+    private fun getTabCountValue(tabPosition: Int, profile: ProfileModel): Int {
         return when (tabPosition) {
             0 -> profile.totalPhotos
             1 -> profile.totalLikes
@@ -86,7 +86,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
-    private fun bindUserProfileData(profile: ProfileUiModel) {
+    private fun bindUserProfileData(profile: ProfileModel) {
         initViewPager(profile)
         with(viewBinding) {
 

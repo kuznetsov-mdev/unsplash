@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.data.impl.ProfileRepository
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.model.local.ProfileUiModel
+import com.skillbox.unsplash.domain.model.local.ProfileModel
 import com.skillbox.unsplash.domain.model.local.ResponseResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,9 +25,9 @@ class ProfileViewModel @Inject constructor(
     val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
 
-    private val profileInfoMutableSharedFlow: MutableSharedFlow<ResponseResultType<ProfileUiModel>> = MutableSharedFlow()
+    private val profileInfoMutableSharedFlow: MutableSharedFlow<ResponseResultType<ProfileModel>> = MutableSharedFlow()
 
-    val profileInfoSharedFlow: SharedFlow<ResponseResultType<ProfileUiModel>>
+    val profileInfoSharedFlow: SharedFlow<ResponseResultType<ProfileModel>>
         get() = profileInfoMutableSharedFlow.asSharedFlow()
 
     fun getProfileInfo() {

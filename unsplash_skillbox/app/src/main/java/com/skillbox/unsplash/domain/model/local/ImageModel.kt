@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.domain.model.local
 
-data class ImageUiModel(
+data class ImageModel(
     val id: String,
     val description: String,
     var likes: Int,

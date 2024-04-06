@@ -8,7 +8,7 @@ import com.skillbox.unsplash.data.common.SearchCondition
 import com.skillbox.unsplash.data.impl.ImageRepository
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
+import com.skillbox.unsplash.domain.model.local.ImageWithUserModel
 import com.skillbox.unsplash.domain.model.local.UnsplashSearchQuery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,9 +26,9 @@ class ImageListViewModel @Inject constructor(
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
-    private val imagesStateFlow = MutableStateFlow<PagingData<ImageWithUserUiModel>>(PagingData.empty())
+    private val imagesStateFlow = MutableStateFlow<PagingData<ImageWithUserModel>>(PagingData.empty())
 
-    val imageList: StateFlow<PagingData<ImageWithUserUiModel>>
+    val imageList: StateFlow<PagingData<ImageWithUserModel>>
         get() = imagesStateFlow
 
     val connectivityStateFlow: Flow<ConnectivityStatus>

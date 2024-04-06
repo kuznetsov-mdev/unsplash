@@ -4,11 +4,11 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CollectionUiModel(
+data class CollectionModel(
     val id: String,
     val title: String,
     val description: String,
     val count: Int,
     val cachedCoverPhoto: String,
-    val user: UserUiModel,
+    val user: UserModel,
 ) : Parcelable

@@ -9,13 +9,13 @@ import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.databinding.ItemCollectionBinding
 
-import com.skillbox.unsplash.domain.model.local.CollectionUiModel
+import com.skillbox.unsplash.domain.model.local.CollectionModel
 import com.skillbox.unsplash.util.inflate
 
 class CollectionAdapter(
-    private val onCollectionClick: (CollectionUiModel) -> Unit,
+    private val onCollectionClick: (CollectionModel) -> Unit,
     private val isNetworkAvailable: () -> Boolean,
-) : PagingDataAdapter<CollectionUiModel, CollectionAdapter.Holder>(CollectionDiffUtilCallback()) {
+) : PagingDataAdapter<CollectionModel, CollectionAdapter.Holder>(CollectionDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val collectionItem = getItem(position) ?: return
@@ -30,34 +30,34 @@ class CollectionAdapter(
         )
     }
 
-    class CollectionDiffUtilCallback : DiffUtil.ItemCallback<CollectionUiModel>() {
-        override fun areItemsTheSame(oldItem: CollectionUiModel, newItem: CollectionUiModel): Boolean {
+    class CollectionDiffUtilCallback : DiffUtil.ItemCallback<CollectionModel>() {
+        override fun areItemsTheSame(oldItem: CollectionModel, newItem: CollectionModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CollectionUiModel, newItem: CollectionUiModel): Boolean {
+        override fun areContentsTheSame(oldItem: CollectionModel, newItem: CollectionModel): Boolean {
             return oldItem == newItem
         }
     }
 
     class Holder(
         private val binding: ItemCollectionBinding,
-        private val onCollectionClick: (CollectionUiModel) -> Unit,
+        private val onCollectionClick: (CollectionModel) -> Unit,
         private val isNetworkAvailable: () -> Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
-        private var collectionUiModel: CollectionUiModel? = null
+        private var collectionModel: CollectionModel? = null
         private var position: Int? = null
 
         init {
             binding.collectionItemView.setOnClickListener {
                 if (isNetworkAvailable()) {
-                    onCollectionClick(collectionUiModel!!)
+                    onCollectionClick(collectionModel!!)
                 }
             }
         }
 
-        fun bind(collectionItem: CollectionUiModel, position: Int) {
-            this.collectionUiModel = collectionItem
+        fun bind(collectionItem: CollectionModel, position: Int) {
+            this.collectionModel = collectionItem
             this.position = position
 
             with(binding) {
@@ -70,7 +70,7 @@ class CollectionAdapter(
         }
 
         private fun loadImagesFromCache(
-            collectionItem: CollectionUiModel,
+            collectionItem: CollectionModel,
             avatarImageView: ImageView,
             imageItemView: ImageView
         ) {
