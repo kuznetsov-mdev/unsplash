@@ -16,7 +16,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.StartNavGraphDirections
-import com.skillbox.unsplash.common.network.ConnectivityStatus
+import com.skillbox.unsplash.data.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentCollectionDetailBinding
 import com.skillbox.unsplash.presentation.images.list.adapter.ImageAdapter
 import com.skillbox.unsplash.util.findTopNavController

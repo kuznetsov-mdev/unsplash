@@ -20,7 +20,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.appbar.MaterialToolbar
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.common.extensions.launchAndCollectIn
-import com.skillbox.unsplash.common.network.ConnectivityStatus
+import com.skillbox.unsplash.data.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentMainBinding
 import com.skillbox.unsplash.util.resetNavGraph
 import dagger.hilt.android.AndroidEntryPoint

@@ -18,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.common.util.AutoClearedValue
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -57,8 +56,6 @@ fun <T : ViewBinding> ViewGroup.inflate(
     val inflater = LayoutInflater.from(context)
     return inflateBinding(inflater, this, attachToRoot)
 }
-
-fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
 
 fun haveQ(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q

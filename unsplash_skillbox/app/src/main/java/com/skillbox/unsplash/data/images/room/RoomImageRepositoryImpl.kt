@@ -2,11 +2,11 @@ package com.skillbox.unsplash.data.images.room
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
-import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.common.extensions.toImageUiModel
 import com.skillbox.unsplash.data.common.SearchCondition
+import com.skillbox.unsplash.data.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
-import com.skillbox.unsplash.data.user.room.model.UserEntity
+import com.skillbox.unsplash.domain.model.db.UserEntity
 import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

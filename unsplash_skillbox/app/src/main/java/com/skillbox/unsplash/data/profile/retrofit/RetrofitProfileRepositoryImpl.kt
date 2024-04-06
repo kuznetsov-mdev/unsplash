@@ -1,8 +1,8 @@
 package com.skillbox.unsplash.data.profile.retrofit
 
-import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.common.retrofit.UnsplashResponse
-import com.skillbox.unsplash.data.profile.retrofit.model.UserProfileDto
+import com.skillbox.unsplash.data.network.Network
+import com.skillbox.unsplash.domain.model.remote.UserProfileDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException

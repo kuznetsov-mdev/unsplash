@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.skillbox.unsplash.data.auth.repository.AuthRepositoryApi
 import com.skillbox.unsplash.data.onboarding.OnBoardingRepositoryApi
-import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreenModel
+import com.skillbox.unsplash.domain.model.local.OnBoardingScreenModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

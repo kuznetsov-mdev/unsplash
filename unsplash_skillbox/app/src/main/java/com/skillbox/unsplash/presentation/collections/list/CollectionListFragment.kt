@@ -15,7 +15,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.common.network.ConnectivityStatus
+import com.skillbox.unsplash.data.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentCollectionsBinding
 import com.skillbox.unsplash.domain.model.local.CollectionUiModel
 import com.skillbox.unsplash.presentation.collections.list.adapter.CollectionAdapter

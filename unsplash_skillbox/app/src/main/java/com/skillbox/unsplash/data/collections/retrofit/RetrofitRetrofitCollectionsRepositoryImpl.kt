@@ -1,8 +1,8 @@
 package com.skillbox.unsplash.data.collections.retrofit
 
-import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
 import com.skillbox.unsplash.data.common.retrofit.UnsplashResponse
+import com.skillbox.unsplash.data.network.Network
+import com.skillbox.unsplash.domain.model.remote.CollectionDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber

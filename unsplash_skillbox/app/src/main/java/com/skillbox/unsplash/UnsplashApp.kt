@@ -11,9 +11,9 @@ import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
-import com.skillbox.unsplash.common.network.Network
-import com.skillbox.unsplash.common.notification.NotificationChannels
 import com.skillbox.unsplash.data.common.service.DownloadFactory
+import com.skillbox.unsplash.data.network.Network
+import com.skillbox.unsplash.data.notification.NotificationChannels
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject

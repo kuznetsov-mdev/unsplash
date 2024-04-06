@@ -3,8 +3,8 @@ package com.skillbox.unsplash.data.common.storage.external
 import android.content.Context
 import android.graphics.Bitmap
 import com.bumptech.glide.Glide
-import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.common.storage.internal.ImageInternalStorage
+import com.skillbox.unsplash.data.network.Network
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber

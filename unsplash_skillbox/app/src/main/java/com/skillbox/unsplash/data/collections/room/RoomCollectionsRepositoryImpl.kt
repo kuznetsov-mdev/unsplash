@@ -2,8 +2,8 @@ package com.skillbox.unsplash.data.collections.room
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
-import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
-import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
+import com.skillbox.unsplash.data.db.UnsplashRoomDataBase
+import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

@@ -7,11 +7,11 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.extensions.toRoomEntity
 import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
-import com.skillbox.unsplash.data.collections.retrofit.model.CollectionDto
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepositoryApi
-import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.common.retrofit.UnsplashResponse
 import com.skillbox.unsplash.data.common.storage.DiskImageRepository
+import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
+import com.skillbox.unsplash.domain.model.remote.CollectionDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

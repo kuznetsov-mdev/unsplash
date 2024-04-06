@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.StartNavGraphDirections
-import com.skillbox.unsplash.common.network.ConnectivityStatus
+import com.skillbox.unsplash.data.network.ConnectivityStatus
 import com.skillbox.unsplash.databinding.FragmentImagesBinding
 import com.skillbox.unsplash.databinding.LayoutSearchBinding
 import com.skillbox.unsplash.domain.model.local.UnsplashSearchQuery

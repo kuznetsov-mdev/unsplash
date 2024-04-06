@@ -1,11 +1,11 @@
 package com.skillbox.unsplash.data.collections.di
 
-import com.skillbox.unsplash.common.db.UnsplashRoomDataBase
-import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.collections.retrofit.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.retrofit.RetrofitRetrofitCollectionsRepositoryImpl
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepositoryApi
 import com.skillbox.unsplash.data.collections.room.RoomCollectionsRepositoryImpl
+import com.skillbox.unsplash.data.db.UnsplashRoomDataBase
+import com.skillbox.unsplash.data.network.Network
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

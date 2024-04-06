@@ -28,9 +28,9 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.common.network.ConnectivityStatus
-import com.skillbox.unsplash.common.notification.NotificationChannels
 import com.skillbox.unsplash.data.common.service.DownloadWorker
+import com.skillbox.unsplash.data.network.ConnectivityStatus
+import com.skillbox.unsplash.data.notification.NotificationChannels
 import com.skillbox.unsplash.databinding.FragmentImageDetailBinding
 import com.skillbox.unsplash.databinding.ImageLayoutCameraInfoBinding
 import com.skillbox.unsplash.databinding.ImageLayoutImageStatisticBinding

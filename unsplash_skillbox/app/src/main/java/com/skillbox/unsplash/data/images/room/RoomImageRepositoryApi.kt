@@ -3,7 +3,7 @@ package com.skillbox.unsplash.data.images.room
 import androidx.paging.PagingSource
 import com.skillbox.unsplash.data.common.SearchCondition
 import com.skillbox.unsplash.data.images.room.model.relations.ImageWithUserEntity
-import com.skillbox.unsplash.data.user.room.model.UserEntity
+import com.skillbox.unsplash.domain.model.db.UserEntity
 import com.skillbox.unsplash.domain.model.local.ImageWithUserUiModel
 
 interface RoomImageRepositoryApi {

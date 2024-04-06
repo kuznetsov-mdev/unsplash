@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.data.profile.di
 
-import com.skillbox.unsplash.common.network.Network
+import com.skillbox.unsplash.data.network.Network
 import com.skillbox.unsplash.data.profile.retrofit.RetrofitProfileRepositoryApi
 import com.skillbox.unsplash.data.profile.retrofit.RetrofitProfileRepositoryImpl
 import dagger.Module

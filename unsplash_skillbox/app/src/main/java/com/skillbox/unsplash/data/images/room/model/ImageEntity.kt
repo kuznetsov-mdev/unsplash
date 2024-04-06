@@ -8,7 +8,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.skillbox.unsplash.data.images.room.contract.ImageContract
 import com.skillbox.unsplash.data.user.room.contract.UserContract
-import com.skillbox.unsplash.data.user.room.model.UserEntity
+import com.skillbox.unsplash.domain.model.db.UserEntity
 import kotlinx.parcelize.Parcelize
 
 @Entity(

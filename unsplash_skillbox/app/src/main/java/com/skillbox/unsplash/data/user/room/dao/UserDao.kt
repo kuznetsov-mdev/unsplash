@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.skillbox.unsplash.data.user.room.contract.UserContract
-import com.skillbox.unsplash.data.user.room.model.UserEntity
+import com.skillbox.unsplash.domain.model.db.UserEntity
 
 @Dao
 interface UserDao {

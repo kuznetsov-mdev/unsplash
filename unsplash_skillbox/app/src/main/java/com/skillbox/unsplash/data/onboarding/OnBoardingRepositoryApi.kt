@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.data.onboarding
 
 import android.content.Context
-import com.skillbox.unsplash.data.onboarding.model.OnBoardingScreenModel
+import com.skillbox.unsplash.domain.model.local.OnBoardingScreenModel
 
 interface OnBoardingRepositoryApi {
 

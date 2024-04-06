@@ -7,9 +7,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.skillbox.unsplash.data.collections.room.contract.CollectionContract
-import com.skillbox.unsplash.data.collections.room.model.CollectionEntity
-import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.user.room.contract.UserContract
+import com.skillbox.unsplash.domain.model.db.CollectionEntity
+import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
 
 @Dao
 interface CollectionDao {

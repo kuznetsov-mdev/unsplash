@@ -1,7 +1,7 @@
 package com.skillbox.unsplash.data.collections.room
 
 import androidx.paging.PagingSource
-import com.skillbox.unsplash.data.collections.room.model.relations.CollectionWithUserAndImagesEntity
+import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
 
 interface RoomCollectionsRepositoryApi {
 

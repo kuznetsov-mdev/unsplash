@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
-import com.skillbox.unsplash.common.network.ConnectivityStatus
-import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.images.ImageRepository
+import com.skillbox.unsplash.data.network.ConnectivityStatus
+import com.skillbox.unsplash.data.network.api.ConnectivityObserver
 import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

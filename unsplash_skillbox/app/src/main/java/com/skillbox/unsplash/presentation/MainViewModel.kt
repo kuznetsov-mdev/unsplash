@@ -6,10 +6,10 @@ import androidx.activity.result.ActivityResult
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.skillbox.unsplash.common.network.ConnectivityStatus
-import com.skillbox.unsplash.common.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.auth.repository.AuthRepositoryApi
 import com.skillbox.unsplash.data.common.AppRepositoryApi
+import com.skillbox.unsplash.data.network.ConnectivityStatus
+import com.skillbox.unsplash.data.network.api.ConnectivityObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

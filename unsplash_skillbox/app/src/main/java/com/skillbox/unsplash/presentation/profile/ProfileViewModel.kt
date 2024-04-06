@@ -2,8 +2,8 @@ package com.skillbox.unsplash.presentation.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.skillbox.unsplash.common.network.ConnectivityStatus
-import com.skillbox.unsplash.common.network.api.ConnectivityObserver
+import com.skillbox.unsplash.data.network.ConnectivityStatus
+import com.skillbox.unsplash.data.network.api.ConnectivityObserver
 import com.skillbox.unsplash.data.profile.ProfileRepository
 import com.skillbox.unsplash.domain.model.local.ProfileUiModel
 import com.skillbox.unsplash.domain.model.local.ResponseResultType

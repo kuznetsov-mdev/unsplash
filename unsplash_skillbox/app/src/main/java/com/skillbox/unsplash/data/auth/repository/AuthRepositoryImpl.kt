@@ -3,8 +3,8 @@ package com.skillbox.unsplash.data.auth.repository
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
 import com.skillbox.unsplash.data.auth.AuthConfig
-import com.skillbox.unsplash.data.auth.model.TokenStorage
 import com.skillbox.unsplash.data.auth.service.AuthServiceApi
+import com.skillbox.unsplash.domain.model.remote.token.TokenStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthorizationRequest

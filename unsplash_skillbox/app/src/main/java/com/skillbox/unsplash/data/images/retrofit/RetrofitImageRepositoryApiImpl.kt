@@ -1,9 +1,9 @@
 package com.skillbox.unsplash.data.images.retrofit
 
 import com.skillbox.unsplash.common.extensions.toDetailImageItem
-import com.skillbox.unsplash.common.network.Network
 import com.skillbox.unsplash.data.common.retrofit.UnsplashResponse
 import com.skillbox.unsplash.data.images.retrofit.model.ImageDto
+import com.skillbox.unsplash.data.network.Network
 import com.skillbox.unsplash.domain.model.local.detail.ImageDetailUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
