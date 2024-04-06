@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.common.storage
+package com.skillbox.unsplash.data.impl
 
 import androidx.lifecycle.LiveData
 import androidx.work.WorkInfo

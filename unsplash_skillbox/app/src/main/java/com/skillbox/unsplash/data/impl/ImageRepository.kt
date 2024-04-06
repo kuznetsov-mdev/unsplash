@@ -10,7 +10,6 @@ import androidx.paging.map
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.extensions.toImageUiModel
 import com.skillbox.unsplash.data.common.SearchCondition
-import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.impl.paging.ImageRemoteMediator
 import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi

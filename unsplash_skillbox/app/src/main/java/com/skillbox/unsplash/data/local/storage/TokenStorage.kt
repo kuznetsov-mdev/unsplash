@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.local
+package com.skillbox.unsplash.data.local.storage
 
 object TokenStorage {
     var accessToken: String? = null

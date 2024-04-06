@@ -1,6 +1,6 @@
 package com.skillbox.unsplash.data.remote.network
 
-import com.skillbox.unsplash.data.local.TokenStorage
+import com.skillbox.unsplash.data.local.storage.TokenStorage
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

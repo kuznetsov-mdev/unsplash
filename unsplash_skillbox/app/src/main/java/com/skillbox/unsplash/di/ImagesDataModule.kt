@@ -1,13 +1,13 @@
-package com.skillbox.unsplash.data.di
+package com.skillbox.unsplash.di
 
 import android.app.Application
-import com.skillbox.unsplash.data.common.storage.DiskImageRepository
-import com.skillbox.unsplash.data.common.storage.external.ImageInternalStorageImpl
-import com.skillbox.unsplash.data.common.storage.internal.ImageExternalStorageImpl
+import com.skillbox.unsplash.data.impl.DiskImageRepository
 import com.skillbox.unsplash.data.impl.ImageRepository
 import com.skillbox.unsplash.data.impl.RetrofitImageRepositoryImpl
 import com.skillbox.unsplash.data.impl.RoomImageRepositoryImpl
-import com.skillbox.unsplash.data.local.UnsplashRoomDataBase
+import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
+import com.skillbox.unsplash.data.local.storage.external.ImageInternalStorageImpl
+import com.skillbox.unsplash.data.local.storage.internal.ImageExternalStorageImpl
 import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi

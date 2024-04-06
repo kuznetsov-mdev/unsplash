@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.di
+package com.skillbox.unsplash.di
 
 import android.app.Application
 import dagger.Module

@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.local
+package com.skillbox.unsplash.data.local.db
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

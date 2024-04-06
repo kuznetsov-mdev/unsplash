@@ -1,14 +1,14 @@
-package com.skillbox.unsplash.data.di
+package com.skillbox.unsplash.di
 
 import android.content.Context
 import androidx.room.Room
-import com.skillbox.unsplash.data.local.MIGRATION_1_2
-import com.skillbox.unsplash.data.local.MIGRATION_2_3
-import com.skillbox.unsplash.data.local.MIGRATION_3_4
-import com.skillbox.unsplash.data.local.MIGRATION_4_5
-import com.skillbox.unsplash.data.local.MIGRATION_5_6
-import com.skillbox.unsplash.data.local.MIGRATION_6_7
-import com.skillbox.unsplash.data.local.UnsplashRoomDataBase
+import com.skillbox.unsplash.data.local.db.MIGRATION_1_2
+import com.skillbox.unsplash.data.local.db.MIGRATION_2_3
+import com.skillbox.unsplash.data.local.db.MIGRATION_3_4
+import com.skillbox.unsplash.data.local.db.MIGRATION_4_5
+import com.skillbox.unsplash.data.local.db.MIGRATION_5_6
+import com.skillbox.unsplash.data.local.db.MIGRATION_6_7
+import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

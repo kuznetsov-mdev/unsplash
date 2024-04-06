@@ -7,7 +7,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toRoomEntity
-import com.skillbox.unsplash.data.common.storage.DiskImageRepository
+import com.skillbox.unsplash.data.impl.DiskImageRepository
 import com.skillbox.unsplash.data.remote.dto.CollectionDto
 import com.skillbox.unsplash.domain.api.repository.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi

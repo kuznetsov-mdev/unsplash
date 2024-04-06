@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.skillbox.unsplash.data.local.contract.CollectionContract
+import com.skillbox.unsplash.data.local.db.contract.CollectionContract
 import com.skillbox.unsplash.domain.model.db.CollectionEntity
 import com.skillbox.unsplash.domain.model.db.collection.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.domain.model.db.user.UserContract

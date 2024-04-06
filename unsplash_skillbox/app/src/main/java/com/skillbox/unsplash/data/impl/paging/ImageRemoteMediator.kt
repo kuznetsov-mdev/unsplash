@@ -8,7 +8,7 @@ import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toRoomImageEntity
 import com.skillbox.unsplash.data.common.SearchCondition
-import com.skillbox.unsplash.data.common.storage.DiskImageRepository
+import com.skillbox.unsplash.data.impl.DiskImageRepository
 import com.skillbox.unsplash.data.remote.dto.ImageDto
 import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi

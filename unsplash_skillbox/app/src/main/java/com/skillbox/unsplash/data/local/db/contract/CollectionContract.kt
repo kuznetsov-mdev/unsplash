@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.local.contract
+package com.skillbox.unsplash.data.local.db.contract
 
 object CollectionContract {
     const val TABLE_NAME = "collections"

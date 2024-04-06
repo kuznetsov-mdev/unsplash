@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.di
+package com.skillbox.unsplash.di
 
 import com.skillbox.unsplash.data.impl.RetrofitProfileRepositoryImpl
 import com.skillbox.unsplash.data.remote.network.Network

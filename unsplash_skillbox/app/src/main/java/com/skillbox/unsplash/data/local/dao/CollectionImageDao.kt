@@ -2,7 +2,7 @@ package com.skillbox.unsplash.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.skillbox.unsplash.data.local.contract.CollectionImageContract
+import com.skillbox.unsplash.data.local.db.contract.CollectionImageContract
 
 @Dao
 interface CollectionImageDao {

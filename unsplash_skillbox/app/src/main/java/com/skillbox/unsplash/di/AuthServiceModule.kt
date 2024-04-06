@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.di
+package com.skillbox.unsplash.di
 
 import com.skillbox.unsplash.data.service.AuthServiceImpl
 import com.skillbox.unsplash.domain.api.service.AuthServiceApi

@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.common.storage.external
+package com.skillbox.unsplash.data.local.storage.external
 
 import android.content.Context
 import android.graphics.Bitmap

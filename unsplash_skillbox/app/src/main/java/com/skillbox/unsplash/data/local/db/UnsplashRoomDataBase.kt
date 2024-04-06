@@ -1,11 +1,11 @@
-package com.skillbox.unsplash.data.local
+package com.skillbox.unsplash.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.skillbox.unsplash.data.local.UnsplashRoomDataBase.Companion.DB_VERSION
 import com.skillbox.unsplash.data.local.dao.CollectionDao
 import com.skillbox.unsplash.data.local.dao.CollectionImageDao
 import com.skillbox.unsplash.data.local.dao.ImageDao
+import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase.Companion.DB_VERSION
 import com.skillbox.unsplash.data.remote.retrofit.UserApi
 import com.skillbox.unsplash.domain.model.db.CollectionEntity
 import com.skillbox.unsplash.domain.model.db.ImageEntity

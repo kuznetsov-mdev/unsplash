@@ -1,8 +1,8 @@
-package com.skillbox.unsplash.data.di
+package com.skillbox.unsplash.di
 
 import com.skillbox.unsplash.data.impl.RetrofitRetrofitCollectionsRepositoryImpl
 import com.skillbox.unsplash.data.impl.RoomCollectionsRepositoryImpl
-import com.skillbox.unsplash.data.local.UnsplashRoomDataBase
+import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.domain.api.repository.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi

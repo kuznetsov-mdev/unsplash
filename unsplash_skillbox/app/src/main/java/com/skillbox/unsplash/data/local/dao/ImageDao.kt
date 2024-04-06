@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.skillbox.unsplash.data.local.contract.CollectionImageContract
-import com.skillbox.unsplash.data.local.contract.ImageContract
+import com.skillbox.unsplash.data.local.db.contract.CollectionImageContract
+import com.skillbox.unsplash.data.local.db.contract.ImageContract
 import com.skillbox.unsplash.domain.model.db.ImageEntity
 import com.skillbox.unsplash.domain.model.db.image.ImageWithUserEntity
 import com.skillbox.unsplash.domain.model.db.user.UserContract

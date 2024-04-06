@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.local.contract
+package com.skillbox.unsplash.data.local.db.contract
 
 object ImageDetailContract {
     const val TABLE_NAME = "image_details"

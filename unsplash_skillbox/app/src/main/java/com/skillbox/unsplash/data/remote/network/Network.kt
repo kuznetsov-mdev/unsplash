@@ -2,7 +2,7 @@ package com.skillbox.unsplash.data.remote.network
 
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
-import com.skillbox.unsplash.data.local.TokenStorage
+import com.skillbox.unsplash.data.local.storage.TokenStorage
 import com.skillbox.unsplash.data.remote.retrofit.CollectionsApi
 import com.skillbox.unsplash.data.remote.retrofit.ImagesApi
 import com.skillbox.unsplash.data.remote.retrofit.ProfileApi

@@ -3,9 +3,9 @@ package com.skillbox.unsplash.domain.model.db.collection.relations
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.skillbox.unsplash.data.local.contract.CollectionContract
-import com.skillbox.unsplash.data.local.contract.CollectionImageContract
-import com.skillbox.unsplash.data.local.contract.ImageContract
+import com.skillbox.unsplash.data.local.db.contract.CollectionContract
+import com.skillbox.unsplash.data.local.db.contract.CollectionImageContract
+import com.skillbox.unsplash.data.local.db.contract.ImageContract
 import com.skillbox.unsplash.domain.model.db.CollectionEntity
 import com.skillbox.unsplash.domain.model.db.ImageEntity
 import com.skillbox.unsplash.domain.model.db.collection.CollectionImageCrossRefEntity

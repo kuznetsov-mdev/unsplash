@@ -7,7 +7,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.skillbox.unsplash.common.extensions.toCollectionUiModel
-import com.skillbox.unsplash.data.common.storage.DiskImageRepository
 import com.skillbox.unsplash.data.impl.paging.CollectionRemoteMediator
 import com.skillbox.unsplash.domain.api.repository.RetrofitCollectionsRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi

@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.skillbox.unsplash.data.local.contract.ImageContract
+import com.skillbox.unsplash.data.local.db.contract.ImageContract
 import com.skillbox.unsplash.domain.model.db.user.UserContract
 import kotlinx.parcelize.Parcelize
 

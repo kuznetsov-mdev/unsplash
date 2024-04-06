@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.common.storage.internal
+package com.skillbox.unsplash.data.local.storage.internal
 
 import android.content.ContentValues
 import android.content.Context
