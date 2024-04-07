@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.data.repository.ImageRepository
+import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CollectionDetailViewModel @Inject constructor(
-    private val imagesRepository: ImageRepository,
+    private val imagesRepository: ImageRepositoryApi,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
     private val collectionImagesStateFlow = MutableStateFlow<PagingData<ImageWithUserModel>>(PagingData.empty())

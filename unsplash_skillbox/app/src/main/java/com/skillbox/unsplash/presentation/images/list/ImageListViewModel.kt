@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.data.repository.ImageRepository
+import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import com.skillbox.unsplash.domain.model.UnsplashSearchQuery
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImageListViewModel @Inject constructor(
-    private val repository: ImageRepository,
+    private val repository: ImageRepositoryApi,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 

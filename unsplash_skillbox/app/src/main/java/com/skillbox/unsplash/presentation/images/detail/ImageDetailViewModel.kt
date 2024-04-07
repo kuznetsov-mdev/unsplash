@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.data.repository.ImageRepository
+import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImageDetailViewModel @Inject constructor(
-    private val repository: ImageRepository,
+    private val repository: ImageRepositoryApi,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
     private val imageDetailMutableFlow: MutableStateFlow<ImageDetailModel?> = MutableStateFlow(null)

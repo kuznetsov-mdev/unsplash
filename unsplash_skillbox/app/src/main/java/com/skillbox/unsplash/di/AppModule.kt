@@ -21,13 +21,14 @@ import com.skillbox.unsplash.data.remote.retrofit.OnBoardingRepositoryApi
 import com.skillbox.unsplash.data.repository.AppRepositoryImpl
 import com.skillbox.unsplash.data.repository.AuthRepositoryImpl
 import com.skillbox.unsplash.data.repository.DiskImageRepository
-import com.skillbox.unsplash.data.repository.ImageRepository
+import com.skillbox.unsplash.data.repository.ImageRepositoryImpl
 import com.skillbox.unsplash.data.repository.OnBoardingRepositoryImpl
 import com.skillbox.unsplash.data.repository.RetrofitImageRepositoryImpl
 import com.skillbox.unsplash.data.repository.RetrofitProfileRepositoryImpl
 import com.skillbox.unsplash.data.repository.RoomCollectionsRepositoryImpl
 import com.skillbox.unsplash.data.repository.RoomImageRepositoryImpl
 import com.skillbox.unsplash.data.service.AuthServiceImpl
+import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RetrofitProfileRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi
@@ -122,7 +123,7 @@ class AppModule {
         inMemory: DiskImageRepository,
         local: RoomImageRepositoryApi,
         remote: RetrofitImageRepositoryApi
-    ): ImageRepository = ImageRepository(context, inMemory, local, remote)
+    ): ImageRepositoryApi = ImageRepositoryImpl(context, inMemory, local, remote)
 
     @Provides
     @Singleton
