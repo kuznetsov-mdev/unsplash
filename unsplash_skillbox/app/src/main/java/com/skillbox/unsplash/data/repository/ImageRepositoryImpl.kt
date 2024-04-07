@@ -27,6 +27,7 @@ class ImageRepositoryImpl(
     private val retrofitImageRepository: RetrofitImageRepositoryApi
 ) : ImageRepositoryApi {
     @OptIn(ExperimentalPagingApi::class)
+
     override fun search(searchCondition: SearchCondition): Flow<PagingData<ImageWithUserModel>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
@@ -48,11 +49,11 @@ class ImageRepositoryImpl(
         return retrofitImageRepository.getImageDetailInfo(imageId)
     }
 
-    override suspend fun setLike(imageId: String) {
+    override suspend fun likeImage(imageId: String) {
         retrofitImageRepository.setLike(imageId)
     }
 
-    override suspend fun removeLike(imageId: String) {
+    override suspend fun unlikeImage(imageId: String) {
         retrofitImageRepository.removeLike(imageId)
     }
 

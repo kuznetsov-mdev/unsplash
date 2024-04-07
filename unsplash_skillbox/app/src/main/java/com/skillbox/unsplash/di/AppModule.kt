@@ -36,6 +36,9 @@ import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
 import com.skillbox.unsplash.domain.api.service.AuthServiceApi
 import com.skillbox.unsplash.domain.api.storage.ImageExternalStorage
 import com.skillbox.unsplash.domain.api.storage.ImageInternalStorage
+import com.skillbox.unsplash.domain.usecase.image.GetImagesUseCase
+import com.skillbox.unsplash.domain.usecase.image.LikeImageUseCase
+import com.skillbox.unsplash.domain.usecase.image.UnlikeImageUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -144,6 +147,22 @@ class AppModule {
     @Singleton
     fun providesRetrofitAccountRepository(network: Network): RetrofitProfileRepositoryApi =
         RetrofitProfileRepositoryImpl(network)
+
+    //Use Cases
+    @Provides
+    @Singleton
+    fun provideGetAllImagesUseCase(imageRepository: ImageRepositoryApi): GetImagesUseCase =
+        GetImagesUseCase(imageRepository)
+
+    @Provides
+    @Singleton
+    fun provideLikeImageUseCase(imageRepository: ImageRepositoryApi): LikeImageUseCase =
+        LikeImageUseCase(imageRepository)
+
+    @Provides
+    @Singleton
+    fun provideUnlikeImageUseCase(imageRepository: ImageRepositoryApi): UnlikeImageUseCase =
+        UnlikeImageUseCase(imageRepository)
 }
 
 @Module

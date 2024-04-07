@@ -62,10 +62,10 @@ class ImageRemoteMediator(
 
     private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithUserEntity> {
         val searchResult: UnsplashResponse<List<ImageDto>> = when (condition) {
-            is SearchCondition.Empty ->
+            is SearchCondition.AllImages ->
                 retrofitImageRepository.getImages(pageNumber, pageSize)
 
-            is SearchCondition.SearchString ->
+            is SearchCondition.SearchQueryImages ->
                 retrofitImageRepository.searchImages(condition.searchQuery, pageNumber, pageSize)
 
             is SearchCondition.CollectionImages ->
@@ -74,7 +74,7 @@ class ImageRemoteMediator(
             is SearchCondition.UserImages ->
                 retrofitImageRepository.getUserImages(condition.userName, pageNumber, pageSize)
 
-            is SearchCondition.LikedUserImages ->
+            is SearchCondition.LikedByUserImages ->
                 retrofitImageRepository.getLikedUserImages(condition.userName, pageNumber, pageSize)
 
             else -> error("Not implemented yet")
@@ -125,7 +125,7 @@ class ImageRemoteMediator(
 
     private fun getSearchQueryFromSearchCondition(): String {
         return when (condition) {
-            is SearchCondition.SearchString -> condition.searchQuery
+            is SearchCondition.SearchQueryImages -> condition.searchQuery
             else -> "";
         }
     }

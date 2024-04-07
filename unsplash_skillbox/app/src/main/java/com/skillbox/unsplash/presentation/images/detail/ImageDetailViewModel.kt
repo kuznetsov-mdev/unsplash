@@ -41,7 +41,7 @@ class ImageDetailViewModel @Inject constructor(
     fun setLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                repository.setLike(imageId)
+                repository.likeImage(imageId)
             } catch (t: Throwable) {
                 Timber.d("Something wrong when try set like")
             }
@@ -51,7 +51,7 @@ class ImageDetailViewModel @Inject constructor(
     fun removeLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                repository.removeLike(imageId)
+                repository.unlikeImage(imageId)
             } catch (t: Throwable) {
                 Timber.d("Something wrong when try remove like")
             }

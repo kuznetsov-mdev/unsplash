@@ -7,9 +7,11 @@ import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import com.skillbox.unsplash.domain.model.UnsplashSearchQuery
+import com.skillbox.unsplash.domain.usecase.image.GetImagesUseCase
+import com.skillbox.unsplash.domain.usecase.image.LikeImageUseCase
+import com.skillbox.unsplash.domain.usecase.image.UnlikeImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,8 +24,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImageListViewModel @Inject constructor(
-    private val repository: ImageRepositoryApi,
-    private val connectivityObserver: ConnectivityObserver
+    private val connectivityObserver: ConnectivityObserver,
+    private val getImagesUseCase: GetImagesUseCase,
+    private val likeImageUseCase: LikeImageUseCase,
+    private val unlikeImageUseCase: UnlikeImageUseCase
 ) : ViewModel() {
 
     private val imagesStateFlow = MutableStateFlow<PagingData<ImageWithUserModel>>(PagingData.empty())
@@ -34,10 +38,19 @@ class ImageListViewModel @Inject constructor(
     val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = connectivityObserver.observe()
 
+    fun getImages(searchQuery: UnsplashSearchQuery) {
+        viewModelScope.launch(Dispatchers.IO) {
+            getImagesUseCase(getSearchCondition(searchQuery)).cachedIn(viewModelScope)
+                .collectLatest {
+                    imagesStateFlow.value = it
+                }
+        }
+    }
+
     fun setLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                repository.setLike(imageId)
+                likeImageUseCase(imageId)
             } catch (t: Throwable) {
                 Timber.d("Something wrong when try set like")
             }
@@ -47,20 +60,10 @@ class ImageListViewModel @Inject constructor(
     fun removeLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                repository.removeLike(imageId)
+                unlikeImageUseCase(imageId)
             } catch (t: Throwable) {
                 Timber.d("Something wrong when try remove like")
             }
-        }
-    }
-
-    fun searchImages(searchQuery: UnsplashSearchQuery) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.search(getSearchCondition(searchQuery))
-                .cachedIn(viewModelScope)
-                .collectLatest {
-                    imagesStateFlow.value = it
-                }
         }
     }
 
@@ -72,16 +75,16 @@ class ImageListViewModel @Inject constructor(
 
             return if (isImagesSearched) {
                 return if (query != null) {
-                    SearchCondition.SearchString(query)
+                    SearchCondition.SearchQueryImages(query)
                 } else {
-                    SearchCondition.Empty
+                    SearchCondition.AllImages
                 }
             } else if (isUserImagesSearched) {
                 SearchCondition.UserImages(userName!!)
             } else if (isLikedByUserImagesSearched) {
-                SearchCondition.LikedUserImages(userName!!)
+                SearchCondition.LikedByUserImages(userName!!)
             } else {
-                SearchCondition.Empty
+                SearchCondition.AllImages
             }
         }
     }

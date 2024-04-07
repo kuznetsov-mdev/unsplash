@@ -9,13 +9,14 @@ import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import kotlinx.coroutines.flow.Flow
 
 interface ImageRepositoryApi {
+
     fun search(searchCondition: SearchCondition): Flow<PagingData<ImageWithUserModel>>
 
     suspend fun getImageDetailInfo(imageId: String): ImageDetailModel
 
-    suspend fun setLike(imageId: String)
+    suspend fun likeImage(imageId: String)
 
-    suspend fun removeLike(imageId: String)
+    suspend fun unlikeImage(imageId: String)
 
     fun startImageSavingToGalleryWork(name: String, url: String): LiveData<WorkInfo>
 

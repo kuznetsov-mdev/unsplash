@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetImagesUseCase @Inject constructor(
     private val imageRepository: ImageRepositoryApi
 ) {
-    operator fun invoke(searchCondition: SearchCondition): Flow<PagingData<ImageWithUserModel>> =
-        imageRepository.search(searchCondition)
+    operator fun invoke(condition: SearchCondition): Flow<PagingData<ImageWithUserModel>> =
+        imageRepository.search(condition)
 
 }

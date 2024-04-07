@@ -56,8 +56,13 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
         initRecyclerViewAdapter()
         initSearchBar()
         observeData()
-        searchImages()
+        getImages()
+    }
 
+    private fun getImages(searchImageQuery: String? = null) {
+        val userName = arguments.userName
+        val onlyLikedPhoto = arguments.likedByUser
+        viewModel.getImages(UnsplashSearchQuery(searchImageQuery, userName, onlyLikedPhoto))
     }
 
     private fun initRecyclerViewAdapter() {
@@ -83,7 +88,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText("")
-                    searchImages()
+                    getImages()
                 }
             }
             searchViewBinding.searchIconView.visibility = View.VISIBLE
@@ -94,7 +99,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             searchViewBinding.searchInputTextView.text?.let {
                 if (it.isNotBlank()) {
                     searchViewBinding.searchInputTextView.setText(R.string.empty)
-                    searchImages()
+                    getImages()
                 }
             }
         }
@@ -103,7 +108,7 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             .debounce(700)
             .onStart { emit("") }
             .distinctUntilChanged()
-            .mapLatest { text -> searchImages(text) }
+            .mapLatest { text -> getImages(text) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
@@ -141,14 +146,6 @@ class ImageListFragment : Fragment(R.layout.fragment_images) {
             viewBinding.noDataImageView.isVisible = !isLoading && !isThereAnyData
             viewBinding.imagesList.isVisible = !isLoading && isThereAnyData
         }
-    }
-
-    private fun searchImages(
-        searchImageQuery: String? = null,
-    ) {
-        val userName = arguments.userName
-        val onlyLikedPhoto = arguments.likedByUser
-        viewModel.searchImages(UnsplashSearchQuery(searchImageQuery, userName, onlyLikedPhoto))
     }
 
     companion object {
