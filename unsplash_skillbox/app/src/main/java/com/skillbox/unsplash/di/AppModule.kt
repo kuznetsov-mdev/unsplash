@@ -36,6 +36,7 @@ import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
 import com.skillbox.unsplash.domain.api.service.AuthServiceApi
 import com.skillbox.unsplash.domain.api.storage.ImageExternalStorage
 import com.skillbox.unsplash.domain.api.storage.ImageInternalStorage
+import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
 import com.skillbox.unsplash.domain.usecase.image.GetImagesUseCase
 import com.skillbox.unsplash.domain.usecase.image.LikeImageUseCase
 import com.skillbox.unsplash.domain.usecase.image.UnlikeImageUseCase
@@ -163,6 +164,11 @@ class AppModule {
     @Singleton
     fun provideUnlikeImageUseCase(imageRepository: ImageRepositoryApi): UnlikeImageUseCase =
         UnlikeImageUseCase(imageRepository)
+
+    @Provides
+    @Singleton
+    fun provideObserveNetworkConnectionUseCase(observer: ConnectivityObserver): GetNetworkStateUseCase =
+        GetNetworkStateUseCase(observer)
 }
 
 @Module

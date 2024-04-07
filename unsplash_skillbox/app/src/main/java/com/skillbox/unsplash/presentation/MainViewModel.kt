@@ -6,10 +6,10 @@ import androidx.activity.result.ActivityResult
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
 import com.skillbox.unsplash.data.remote.retrofit.AppRepositoryApi
 import com.skillbox.unsplash.data.remote.retrofit.AuthRepositoryApi
+import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val connectivityObserver: ConnectivityObserver,
+    private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val authRepositoryApi: AuthRepositoryApi,
     private val appRepository: AppRepositoryApi
 ) : ViewModel() {
@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
         get() = logoutCompletedEventChannel.receiveAsFlow()
 
     val connectivityStateFlow: Flow<ConnectivityStatus>
-        get() = connectivityObserver.observe()
+        get() = getNetworkStateUseCase()
 
     val logoutPageFlow: Flow<Intent>
         get() = logoutPageEventChannel.receiveAsFlow()

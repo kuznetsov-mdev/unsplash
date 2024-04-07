@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.SearchCondition
-import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import com.skillbox.unsplash.domain.model.UnsplashSearchQuery
+import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
 import com.skillbox.unsplash.domain.usecase.image.GetImagesUseCase
 import com.skillbox.unsplash.domain.usecase.image.LikeImageUseCase
 import com.skillbox.unsplash.domain.usecase.image.UnlikeImageUseCase
@@ -24,19 +24,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImageListViewModel @Inject constructor(
-    private val connectivityObserver: ConnectivityObserver,
     private val getImagesUseCase: GetImagesUseCase,
     private val likeImageUseCase: LikeImageUseCase,
-    private val unlikeImageUseCase: UnlikeImageUseCase
+    private val unlikeImageUseCase: UnlikeImageUseCase,
+    private val getNetworkStateUseCase: GetNetworkStateUseCase
 ) : ViewModel() {
 
     private val imagesStateFlow = MutableStateFlow<PagingData<ImageWithUserModel>>(PagingData.empty())
-
     val imageList: StateFlow<PagingData<ImageWithUserModel>>
         get() = imagesStateFlow
 
     val connectivityStateFlow: Flow<ConnectivityStatus>
-        get() = connectivityObserver.observe()
+        get() = getNetworkStateUseCase()
 
     fun getImages(searchQuery: UnsplashSearchQuery) {
         viewModelScope.launch(Dispatchers.IO) {
