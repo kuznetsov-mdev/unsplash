@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -18,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.skillbox.unsplash.R
-import com.skillbox.unsplash.common.util.AutoClearedValue
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -43,10 +40,6 @@ fun Fragment.toast(@StringRes stringRes: Int) {
     Toast.makeText(requireContext(), stringRes, Toast.LENGTH_SHORT).show()
 }
 
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
-    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-}
-
 fun <T : ViewBinding> ViewGroup.inflate(
     inflateBinding: (
         inflater: LayoutInflater,
@@ -57,8 +50,6 @@ fun <T : ViewBinding> ViewGroup.inflate(
     val inflater = LayoutInflater.from(context)
     return inflateBinding(inflater, this, attachToRoot)
 }
-
-fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
 
 fun haveQ(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q

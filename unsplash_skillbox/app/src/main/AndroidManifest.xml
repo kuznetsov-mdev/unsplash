@@ -28,7 +28,7 @@
         android:theme="@style/Theme.UnsplashSkillbox"
         tools:targetApi="34">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
 
             <intent-filter>

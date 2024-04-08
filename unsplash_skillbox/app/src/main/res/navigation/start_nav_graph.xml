@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/imageDetailFragment"
-        android:name="com.skillbox.unsplash.feature.images.detail.ImageDetailFragment"
+        android:name="com.skillbox.unsplash.presentation.images.detail.ImageDetailFragment"
         tools:layout="@layout/fragment_image_detail">
         <argument
             android:name="imageId"
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.skillbox.unsplash.feature.onboarding.OnBoardingFragment"
+        android:name="com.skillbox.unsplash.presentation.onboarding.OnBoardingFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_on_boarding">
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.skillbox.unsplash.feature.auth.AuthFragment"
+        android:name="com.skillbox.unsplash.presentation.auth.AuthFragment"
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth">
         <action
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.skillbox.unsplash.feature.splash.SplashFragment"
+        android:name="com.skillbox.unsplash.presentation.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.skillbox.unsplash.feature.MainFragment"
+        android:name="com.skillbox.unsplash.presentation.MainFragment"
         android:label="AppFragment"
         tools:layout="@layout/fragment_main" />
     <action
