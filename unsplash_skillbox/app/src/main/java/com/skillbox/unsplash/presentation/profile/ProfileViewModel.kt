@@ -3,10 +3,10 @@ package com.skillbox.unsplash.presentation.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.data.repository.ProfileRepository
 import com.skillbox.unsplash.domain.model.ProfileModel
 import com.skillbox.unsplash.domain.model.ResponseResultType
 import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
+import com.skillbox.unsplash.domain.usecase.profile.GetUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
-    private val profileRepository: ProfileRepository
+    private val getUserProfileUseCase: GetUserProfileUseCase
 ) : ViewModel() {
 
     val connectivityStateFlow: Flow<ConnectivityStatus>
@@ -32,7 +32,7 @@ class ProfileViewModel @Inject constructor(
 
     fun getProfileInfo() {
         viewModelScope.launch(Dispatchers.IO) {
-            profileInfoMutableSharedFlow.emit(profileRepository.getInfo())
+            profileInfoMutableSharedFlow.emit(getUserProfileUseCase())
         }
     }
 }

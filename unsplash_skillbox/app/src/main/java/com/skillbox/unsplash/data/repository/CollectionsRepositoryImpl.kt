@@ -9,17 +9,17 @@ import androidx.paging.map
 import com.skillbox.unsplash.common.extensions.toCollectionUiModel
 import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.data.repository.paging.CollectionRemoteMediator
-import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi
+import com.skillbox.unsplash.domain.api.repository.CollectionRepositoryApi
 import com.skillbox.unsplash.domain.model.CollectionModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class CollectionsRepository @Inject constructor(
+class CollectionsRepositoryImpl @Inject constructor(
     private val context: Application,
     private val network: Network,
-    private val diskImageRepository: DiskImageRepository,
-    private val roomCollectionsRepository: RoomCollectionsRepositoryApi
+    private val deviceStorageRepository: DeviceStorageRepository,
+    private val roomCollectionsRepository: CollectionRepositoryApi
 ) {
     @OptIn(ExperimentalPagingApi::class)
     suspend fun getCollections(userName: String? = null): Flow<PagingData<CollectionModel>> {
@@ -28,7 +28,7 @@ class CollectionsRepository @Inject constructor(
             remoteMediator = CollectionRemoteMediator(
                 network,
                 roomCollectionsRepository,
-                diskImageRepository,
+                deviceStorageRepository,
                 context,
                 userName
             ),
@@ -40,7 +40,7 @@ class CollectionsRepository @Inject constructor(
     }
 
     suspend fun clearAllData() {
-        diskImageRepository.removeAllFromInternalStorage()
+        deviceStorageRepository.removeAllFromInternalStorage()
     }
 
     private companion object {

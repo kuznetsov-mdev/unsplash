@@ -8,11 +8,11 @@ import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toRoomImageEntity
+import com.skillbox.unsplash.data.local.datasource.LocalImageDataSourceApi
 import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
+import com.skillbox.unsplash.data.remote.datasource.RemoteImageDataSourceApi
 import com.skillbox.unsplash.data.remote.dto.ImageDto
-import com.skillbox.unsplash.data.repository.DiskImageRepository
-import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
-import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
+import com.skillbox.unsplash.data.repository.DeviceStorageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,9 +22,9 @@ import java.io.File
 @OptIn(ExperimentalPagingApi::class)
 class ImageRemoteMediator(
     private val condition: SearchCondition,
-    private val roomImageRepository: RoomImageRepositoryApi,
-    private val retrofitImageRepository: RetrofitImageRepositoryApi,
-    private val diskImageRepository: DiskImageRepository,
+    private val roomImageRepository: LocalImageDataSourceApi,
+    private val retrofitImageRepository: RemoteImageDataSourceApi,
+    private val deviceStorageRepository: DeviceStorageRepository,
     private val context: Context
 ) : RemoteMediator<Int, ImageWithUserEntity>() {
     private var pageIndex = 1
@@ -102,13 +102,13 @@ class ImageRemoteMediator(
                 imagesLinks.add(img.image.cachedPreview)
                 imagesLinks.add(img.user.cachedProfileImage)
             }
-            diskImageRepository.removeCachedImages(imagesLinks)
+            deviceStorageRepository.removeCachedImages(imagesLinks)
         }
     }
 
     private suspend fun saveImageToInternalStorage(model: ImageDto) {
-        diskImageRepository.saveImageToInternalStorage(model.id, model.urls.thumb, "thumbnails")
-        diskImageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
+        deviceStorageRepository.saveImageToInternalStorage(model.id, model.urls.thumb, "thumbnails")
+        deviceStorageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
     }
 
     private fun convertToImageWithAuthorEntity(models: List<ImageDto>): List<ImageWithUserEntity> {

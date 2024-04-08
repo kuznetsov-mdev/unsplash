@@ -3,6 +3,8 @@ package com.skillbox.unsplash.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.skillbox.unsplash.data.local.datasource.LocalImageDataSourceApi
+import com.skillbox.unsplash.data.local.datasource.LocalImageDataSourceImpl
 import com.skillbox.unsplash.data.local.db.MIGRATION_1_2
 import com.skillbox.unsplash.data.local.db.MIGRATION_2_3
 import com.skillbox.unsplash.data.local.db.MIGRATION_3_4
@@ -12,6 +14,8 @@ import com.skillbox.unsplash.data.local.db.MIGRATION_6_7
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.local.storage.external.ImageInternalStorageImpl
 import com.skillbox.unsplash.data.local.storage.internal.ImageExternalStorageImpl
+import com.skillbox.unsplash.data.remote.datasource.RemoteImageDataSourceApi
+import com.skillbox.unsplash.data.remote.datasource.RemoteImageDataSourceImpl
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.data.remote.network.NetworkConnectivityObserver
@@ -20,19 +24,15 @@ import com.skillbox.unsplash.data.remote.retrofit.AuthRepositoryApi
 import com.skillbox.unsplash.data.remote.retrofit.OnBoardingRepositoryApi
 import com.skillbox.unsplash.data.repository.AppRepositoryImpl
 import com.skillbox.unsplash.data.repository.AuthRepositoryImpl
-import com.skillbox.unsplash.data.repository.DiskImageRepository
+import com.skillbox.unsplash.data.repository.CollectionRepositoryImpl
+import com.skillbox.unsplash.data.repository.DeviceStorageRepository
 import com.skillbox.unsplash.data.repository.ImageRepositoryImpl
 import com.skillbox.unsplash.data.repository.OnBoardingRepositoryImpl
-import com.skillbox.unsplash.data.repository.RetrofitImageRepositoryImpl
-import com.skillbox.unsplash.data.repository.RetrofitProfileRepositoryImpl
-import com.skillbox.unsplash.data.repository.RoomCollectionsRepositoryImpl
-import com.skillbox.unsplash.data.repository.RoomImageRepositoryImpl
+import com.skillbox.unsplash.data.repository.ProfileRepositoryImpl
 import com.skillbox.unsplash.data.service.AuthServiceImpl
+import com.skillbox.unsplash.domain.api.repository.CollectionRepositoryApi
 import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
-import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
-import com.skillbox.unsplash.domain.api.repository.RetrofitProfileRepositoryApi
-import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi
-import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
+import com.skillbox.unsplash.domain.api.repository.ProfileRepositoryApi
 import com.skillbox.unsplash.domain.api.service.AuthServiceApi
 import com.skillbox.unsplash.domain.api.storage.ImageExternalStorage
 import com.skillbox.unsplash.domain.api.storage.ImageInternalStorage
@@ -91,13 +91,13 @@ class AppModule {
     @Singleton
     fun providesAppRepository(
         dataBase: UnsplashRoomDataBase,
-        internalStorage: DiskImageRepository
+        internalStorage: DeviceStorageRepository
     ): AppRepositoryApi = AppRepositoryImpl(dataBase, internalStorage)
 
     @Provides
     @Singleton
-    fun providesCollectionRoomRepository(dataBase: UnsplashRoomDataBase): RoomCollectionsRepositoryApi =
-        RoomCollectionsRepositoryImpl(dataBase)
+    fun providesCollectionRoomRepository(dataBase: UnsplashRoomDataBase): CollectionRepositoryApi =
+        CollectionRepositoryImpl(dataBase)
 
     @Provides
     @Singleton
@@ -113,20 +113,20 @@ class AppModule {
     @Singleton
     fun provideLocalDataSource(
         roomDatabase: UnsplashRoomDataBase
-    ): RoomImageRepositoryApi = RoomImageRepositoryImpl(roomDatabase)
+    ): LocalImageDataSourceApi = LocalImageDataSourceImpl(roomDatabase)
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(network: Network): RetrofitImageRepositoryApi =
-        RetrofitImageRepositoryImpl(network)
+    fun provideRemoteDataSource(network: Network): RemoteImageDataSourceApi =
+        RemoteImageDataSourceImpl(network)
 
     @Provides
     @Singleton
     fun providesImagesRepository(
         context: Application,
-        inMemory: DiskImageRepository,
-        local: RoomImageRepositoryApi,
-        remote: RetrofitImageRepositoryApi
+        inMemory: DeviceStorageRepository,
+        local: LocalImageDataSourceApi,
+        remote: RemoteImageDataSourceApi
     ): ImageRepositoryApi = ImageRepositoryImpl(context, inMemory, local, remote)
 
     @Provides
@@ -141,13 +141,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesImageStorage(internalStorage: ImageInternalStorage, externalStorageImpl: ImageExternalStorage): DiskImageRepository =
-        DiskImageRepository(internalStorage, externalStorageImpl)
+    fun providesImageStorage(internalStorage: ImageInternalStorage, externalStorageImpl: ImageExternalStorage): DeviceStorageRepository =
+        DeviceStorageRepository(internalStorage, externalStorageImpl)
 
     @Provides
     @Singleton
-    fun providesRetrofitAccountRepository(network: Network): RetrofitProfileRepositoryApi =
-        RetrofitProfileRepositoryImpl(network)
+    fun providesRetrofitAccountRepository(network: Network): ProfileRepositoryApi =
+        ProfileRepositoryImpl(network)
 
     //Use Cases
     @Provides

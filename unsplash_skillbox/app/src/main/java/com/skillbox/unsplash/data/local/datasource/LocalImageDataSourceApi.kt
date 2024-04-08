@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.domain.api.repository
+package com.skillbox.unsplash.data.local.datasource
 
 import androidx.paging.PagingSource
 import com.skillbox.unsplash.common.SearchCondition
@@ -6,7 +6,7 @@ import com.skillbox.unsplash.data.local.db.entities.UserEntity
 import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 
-interface RoomImageRepositoryApi {
+interface LocalImageDataSourceApi {
 
     suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserModel>
 

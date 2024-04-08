@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
     private val dataBase: UnsplashRoomDataBase,
-    private val internalStorage: DiskImageRepository,
+    private val internalStorage: DeviceStorageRepository,
 ) : AppRepositoryApi {
 
     override suspend fun clearAllData() {

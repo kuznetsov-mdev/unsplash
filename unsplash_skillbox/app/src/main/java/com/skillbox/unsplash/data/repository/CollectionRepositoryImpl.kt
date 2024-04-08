@@ -4,11 +4,11 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi
+import com.skillbox.unsplash.domain.api.repository.CollectionRepositoryApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RoomCollectionsRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomCollectionsRepositoryApi {
+class CollectionRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : CollectionRepositoryApi {
     override suspend fun insertAll(collections: List<CollectionWithUserAndImagesEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {

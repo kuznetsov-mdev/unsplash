@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.repository
+package com.skillbox.unsplash.data.local.datasource
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
@@ -7,12 +7,11 @@ import com.skillbox.unsplash.common.extensions.toImageUiModel
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.local.db.entities.UserEntity
 import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
-import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RoomImageRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : RoomImageRepositoryApi {
+class LocalImageDataSourceImpl(private val dataBase: UnsplashRoomDataBase) : LocalImageDataSourceApi {
 
     override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserModel> {
         return withContext(Dispatchers.IO) {

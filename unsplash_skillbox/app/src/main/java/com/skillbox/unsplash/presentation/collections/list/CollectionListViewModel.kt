@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.data.repository.CollectionsRepository
+import com.skillbox.unsplash.data.repository.CollectionsRepositoryImpl
 import com.skillbox.unsplash.domain.model.CollectionModel
 import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CollectionListViewModel @Inject constructor(
-    private val collectionsRepository: CollectionsRepository,
+    private val collectionsRepository: CollectionsRepositoryImpl,
     private val getNetworkStateUseCase: GetNetworkStateUseCase
 ) : ViewModel() {
     private val collectionsSharedFlow = MutableSharedFlow<PagingData<CollectionModel>>()

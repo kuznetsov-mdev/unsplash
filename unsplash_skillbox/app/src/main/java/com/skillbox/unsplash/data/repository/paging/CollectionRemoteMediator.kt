@@ -10,8 +10,8 @@ import com.skillbox.unsplash.common.extensions.toRoomEntity
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.remote.dto.CollectionDto
 import com.skillbox.unsplash.data.remote.network.Network
-import com.skillbox.unsplash.data.repository.DiskImageRepository
-import com.skillbox.unsplash.domain.api.repository.RoomCollectionsRepositoryApi
+import com.skillbox.unsplash.data.repository.DeviceStorageRepository
+import com.skillbox.unsplash.domain.api.repository.CollectionRepositoryApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,8 +23,8 @@ import java.io.File
 @OptIn(ExperimentalPagingApi::class)
 class CollectionRemoteMediator(
     private val network: Network,
-    private val roomCollectionsRepository: RoomCollectionsRepositoryApi,
-    private val diskImageRepository: DiskImageRepository,
+    private val roomCollectionsRepository: CollectionRepositoryApi,
+    private val deviceStorageRepository: DeviceStorageRepository,
     private val context: Context,
     private val userName: String?
 ) : RemoteMediator<Int, CollectionWithUserAndImagesEntity>() {
@@ -84,8 +84,8 @@ class CollectionRemoteMediator(
     }
 
     private suspend fun saveImageToInternalStorage(model: CollectionDto) {
-        diskImageRepository.saveImageToInternalStorage(model.coverPhoto.id, model.coverPhoto.urls.small, "thumbnails")
-        diskImageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
+        deviceStorageRepository.saveImageToInternalStorage(model.coverPhoto.id, model.coverPhoto.urls.small, "thumbnails")
+        deviceStorageRepository.saveImageToInternalStorage(model.user.id, model.user.profileImage.medium, "avatars")
     }
 
     private fun convertToImageWithAuthorEntity(models: List<CollectionDto>): List<CollectionWithUserAndImagesEntity> {
@@ -111,7 +111,7 @@ class CollectionRemoteMediator(
             collections.forEach { collection ->
                 imagesLinks.add(collection.collectionWithImages.collection.cachedCoverPhoto)
             }
-            diskImageRepository.removeCachedImages(imagesLinks)
+            deviceStorageRepository.removeCachedImages(imagesLinks)
         }
     }
 

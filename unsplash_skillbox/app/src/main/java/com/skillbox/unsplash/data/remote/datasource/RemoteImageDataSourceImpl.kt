@@ -1,10 +1,9 @@
-package com.skillbox.unsplash.data.repository
+package com.skillbox.unsplash.data.remote.datasource
 
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toDetailImageItem
 import com.skillbox.unsplash.data.remote.dto.ImageDto
 import com.skillbox.unsplash.data.remote.network.Network
-import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,9 +11,9 @@ import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
-class RetrofitImageRepositoryImpl @Inject constructor(
+class RemoteImageDataSourceImpl @Inject constructor(
     private val network: Network,
-) : RetrofitImageRepositoryApi {
+) : RemoteImageDataSourceApi {
 
     override suspend fun getImages(pageNumber: Int, pageSize: Int): UnsplashResponse<List<ImageDto>> {
         return withContext(Dispatchers.IO) {

@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.remote.token
+package com.skillbox.unsplash.data.service.model
 
 data class TokensModel (
     val accessToken: String,

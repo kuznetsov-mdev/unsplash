@@ -10,10 +10,10 @@ import androidx.paging.map
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.common.extensions.toImageUiModel
+import com.skillbox.unsplash.data.local.datasource.LocalImageDataSourceApi
+import com.skillbox.unsplash.data.remote.datasource.RemoteImageDataSourceApi
 import com.skillbox.unsplash.data.repository.paging.ImageRemoteMediator
 import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
-import com.skillbox.unsplash.domain.api.repository.RetrofitImageRepositoryApi
-import com.skillbox.unsplash.domain.api.repository.RoomImageRepositoryApi
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import kotlinx.coroutines.flow.Flow
@@ -22,9 +22,9 @@ import kotlinx.coroutines.flow.map
 
 class ImageRepositoryImpl(
     private val context: Application,
-    private val diskImageRepository: DiskImageRepository,
-    private val roomImageRepository: RoomImageRepositoryApi,
-    private val retrofitImageRepository: RetrofitImageRepositoryApi
+    private val deviceStorageRepository: DeviceStorageRepository,
+    private val localImageDataSource: LocalImageDataSourceApi,
+    private val remoteImageDataSource: RemoteImageDataSourceApi
 ) : ImageRepositoryApi {
     @OptIn(ExperimentalPagingApi::class)
 
@@ -33,12 +33,12 @@ class ImageRepositoryImpl(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = ImageRemoteMediator(
                 searchCondition,
-                roomImageRepository,
-                retrofitImageRepository,
-                diskImageRepository,
+                localImageDataSource,
+                remoteImageDataSource,
+                deviceStorageRepository,
                 context
             ),
-            pagingSourceFactory = { roomImageRepository.getPagingSource(searchCondition) }
+            pagingSourceFactory = { localImageDataSource.getPagingSource(searchCondition) }
         ).flow
             .map { pagingData ->
                 pagingData.map { imageEntity -> imageEntity.toImageUiModel() }
@@ -46,24 +46,24 @@ class ImageRepositoryImpl(
     }
 
     override suspend fun getImageDetailInfo(imageId: String): ImageDetailModel {
-        return retrofitImageRepository.getImageDetailInfo(imageId)
+        return remoteImageDataSource.getImageDetailInfo(imageId)
     }
 
     override suspend fun likeImage(imageId: String) {
-        retrofitImageRepository.setLike(imageId)
+        remoteImageDataSource.setLike(imageId)
     }
 
     override suspend fun unlikeImage(imageId: String) {
-        retrofitImageRepository.removeLike(imageId)
+        remoteImageDataSource.removeLike(imageId)
     }
 
     override fun startImageSavingToGalleryWork(name: String, url: String): LiveData<WorkInfo> {
-        return diskImageRepository.startImageSavingToExternalStorageWork(name, url)
+        return deviceStorageRepository.startImageSavingToExternalStorageWork(name, url)
     }
 
     override suspend fun clearAllData() {
-        diskImageRepository.removeAllFromInternalStorage()
-        roomImageRepository.clearAll()
+        deviceStorageRepository.removeAllFromInternalStorage()
+        localImageDataSource.clearAll()
     }
 
     private companion object {
