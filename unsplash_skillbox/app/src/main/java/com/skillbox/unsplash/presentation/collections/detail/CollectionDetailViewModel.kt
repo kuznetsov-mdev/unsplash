@@ -6,9 +6,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
+import com.skillbox.unsplash.domain.usecase.image.GetImagesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CollectionDetailViewModel @Inject constructor(
-    private val imagesRepository: ImageRepositoryApi,
-    private val getNetworkStateUseCase: GetNetworkStateUseCase
+    private val getNetworkStateUseCase: GetNetworkStateUseCase,
+    private val searchImagesUseCase: GetImagesUseCase
 ) : ViewModel() {
     private val collectionImagesStateFlow = MutableStateFlow<PagingData<ImageWithUserModel>>(PagingData.empty())
 
@@ -33,10 +33,10 @@ class CollectionDetailViewModel @Inject constructor(
 
     fun searchImages(collectionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            imagesRepository.search(SearchCondition.CollectionImages(collectionId)).cachedIn(viewModelScope).collectLatest {
-                collectionImagesStateFlow.value = it
-            }
+            searchImagesUseCase(SearchCondition.CollectionImages(collectionId))
+                .cachedIn(viewModelScope).collectLatest {
+                    collectionImagesStateFlow.value = it
+                }
         }
     }
-
 }

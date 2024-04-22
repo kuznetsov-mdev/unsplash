@@ -11,9 +11,9 @@ import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
-class RemoteImageDataSourceImpl @Inject constructor(
+class ImageRemoteDataSourceImpl @Inject constructor(
     private val network: Network,
-) : RemoteImageDataSourceApi {
+) : ImageRemoteDataSourceApi {
 
     override suspend fun getImages(pageNumber: Int, pageSize: Int): UnsplashResponse<List<ImageDto>> {
         return withContext(Dispatchers.IO) {

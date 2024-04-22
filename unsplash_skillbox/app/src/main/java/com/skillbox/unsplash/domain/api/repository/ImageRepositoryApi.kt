@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.SearchCondition
-import com.skillbox.unsplash.domain.model.ImageWithUserModel
+import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import kotlinx.coroutines.flow.Flow
 
 interface ImageRepositoryApi {
 
-    fun search(searchCondition: SearchCondition): Flow<PagingData<ImageWithUserModel>>
+    fun search(searchCondition: SearchCondition): Flow<PagingData<ImageWithUserEntity>>
 
     suspend fun getImageDetailInfo(imageId: String): ImageDetailModel
 

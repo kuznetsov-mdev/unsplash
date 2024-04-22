@@ -8,9 +8,9 @@ import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toRoomImageEntity
-import com.skillbox.unsplash.data.local.datasource.LocalImageDataSourceApi
+import com.skillbox.unsplash.data.local.datasource.ImageLocalDataSourceApi
 import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
-import com.skillbox.unsplash.data.remote.datasource.RemoteImageDataSourceApi
+import com.skillbox.unsplash.data.remote.datasource.ImageRemoteDataSourceApi
 import com.skillbox.unsplash.data.remote.dto.ImageDto
 import com.skillbox.unsplash.data.repository.DeviceStorageRepository
 import kotlinx.coroutines.CoroutineScope
@@ -22,8 +22,8 @@ import java.io.File
 @OptIn(ExperimentalPagingApi::class)
 class ImageRemoteMediator(
     private val condition: SearchCondition,
-    private val roomImageRepository: LocalImageDataSourceApi,
-    private val retrofitImageRepository: RemoteImageDataSourceApi,
+    private val imageLocalDataSource: ImageLocalDataSourceApi,
+    private val imageRemoteDataSource: ImageRemoteDataSourceApi,
     private val deviceStorageRepository: DeviceStorageRepository,
     private val context: Context
 ) : RemoteMediator<Int, ImageWithUserEntity>() {
@@ -41,10 +41,10 @@ class ImageRemoteMediator(
             val images: List<ImageWithUserEntity> = getImages(pageSize, pageIndex)
 
             if (loadType == LoadType.REFRESH) {
-                roomImageRepository.refresh(condition, images)
+                imageLocalDataSource.refresh(condition, images)
                 removeImagesFromDisk(images)
             } else {
-                roomImageRepository.insertAll(condition, images)
+                imageLocalDataSource.insertAll(condition, images)
             }
             MediatorResult.Success(endOfPaginationReached = images.size < pageSize)
         } catch (t: Throwable) {
@@ -63,19 +63,19 @@ class ImageRemoteMediator(
     private suspend fun getImages(pageSize: Int, pageNumber: Int): List<ImageWithUserEntity> {
         val searchResult: UnsplashResponse<List<ImageDto>> = when (condition) {
             is SearchCondition.AllImages ->
-                retrofitImageRepository.getImages(pageNumber, pageSize)
+                imageRemoteDataSource.getImages(pageNumber, pageSize)
 
             is SearchCondition.SearchQueryImages ->
-                retrofitImageRepository.searchImages(condition.searchQuery, pageNumber, pageSize)
+                imageRemoteDataSource.searchImages(condition.searchQuery, pageNumber, pageSize)
 
             is SearchCondition.CollectionImages ->
-                retrofitImageRepository.getCollectionImages(condition.collectionId, pageNumber, pageSize)
+                imageRemoteDataSource.getCollectionImages(condition.collectionId, pageNumber, pageSize)
 
             is SearchCondition.UserImages ->
-                retrofitImageRepository.getUserImages(condition.userName, pageNumber, pageSize)
+                imageRemoteDataSource.getUserImages(condition.userName, pageNumber, pageSize)
 
             is SearchCondition.LikedByUserImages ->
-                retrofitImageRepository.getLikedUserImages(condition.userName, pageNumber, pageSize)
+                imageRemoteDataSource.getLikedUserImages(condition.userName, pageNumber, pageSize)
 
             else -> error("Not implemented yet")
         }

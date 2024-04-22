@@ -11,7 +11,7 @@ import com.skillbox.unsplash.domain.model.ImageWithUserModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LocalImageDataSourceImpl(private val dataBase: UnsplashRoomDataBase) : LocalImageDataSourceApi {
+class ImageLocalDataSourceImpl(private val dataBase: UnsplashRoomDataBase) : ImageLocalDataSourceApi {
 
     override suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserModel> {
         return withContext(Dispatchers.IO) {

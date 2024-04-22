@@ -1,14 +1,14 @@
-package com.skillbox.unsplash.data.repository
+package com.skillbox.unsplash.data.local.datasource
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.domain.api.repository.CollectionRepositoryApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class CollectionRepositoryImpl(private val dataBase: UnsplashRoomDataBase) : CollectionRepositoryApi {
+class CollectionsLocalDataSourceImpl(private val dataBase: UnsplashRoomDataBase) : CollectionsLocalDataSourceApi {
+
     override suspend fun insertAll(collections: List<CollectionWithUserAndImagesEntity>) {
         withContext(Dispatchers.IO) {
             dataBase.withTransaction {

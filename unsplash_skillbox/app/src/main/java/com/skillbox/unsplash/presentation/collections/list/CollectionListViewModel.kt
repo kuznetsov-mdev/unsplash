@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
 import com.skillbox.unsplash.data.repository.CollectionsRepositoryImpl
 import com.skillbox.unsplash.domain.model.CollectionModel
+import com.skillbox.unsplash.domain.usecase.collection.GetCollectionsUseCase
 import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CollectionListViewModel @Inject constructor(
     private val collectionsRepository: CollectionsRepositoryImpl,
-    private val getNetworkStateUseCase: GetNetworkStateUseCase
+    private val getNetworkStateUseCase: GetNetworkStateUseCase,
+    private val getCollectionsUseCase: GetCollectionsUseCase
 ) : ViewModel() {
     private val collectionsSharedFlow = MutableSharedFlow<PagingData<CollectionModel>>()
 
@@ -35,10 +37,9 @@ class CollectionListViewModel @Inject constructor(
     fun getCollections(userName: String?) {
         Timber.tag("LifecycleLog ViewModel").d("${this.javaClass.simpleName} -> getCollections for user = $userName")
         viewModelScope.launch(Dispatchers.IO) {
-            collectionsRepository.getCollections(userName)
-                .cachedIn(viewModelScope).collectLatest {
-                    collectionsSharedFlow.emit(it)
-                }
+            getCollectionsUseCase(userName).cachedIn(viewModelScope).collectLatest {
+                collectionsSharedFlow.emit(it)
+            }
         }
     }
 }

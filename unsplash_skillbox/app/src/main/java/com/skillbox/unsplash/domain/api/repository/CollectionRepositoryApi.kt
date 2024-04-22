@@ -1,17 +1,11 @@
 package com.skillbox.unsplash.domain.api.repository
 
-import androidx.paging.PagingSource
+import androidx.paging.PagingData
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
+import kotlinx.coroutines.flow.Flow
 
 interface CollectionRepositoryApi {
 
-    suspend fun insertAll(collections: List<CollectionWithUserAndImagesEntity>)
+    fun getCollections(userName: String?): Flow<PagingData<CollectionWithUserAndImagesEntity>>
 
-    suspend fun getCollectionImages()
-
-    suspend fun refresh(collections: List<CollectionWithUserAndImagesEntity>)
-
-    fun getCollections(userName: String?): PagingSource<Int, CollectionWithUserAndImagesEntity>
-
-    suspend fun clearAll()
 }

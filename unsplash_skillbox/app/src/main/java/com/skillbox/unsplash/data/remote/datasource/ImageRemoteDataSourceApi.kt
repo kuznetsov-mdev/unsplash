@@ -4,7 +4,7 @@ import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.data.remote.dto.ImageDto
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 
-interface RemoteImageDataSourceApi {
+interface ImageRemoteDataSourceApi {
 
     suspend fun getImages(pageNumber: Int, pageSize: Int): UnsplashResponse<List<ImageDto>>
 

@@ -6,7 +6,7 @@ import com.skillbox.unsplash.data.local.db.entities.UserEntity
 import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
 import com.skillbox.unsplash.domain.model.ImageWithUserModel
 
-interface LocalImageDataSourceApi {
+interface ImageLocalDataSourceApi {
 
     suspend fun fetchImages(pageNumber: Int, pageSize: Int): List<ImageWithUserModel>
 

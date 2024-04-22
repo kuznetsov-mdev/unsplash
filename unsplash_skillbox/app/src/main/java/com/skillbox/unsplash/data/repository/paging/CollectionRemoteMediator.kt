@@ -7,11 +7,11 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toRoomEntity
+import com.skillbox.unsplash.data.local.datasource.CollectionsLocalDataSourceApi
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
 import com.skillbox.unsplash.data.remote.dto.CollectionDto
 import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.data.repository.DeviceStorageRepository
-import com.skillbox.unsplash.domain.api.repository.CollectionRepositoryApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import java.io.File
 @OptIn(ExperimentalPagingApi::class)
 class CollectionRemoteMediator(
     private val network: Network,
-    private val roomCollectionsRepository: CollectionRepositoryApi,
+    private val collectionsLocalDataSource: CollectionsLocalDataSourceApi,
     private val deviceStorageRepository: DeviceStorageRepository,
     private val context: Context,
     private val userName: String?
@@ -41,10 +41,10 @@ class CollectionRemoteMediator(
             val collections: List<CollectionWithUserAndImagesEntity> = getCollections(pageIndex, pageSize)
 
             if (loadType == LoadType.REFRESH) {
-                roomCollectionsRepository.refresh(collections)
+                collectionsLocalDataSource.refresh(collections)
                 removeImagesFromDisk(collections)
             } else {
-                roomCollectionsRepository.insertAll(collections)
+                collectionsLocalDataSource.insertAll(collections)
             }
             MediatorResult.Success(endOfPaginationReached = collections.size < pageSize)
         } catch (t: Throwable) {
