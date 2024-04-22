@@ -1,2 +1,2 @@
-# diplom_android_lvl1
+# app for using unsplash api
 
