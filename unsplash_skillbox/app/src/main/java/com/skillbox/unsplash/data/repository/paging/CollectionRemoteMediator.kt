@@ -9,21 +9,19 @@ import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toRoomEntity
 import com.skillbox.unsplash.data.local.datasource.CollectionsLocalDataSourceApi
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
+import com.skillbox.unsplash.data.remote.datasource.CollectionRemoteDataSourceApi
 import com.skillbox.unsplash.data.remote.dto.CollectionDto
-import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.data.repository.DeviceStorageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.io.File
 
 @OptIn(ExperimentalPagingApi::class)
 class CollectionRemoteMediator(
-    private val network: Network,
     private val collectionsLocalDataSource: CollectionsLocalDataSourceApi,
+    private val collectionRemoteDataSource: CollectionRemoteDataSourceApi,
     private val deviceStorageRepository: DeviceStorageRepository,
     private val context: Context,
     private val userName: String?
@@ -63,9 +61,9 @@ class CollectionRemoteMediator(
     private suspend fun getCollections(pageIndex: Int, pageSize: Int): List<CollectionWithUserAndImagesEntity> {
         val collections: UnsplashResponse<List<CollectionDto>> =
             if (userName == null) {
-                getAll(pageIndex, pageSize)
+                collectionRemoteDataSource.getAll(pageIndex, pageSize)
             } else {
-                getUserCollections(userName, pageIndex, pageSize)
+                collectionRemoteDataSource.getUserCollections(userName, pageIndex, pageSize)
             }
 
         return when (collections) {
@@ -112,28 +110,6 @@ class CollectionRemoteMediator(
                 imagesLinks.add(collection.collectionWithImages.collection.cachedCoverPhoto)
             }
             deviceStorageRepository.removeCachedImages(imagesLinks)
-        }
-    }
-
-    private suspend fun getUserCollections(userName: String, pageNumber: Int, pageSize: Int): UnsplashResponse<List<CollectionDto>> {
-        return withContext(Dispatchers.IO) {
-            try {
-                UnsplashResponse.Success(network.collectionsApi.getUserCollection(userName, pageNumber, pageSize))
-            } catch (t: Throwable) {
-                Timber.tag("${this.javaClass.simpleName} - UnsplashResponse").d(t)
-                UnsplashResponse.Error(t)
-            }
-        }
-    }
-
-    private suspend fun getAll(pageNumber: Int, pageSize: Int): UnsplashResponse<List<CollectionDto>> {
-        return withContext(Dispatchers.IO) {
-            try {
-                UnsplashResponse.Success(network.collectionsApi.getCollections(pageNumber, pageSize))
-            } catch (t: Throwable) {
-                Timber.tag("${this.javaClass.simpleName} - UnsplashResponse").d(t)
-                UnsplashResponse.Error(t)
-            }
         }
     }
 }
