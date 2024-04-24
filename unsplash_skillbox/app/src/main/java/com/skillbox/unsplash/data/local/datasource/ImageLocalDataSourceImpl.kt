@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import com.skillbox.unsplash.common.SearchCondition
 import com.skillbox.unsplash.common.extensions.toImageUiModel
+import com.skillbox.unsplash.data.local.ImageLocalDataSourceApi
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.local.db.entities.UserEntity
 import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity

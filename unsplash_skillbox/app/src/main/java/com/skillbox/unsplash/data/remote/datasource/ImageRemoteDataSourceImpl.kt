@@ -2,6 +2,7 @@ package com.skillbox.unsplash.data.remote.datasource
 
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toDetailImageItem
+import com.skillbox.unsplash.data.remote.ImageRemoteDataSourceApi
 import com.skillbox.unsplash.data.remote.dto.ImageDto
 import com.skillbox.unsplash.data.remote.network.Network
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel

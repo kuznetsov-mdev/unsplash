@@ -8,9 +8,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.work.WorkInfo
 import com.skillbox.unsplash.common.SearchCondition
-import com.skillbox.unsplash.data.local.datasource.ImageLocalDataSourceApi
+import com.skillbox.unsplash.data.local.ImageLocalDataSourceApi
 import com.skillbox.unsplash.data.local.db.entities.image.ImageWithUserEntity
-import com.skillbox.unsplash.data.remote.datasource.ImageRemoteDataSourceApi
+import com.skillbox.unsplash.data.remote.ImageRemoteDataSourceApi
 import com.skillbox.unsplash.data.repository.paging.ImageRemoteMediator
 import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel

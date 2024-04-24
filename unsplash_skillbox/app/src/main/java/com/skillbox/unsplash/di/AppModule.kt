@@ -3,9 +3,9 @@ package com.skillbox.unsplash.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.skillbox.unsplash.data.local.datasource.CollectionsLocalDataSourceApi
+import com.skillbox.unsplash.data.local.CollectionsLocalDataSourceApi
+import com.skillbox.unsplash.data.local.ImageLocalDataSourceApi
 import com.skillbox.unsplash.data.local.datasource.CollectionsLocalDataSourceImpl
-import com.skillbox.unsplash.data.local.datasource.ImageLocalDataSourceApi
 import com.skillbox.unsplash.data.local.datasource.ImageLocalDataSourceImpl
 import com.skillbox.unsplash.data.local.db.MIGRATION_1_2
 import com.skillbox.unsplash.data.local.db.MIGRATION_2_3
@@ -16,7 +16,9 @@ import com.skillbox.unsplash.data.local.db.MIGRATION_6_7
 import com.skillbox.unsplash.data.local.db.UnsplashRoomDataBase
 import com.skillbox.unsplash.data.local.storage.external.ImageInternalStorageImpl
 import com.skillbox.unsplash.data.local.storage.internal.ImageExternalStorageImpl
-import com.skillbox.unsplash.data.remote.datasource.ImageRemoteDataSourceApi
+import com.skillbox.unsplash.data.remote.CollectionRemoteDataSourceApi
+import com.skillbox.unsplash.data.remote.ImageRemoteDataSourceApi
+import com.skillbox.unsplash.data.remote.datasource.CollectionRemoteDataSourceImpl
 import com.skillbox.unsplash.data.remote.datasource.ImageRemoteDataSourceImpl
 import com.skillbox.unsplash.data.remote.network.ConnectivityObserver
 import com.skillbox.unsplash.data.remote.network.Network
@@ -99,8 +101,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesCollectionRoomRepository(dataBase: UnsplashRoomDataBase): CollectionsLocalDataSourceApi =
+    fun providesCollectionLocalDataSource(dataBase: UnsplashRoomDataBase): CollectionsLocalDataSourceApi =
         CollectionsLocalDataSourceImpl(dataBase)
+
+    @Provides
+    @Singleton
+    fun providesCollectionRemoteDataSource(network: Network): CollectionRemoteDataSourceApi =
+        CollectionRemoteDataSourceImpl(network)
 
     @Provides
     @Singleton
@@ -114,13 +121,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(
+    fun provideImageLocalDataSource(
         roomDatabase: UnsplashRoomDataBase
     ): ImageLocalDataSourceApi = ImageLocalDataSourceImpl(roomDatabase)
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(network: Network): ImageRemoteDataSourceApi =
+    fun provideImageRemoteDataSource(network: Network): ImageRemoteDataSourceApi =
         ImageRemoteDataSourceImpl(network)
 
     @Provides
@@ -158,9 +165,10 @@ class AppModule {
         context: Application,
         network: Network,
         deviceStorageRepository: DeviceStorageRepository,
-        collectionsLocalDataSourceApi: CollectionsLocalDataSourceApi
+        collectionsLocalDataSourceApi: CollectionsLocalDataSourceApi,
+        collectionRemoteDataSourceApi: CollectionRemoteDataSourceApi
     ): CollectionRepositoryApi =
-        CollectionsRepositoryImpl(context, network, deviceStorageRepository, collectionsLocalDataSourceApi)
+        CollectionsRepositoryImpl(context, deviceStorageRepository, collectionsLocalDataSourceApi, collectionRemoteDataSourceApi)
 
     //Use Cases
     @Provides

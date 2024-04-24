@@ -5,9 +5,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.skillbox.unsplash.data.local.datasource.CollectionsLocalDataSourceApi
+import com.skillbox.unsplash.data.local.CollectionsLocalDataSourceApi
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.data.remote.network.Network
+import com.skillbox.unsplash.data.remote.CollectionRemoteDataSourceApi
 import com.skillbox.unsplash.data.repository.paging.CollectionRemoteMediator
 import com.skillbox.unsplash.domain.api.repository.CollectionRepositoryApi
 import kotlinx.coroutines.flow.Flow
@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 class CollectionsRepositoryImpl @Inject constructor(
     private val context: Application,
-    private val network: Network,
     private val deviceStorageRepository: DeviceStorageRepository,
-    private val collectionsLocalDataSource: CollectionsLocalDataSourceApi
+    private val collectionsLocalDataSource: CollectionsLocalDataSourceApi,
+    private val collectionRemoteDataSource: CollectionRemoteDataSourceApi
 ) : CollectionRepositoryApi {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -25,8 +25,8 @@ class CollectionsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = CollectionRemoteMediator(
-                network,
                 collectionsLocalDataSource,
+                collectionRemoteDataSource,
                 deviceStorageRepository,
                 context,
                 userName

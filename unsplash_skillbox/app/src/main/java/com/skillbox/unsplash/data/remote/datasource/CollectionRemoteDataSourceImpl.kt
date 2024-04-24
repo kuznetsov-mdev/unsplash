@@ -1,6 +1,7 @@
 package com.skillbox.unsplash.data.remote.datasource
 
 import com.skillbox.unsplash.common.UnsplashResponse
+import com.skillbox.unsplash.data.remote.CollectionRemoteDataSourceApi
 import com.skillbox.unsplash.data.remote.dto.CollectionDto
 import com.skillbox.unsplash.data.remote.network.Network
 import kotlinx.coroutines.Dispatchers

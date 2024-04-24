@@ -7,9 +7,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.common.extensions.toRoomEntity
-import com.skillbox.unsplash.data.local.datasource.CollectionsLocalDataSourceApi
+import com.skillbox.unsplash.data.local.CollectionsLocalDataSourceApi
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
-import com.skillbox.unsplash.data.remote.datasource.CollectionRemoteDataSourceApi
+import com.skillbox.unsplash.data.remote.CollectionRemoteDataSourceApi
 import com.skillbox.unsplash.data.remote.dto.CollectionDto
 import com.skillbox.unsplash.data.repository.DeviceStorageRepository
 import kotlinx.coroutines.CoroutineScope

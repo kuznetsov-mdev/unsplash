@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.remote.datasource
+package com.skillbox.unsplash.data.remote
 
 import com.skillbox.unsplash.common.UnsplashResponse
 import com.skillbox.unsplash.data.remote.dto.ImageDto

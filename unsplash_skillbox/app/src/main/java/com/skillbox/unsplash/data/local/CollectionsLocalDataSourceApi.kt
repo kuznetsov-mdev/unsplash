@@ -1,4 +1,4 @@
-package com.skillbox.unsplash.data.local.datasource
+package com.skillbox.unsplash.data.local
 
 import androidx.paging.PagingSource
 import com.skillbox.unsplash.data.local.db.entities.relations.CollectionWithUserAndImagesEntity
