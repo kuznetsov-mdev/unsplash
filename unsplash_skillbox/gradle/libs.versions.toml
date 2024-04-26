@@ -3,7 +3,7 @@ minSdk = "21"
 targetSdk = "34"
 
 android-gradle-plugin-version = "8.2.0"
-kotlin-version = "1.9.10"
+kotlin-version = "1.9.20"
 
 adapterdelegates4 = "4.3.2"
 androidx-junit = "1.1.5"
@@ -11,7 +11,7 @@ appauth = "0.11.1"
 appcompat = "1.6.1"
 browser = "1.8.0"
 constraintlayout = "2.1.4"
-core-ktx = "1.12.0"
+core-ktx = "1.13.0"
 coroutinesVersion = "1.8.0"
 dotsindicator = "5.0"
 espresso-core = "3.5.1"
@@ -50,7 +50,7 @@ androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWo
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleLivedataKtx" }
-
+#Navigation
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navVersion" }
 androidx-navigation-dynamic-features-fragment = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "navVersion" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navVersion" }
@@ -66,11 +66,11 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
+dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 appauth = { module = "net.openid:appauth", version.ref = "appauth" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofitVersion" }
-dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
 facebook-flipper = { module = "com.facebook.flipper:flipper", version.ref = "flipperVersion" }
 flipper-android-no-op = { module = "com.github.theGlenn:flipper-android-no-op", version.ref = "flipperAndroidNoOp" }
 flipper-facebook-no-op = { module = "com.facebook.flipper:flipper-noop", version.ref = "flipperVersion" }
@@ -106,16 +106,8 @@ navigation = [
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin-version" }
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin-version" }
-#in origin version 2.5.3
 android-navigation = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navVersion" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsKsp" }
-
 navigation-safe-args = { id = "androidx.navigation.safeargs", version.ref = "navVersion" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin-version" }
-#id 'com.android.application'
-#id 'org.jetbrains.kotlin.android'
-#id 'androidx.navigation.safeargs'
-#id 'kotlin-parcelize'
-#id 'dagger.hilt.android.plugin'
-#id 'com.google.devtools.ksp'
