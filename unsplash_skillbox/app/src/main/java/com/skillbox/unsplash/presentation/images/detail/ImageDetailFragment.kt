@@ -11,34 +11,30 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.MaterialTheme
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.work.WorkInfo
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
 import com.skillbox.unsplash.data.service.DownloadWorker
 import com.skillbox.unsplash.data.service.NotificationChannels
 import com.skillbox.unsplash.databinding.FragmentImageDetailBinding
-import com.skillbox.unsplash.databinding.ImageLayoutCameraInfoBinding
-import com.skillbox.unsplash.databinding.ImageLayoutImageStatisticBinding
-import com.skillbox.unsplash.databinding.ImageLayoutLocationBinding
 import com.skillbox.unsplash.domain.model.detail.ExifModel
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import com.skillbox.unsplash.domain.model.detail.LocationModel
 import com.skillbox.unsplash.domain.model.detail.StatisticModel
+import com.skillbox.unsplash.presentation.screens.ImageDetailScreen
 import com.skillbox.unsplash.util.haveQ
 import com.skillbox.unsplash.util.haveTiramisu
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,9 +50,10 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
     private val args: ImageDetailFragmentArgs by navArgs()
     private val viewModel: ImageDetailViewModel by viewModels()
     private val imageDetailBinding: FragmentImageDetailBinding by viewBinding()
-    private val cameraInfoBinding: ImageLayoutCameraInfoBinding by viewBinding()
-    private val imageStatisticBinding: ImageLayoutImageStatisticBinding by viewBinding()
-    private val imageLocationBinding: ImageLayoutLocationBinding by viewBinding()
+
+    //    private val cameraInfoBinding: ImageLayoutCameraInfoBinding by viewBinding()
+//    private val imageStatisticBinding: ImageLayoutImageStatisticBinding by viewBinding()
+//    private val imageLocationBinding: ImageLayoutLocationBinding by viewBinding()
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var imageDownloader: ImageDownloader
     private var isNetworkAvailableState = true
@@ -68,18 +65,24 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeImageDetailInfo()
-        observeDataLoading()
-        observePermissionGranted()
-        viewModel.getImageDetailInfo(args.imageId)
+//        observeImageDetailInfo()
+//        observeDataLoading()
+//        observePermissionGranted()
+//        viewModel.getImageDetailInfo(args.imageId)
+
+        imageDetailBinding.imageDetailComposeView.setContent {
+            MaterialTheme {
+                ImageDetailScreen()
+            }
+        }
     }
 
     private fun observeDataLoading() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isDataLoadingFlow.collectLatest { isDataLoading ->
-                    imageDetailBinding.imageLoadingProgress.isVisible = isDataLoading
-                    imageDetailBinding.contentLayout.isVisible = !isDataLoading
+//                    imageDetailBinding.imageLoadingProgress.isVisible = isDataLoading
+//                    imageDetailBinding.contentLayout.isVisible = !isDataLoading
                 }
             }
         }
@@ -138,55 +141,55 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
 
     @SuppressLint("SetTextI18n")
     private fun bindImageDetail(detailImgItem: ImageDetailModel) {
-        with(imageDetailBinding) {
-            uploadImageToView(imageItemView, detailImgItem.image.url)
-            uploadImageToView(avatarImageView, detailImgItem.author.avatarUrl)
-
-            userNameTextView.text = detailImgItem.author.name
-            userNicknameTextView.text = detailImgItem.author.nickname
-            activeLikesIconView.isVisible = detailImgItem.image.likedByUser
-            inactiveLikesIconView.isVisible = !detailImgItem.image.likedByUser
-            aboutAuthorNickname.text = "@${detailImgItem.author.nickname} ${detailImgItem.author.biography}"
-            cameraInfoBinding.dimensionsValue.text = "${detailImgItem.width} x ${detailImgItem.height}"
-            tagsTextValue.text = detailImgItem.tags.map { "#$it" }.toString()
-
-            activeLikesIconView.setOnClickListener {
-                if (isNetworkAvailableState) {
-                    viewModel.removeLike(detailImgItem.image.id)
-                    activeLikesIconView.isVisible = false
-                    inactiveLikesIconView.isVisible = true
-                }
-            }
-
-            inactiveLikesIconView.setOnClickListener {
-                if (isNetworkAvailableState) {
-                    viewModel.setLike(detailImgItem.image.id)
-                    activeLikesIconView.isVisible = true
-                    inactiveLikesIconView.isVisible = false
-                }
-            }
-
-            downloadIcon.setOnClickListener {
-                if (hasPermission().not()) {
-                    requestPermission()
-                } else {
-                    imageDownloader.invoke()
-                }
-            }
-
-            backArrowIcon.setOnClickListener {
-                findNavController().popBackStack();
-            }
-
-            shareImageIcon.setOnClickListener {
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Image info")
-                val shareMessage = UNSPLASH_DEEP_LINK + detailImgItem.image.id
-                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
-                startActivity(Intent.createChooser(shareIntent, getString(R.string.chose_one)))
-            }
-        }
+//        with(imageDetailBinding) {
+//            uploadImageToView(imageItemView, detailImgItem.image.url)
+//            uploadImageToView(avatarImageView, detailImgItem.author.avatarUrl)
+//
+//            userNameTextView.text = detailImgItem.author.name
+//            userNicknameTextView.text = detailImgItem.author.nickname
+//            activeLikesIconView.isVisible = detailImgItem.image.likedByUser
+//            inactiveLikesIconView.isVisible = !detailImgItem.image.likedByUser
+//            aboutAuthorNickname.text = "@${detailImgItem.author.nickname} ${detailImgItem.author.biography}"
+//            cameraInfoBinding.dimensionsValue.text = "${detailImgItem.width} x ${detailImgItem.height}"
+//            tagsTextValue.text = detailImgItem.tags.map { "#$it" }.toString()
+//
+//            activeLikesIconView.setOnClickListener {
+//                if (isNetworkAvailableState) {
+//                    viewModel.removeLike(detailImgItem.image.id)
+//                    activeLikesIconView.isVisible = false
+//                    inactiveLikesIconView.isVisible = true
+//                }
+//            }
+//
+//            inactiveLikesIconView.setOnClickListener {
+//                if (isNetworkAvailableState) {
+//                    viewModel.setLike(detailImgItem.image.id)
+//                    activeLikesIconView.isVisible = true
+//                    inactiveLikesIconView.isVisible = false
+//                }
+//            }
+//
+//            downloadIcon.setOnClickListener {
+//                if (hasPermission().not()) {
+//                    requestPermission()
+//                } else {
+//                    imageDownloader.invoke()
+//                }
+//            }
+//
+//            backArrowIcon.setOnClickListener {
+//                findNavController().popBackStack();
+//            }
+//
+//            shareImageIcon.setOnClickListener {
+//                val shareIntent = Intent(Intent.ACTION_SEND)
+//                shareIntent.type = "text/plain"
+//                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Image info")
+//                val shareMessage = UNSPLASH_DEEP_LINK + detailImgItem.image.id
+//                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+//                startActivity(Intent.createChooser(shareIntent, getString(R.string.chose_one)))
+//            }
+//        }
     }
 
     private fun uploadImageToView(view: ImageView, imageUrl: String) {
@@ -197,21 +200,21 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
     }
 
     private fun bindCameraInfo(cameraInfo: ExifModel) {
-        with(cameraInfoBinding) {
-            cameraValue.text = cameraInfo.name
-            focalLengthValue.text = cameraInfo.focalLength
-            isoValue.text = cameraInfo.iso.toString()
-            apertureValue.text = cameraInfo.aperture
-            shutterSpeedValue.text = cameraInfo.exposureTime
-        }
+//        with(cameraInfoBinding) {
+//            cameraValue.text = cameraInfo.name
+//            focalLengthValue.text = cameraInfo.focalLength
+//            isoValue.text = cameraInfo.iso.toString()
+//            apertureValue.text = cameraInfo.aperture
+//            shutterSpeedValue.text = cameraInfo.exposureTime
+//        }
     }
 
     private fun bindStatisticInfo(statistics: StatisticModel) {
-        with(imageStatisticBinding) {
-            viewsTextValue.text = statistics.views.toString()
-            downloadsTextValue.text = statistics.downloads.toString()
-            likesTextValue.text = statistics.likes.toString()
-        }
+//        with(imageStatisticBinding) {
+//            viewsTextValue.text = statistics.views.toString()
+//            downloadsTextValue.text = statistics.downloads.toString()
+//            likesTextValue.text = statistics.likes.toString()
+//        }
     }
 
     private fun bindLocation(detailImgItem: ImageDetailModel) {
@@ -222,31 +225,31 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
         val isPositionPresent = location.longitude != null && location.longitude != 0.0
                 && location.latitude != null && location.latitude != 0.0
 
-        if (isLocationInfoAbsent) {
-            imageDetailBinding.locationLayout.locationView.isVisible = false
-        } else if ((isAnyLocationInfoPresent || isLocationNamePresent) && !isPositionPresent) {
-            imageLocationBinding.inactiveLocationIconView.isVisible = true
-            imageLocationBinding.locationIconView.isVisible = false
-            setLocationText(location)
-        } else if (isPositionPresent && isAnyLocationInfoPresent) {
-            imageLocationBinding.inactiveLocationIconView.isVisible = false
-            imageLocationBinding.locationIconView.isVisible = true
-            setLocationText(location)
-
-            imageLocationBinding.locationBox.setOnClickListener {
-                val uri = Uri.parse("geo:${detailImgItem.location.latitude},${detailImgItem.location.longitude}?z=10")
-                sendActionViewIntent(uri, MAPS_INTENT_PACKAGE)
-            }
-        }
+//        if (isLocationInfoAbsent) {
+//            imageDetailBinding.locationLayout.locationView.isVisible = false
+//        } else if ((isAnyLocationInfoPresent || isLocationNamePresent) && !isPositionPresent) {
+//            imageLocationBinding.inactiveLocationIconView.isVisible = true
+//            imageLocationBinding.locationIconView.isVisible = false
+//            setLocationText(location)
+//        } else if (isPositionPresent && isAnyLocationInfoPresent) {
+//            imageLocationBinding.inactiveLocationIconView.isVisible = false
+//            imageLocationBinding.locationIconView.isVisible = true
+//            setLocationText(location)
+//
+//            imageLocationBinding.locationBox.setOnClickListener {
+//                val uri = Uri.parse("geo:${detailImgItem.location.latitude},${detailImgItem.location.longitude}?z=10")
+//                sendActionViewIntent(uri, MAPS_INTENT_PACKAGE)
+//            }
+//        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setLocationText(location: LocationModel) {
-        if (location.city != null || location.country != null) {
-            imageLocationBinding.locationDescView.text = "${location.city ?: ""} ${location.country ?: ""}"
-        } else {
-            imageLocationBinding.locationDescView.text = location.name
-        }
+//        if (location.city != null || location.country != null) {
+//            imageLocationBinding.locationDescView.text = "${location.city ?: ""} ${location.country ?: ""}"
+//        } else {
+//            imageLocationBinding.locationDescView.text = location.name
+//        }
     }
 
     private fun hasPermission(): Boolean {
@@ -302,12 +305,12 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
 
     private fun showSnackBar(imageUri: String) {
         val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.mainBottomNavigation)
-        Snackbar.make(imageDetailBinding.contentLayout, R.string.download_is_finished, Snackbar.LENGTH_LONG)
-            .setAnchorView(bottomNavView)
-            .setAction(getString(R.string.open)) {
-                openImage(imageUri)
-            }
-            .show()
+//        Snackbar.make(imageDetailBinding.contentLayout, R.string.download_is_finished, Snackbar.LENGTH_LONG)
+//            .setAnchorView(bottomNavView)
+//            .setAction(getString(R.string.open)) {
+//                openImage(imageUri)
+//            }
+//            .show()
     }
 
     private fun openImage(stringUri: String) {
