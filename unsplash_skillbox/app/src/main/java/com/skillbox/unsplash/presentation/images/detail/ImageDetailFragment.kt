@@ -34,7 +34,7 @@ import com.skillbox.unsplash.domain.model.detail.ExifModel
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import com.skillbox.unsplash.domain.model.detail.LocationModel
 import com.skillbox.unsplash.domain.model.detail.StatisticModel
-import com.skillbox.unsplash.presentation.screens.ImageDetailScreen
+import com.skillbox.unsplash.presentation.components.image.ImageDetailShimmerScreen
 import com.skillbox.unsplash.util.haveQ
 import com.skillbox.unsplash.util.haveTiramisu
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +72,7 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
 
         imageDetailBinding.imageDetailComposeView.setContent {
             MaterialTheme {
-                ImageDetailScreen()
+                ImageDetailShimmerScreen()
             }
         }
     }

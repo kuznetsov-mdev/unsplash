@@ -38,6 +38,8 @@ timber = "5.0.1"
 viewbindingpropertydelegate = "1.5.9"
 viewpager2 = "1.0.0"
 workRuntimeKtx = "2.9.0"
+hilt-navigation-compose = "1.2.0"
+coil-compose = "2.4.0"
 
 activity-compose = "1.8.2"
 compose-bom = "2024.03.00"
@@ -82,6 +84,7 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
 dagger-compier-ksp = { module = "com.google.dagger:dagger-compiler", version.ref = "hiltVersion" }
 hilt-compier-ksp = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltVersion" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
@@ -95,7 +98,7 @@ soloader = { module = "com.facebook.soloader:soloader", version.ref = "soloader"
 symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "symbol-processing-api" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 viewbindingpropertydelegate = { module = "com.github.kirich1409:viewbindingpropertydelegate", version.ref = "viewbindingpropertydelegate" }
-
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }

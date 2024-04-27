@@ -89,6 +89,7 @@ dependencies {
     implementation libs.bundles.navigation
     //Dagger Hilt
     implementation libs.hilt.android
+    implementation libs.androidx.hilt.navigation.compose
     ksp libs.dagger.compier.ksp // Dagger compiler
     ksp libs.hilt.compier.ksp
     //AppAuth
@@ -111,9 +112,11 @@ dependencies {
     implementation libs.androidx.recyclerview
     //AdapterDelegate
     implementation libs.adapterdelegates4
-    //Glide
+    //Glide todo:remove glide after migration to jetpack compose
     implementation libs.glide
     annotationProcessor libs.compiler
+    //Coil
+    implementation(libs.coil.compose)
     //LiveData
     implementation libs.androidx.lifecycle.livedata.ktx
     implementation libs.androidx.lifecycle.runtime.ktx
