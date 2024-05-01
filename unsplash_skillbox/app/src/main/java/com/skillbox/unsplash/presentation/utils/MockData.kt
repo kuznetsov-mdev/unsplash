@@ -27,14 +27,7 @@ object MockData {
                     ),
                     width = 5120,
                     height = 2880,
-                    author = UserModel(
-                        id = "7pAZ3nPo0eE",
-                        nickname = "misterlindstrom",
-                        name = "Micke Lindström",
-                        biography = "I like to make 3D stuff",
-                        avatarUrl = "https://images.unsplash.com/profile-1710810631452-ac77983a46b8image?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
-                        cachedAvatarLocation = "stub"
-                    ),
+                    author = getUserImage(),
                     exif = ExifModel(
                         make = "Unknown",
                         model = "Unknown",
@@ -82,6 +75,17 @@ object MockData {
                 )
             )
         ).asStateFlow()
+    }
+
+    fun getUserImage(): UserModel {
+        return UserModel(
+            id = "7pAZ3nPo0eE",
+            nickname = "misterlindstrom",
+            name = "Micke Lindström",
+            biography = "I like to make 3D stuff",
+            avatarUrl = "https://images.unsplash.com/profile-1710810631452-ac77983a46b8image?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
+            cachedAvatarLocation = "stub"
+        )
     }
 
 }
