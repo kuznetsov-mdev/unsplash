@@ -1,11 +1,11 @@
 package com.skillbox.unsplash.data.remote.datasource
 
+import com.skillbox.unsplash.common.LoadState
 import com.skillbox.unsplash.common.UnsplashResponse
-import com.skillbox.unsplash.common.extensions.toDetailImageItem
 import com.skillbox.unsplash.data.remote.ImageRemoteDataSourceApi
 import com.skillbox.unsplash.data.remote.dto.ImageDto
+import com.skillbox.unsplash.data.remote.dto.image.ImageDetailDto
 import com.skillbox.unsplash.data.remote.network.Network
-import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -75,18 +75,17 @@ class ImageRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getImageDetailInfo(imageId: String): ImageDetailModel {
+    override suspend fun getImageDetailInfo(imageId: String): LoadState<ImageDetailDto> {
         return withContext(Dispatchers.IO) {
             try {
-                network.imagesApi.getImageDetailInfo(imageId).toDetailImageItem(
-                    "stub",
-                    "stub"
+                LoadState.Success(
+                    network.imagesApi.getImageDetailInfo(imageId)
                 )
             } catch (e: HttpException) {
-                e.printStackTrace()
-                throw Error(e)
+                LoadState.Error(
+                    reason = e.message.toString()
+                )
             }
-
         }
     }
 

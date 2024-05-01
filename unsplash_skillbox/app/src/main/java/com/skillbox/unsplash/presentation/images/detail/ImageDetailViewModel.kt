@@ -4,27 +4,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
+import com.skillbox.unsplash.common.LoadState
 import com.skillbox.unsplash.data.remote.network.ConnectivityStatus
-import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import com.skillbox.unsplash.domain.usecase.common.GetNetworkStateUseCase
+import com.skillbox.unsplash.domain.usecase.image.GetImageDetailsUseCase
+import com.skillbox.unsplash.domain.usecase.image.LikeImageUseCase
+import com.skillbox.unsplash.domain.usecase.image.SaveImageToGalleryUseCase
+import com.skillbox.unsplash.domain.usecase.image.UnlikeImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class ImageDetailViewModel @Inject constructor(
-    private val repository: ImageRepositoryApi,
-    private val getNetworkStateUseCase: GetNetworkStateUseCase
+    private val getNetworkStateUseCase: GetNetworkStateUseCase,
+    private val getImageDetailsUseCase: GetImageDetailsUseCase,
+    private val likeImageUseCase: LikeImageUseCase,
+    private val unlikeImageUseCase: UnlikeImageUseCase,
+    private val saveImageToGalleryUseCase: SaveImageToGalleryUseCase
 ) : ViewModel() {
     private val imageDetailMutableFlow: MutableStateFlow<ImageDetailModel?> = MutableStateFlow(null)
     private val isDataLoadingMutableFlow: MutableStateFlow<Boolean> = MutableStateFlow(true)
     private val permissionGrantedMutableStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+
+    private val imageDetailMutableStateFlow: MutableStateFlow<LoadState<ImageDetailModel>> =
+        MutableStateFlow(LoadState.Loading)
+
+    val imageDetailStateFlow: StateFlow<LoadState<ImageDetailModel>>
+        get() = imageDetailMutableStateFlow.asStateFlow()
+
 
     val connectivityStateFlow: Flow<ConnectivityStatus>
         get() = getNetworkStateUseCase()
@@ -41,7 +57,7 @@ class ImageDetailViewModel @Inject constructor(
     fun setLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                repository.likeImage(imageId)
+                likeImageUseCase(imageId)
             } catch (t: Throwable) {
                 Timber.d("Something wrong when try set like")
             }
@@ -51,7 +67,7 @@ class ImageDetailViewModel @Inject constructor(
     fun removeLike(imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                repository.unlikeImage(imageId)
+                unlikeImageUseCase(imageId)
             } catch (t: Throwable) {
                 Timber.d("Something wrong when try remove like")
             }
@@ -59,14 +75,17 @@ class ImageDetailViewModel @Inject constructor(
     }
 
     fun getImageDetailInfo(imageId: String) {
+        imageDetailMutableStateFlow.value = LoadState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            imageDetailMutableFlow.value = repository.getImageDetailInfo(imageId)
-            isDataLoadingMutableFlow.value = false
+            imageDetailMutableStateFlow.value = getImageDetailsUseCase(imageId)
+//            imageDetailMutableFlow.value = repository.getImageDetailInfo(imageId)
+//            isDataLoadingMutableFlow.value = false
+
         }
     }
 
     fun startImageSavingToGalleryWork(id: String, downloadImageUrl: String): LiveData<WorkInfo> {
-        return repository.startImageSavingToGalleryWork(id, downloadImageUrl)
+        return saveImageToGalleryUseCase(id, downloadImageUrl)
     }
 
     fun permissionGranted() {

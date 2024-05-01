@@ -34,7 +34,7 @@ import com.skillbox.unsplash.domain.model.detail.ExifModel
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
 import com.skillbox.unsplash.domain.model.detail.LocationModel
 import com.skillbox.unsplash.domain.model.detail.StatisticModel
-import com.skillbox.unsplash.presentation.components.image.ImageDetailShimmerScreen
+import com.skillbox.unsplash.presentation.components.image.ImageDetailScreen
 import com.skillbox.unsplash.util.haveQ
 import com.skillbox.unsplash.util.haveTiramisu
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,9 +72,15 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
 
         imageDetailBinding.imageDetailComposeView.setContent {
             MaterialTheme {
-                ImageDetailShimmerScreen()
+                ImageDetailScreen(
+                    imageDetailStateFlow = viewModel.imageDetailStateFlow,
+                    onRepeatClick = { },
+                    navigateUp = { }
+                )
             }
         }
+        viewModel.getImageDetailInfo(args.imageId)
+//        observeImageDetailInfo()
     }
 
     private fun observeDataLoading() {
@@ -92,17 +98,17 @@ class ImageDetailFragment : Fragment(R.layout.fragment_image_detail) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.imageDetailFlow.collectLatest { detailImgItem: ImageDetailModel? ->
-                    detailImgItem?.let {
-                        imageDownloader = {
-                            showNotification()
-                            viewModel.startImageSavingToGalleryWork(args.imageId, detailImgItem.downloadLink)
-                                .observe(viewLifecycleOwner, ::handleWorkInfo)
-                        }
-                        bindImageDetail(detailImgItem)
-                        bindCameraInfo(detailImgItem.exif)
-                        bindStatisticInfo(detailImgItem.statistic)
-                        bindLocation(detailImgItem)
-                    }
+//                    detailImgItem?.let {
+//                        imageDownloader = {
+//                            showNotification()
+//                            viewModel.startImageSavingToGalleryWork(args.imageId, detailImgItem.downloadLink)
+//                                .observe(viewLifecycleOwner, ::handleWorkInfo)
+//                        }
+//                        bindImageDetail(detailImgItem)
+//                        bindCameraInfo(detailImgItem.exif)
+//                        bindStatisticInfo(detailImgItem.statistic)
+//                        bindLocation(detailImgItem)
+//                    }
                 }
             }
         }
