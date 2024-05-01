@@ -34,7 +34,7 @@ fun DetailsTopBar(
                 text = parentName
             )
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background),
         colors = TopAppBarDefaults.mediumTopAppBarColors(
