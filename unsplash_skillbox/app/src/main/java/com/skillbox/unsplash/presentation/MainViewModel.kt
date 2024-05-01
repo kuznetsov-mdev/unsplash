@@ -49,6 +49,7 @@ class MainViewModel @Inject constructor(
 
     private fun clearAllData() {
         viewModelScope.launch(Dispatchers.IO) {
+            //TODO:change it to using usecases
             appRepository.clearAllData()
         }
     }
