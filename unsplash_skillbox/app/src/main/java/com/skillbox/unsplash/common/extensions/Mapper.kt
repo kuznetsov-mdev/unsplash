@@ -67,7 +67,7 @@ fun ImageWithUserEntity.toImageUiModel(): ImageWithUserModel {
     )
 }
 
-fun ImageDetailDto.toDetailImageItem(cachedImagePath: String, cachedAuthorAvatarPath: String): ImageDetailModel {
+fun ImageDetailDto.toDetailImageItem(cachedImagePath: String = "stub", cachedAuthorAvatarPath: String = "stub"): ImageDetailModel {
     return ImageDetailModel(
         ImageModel(this.id, this.description ?: "", this.likes, this.likedByUser, this.urls.small, cachedImagePath),
         this.width,

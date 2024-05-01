@@ -14,8 +14,10 @@ import com.skillbox.unsplash.data.repository.ImageRepositoryImpl
 import com.skillbox.unsplash.domain.api.repository.ImageRepositoryApi
 import com.skillbox.unsplash.domain.api.storage.ImageExternalStorage
 import com.skillbox.unsplash.domain.api.storage.ImageInternalStorage
+import com.skillbox.unsplash.domain.usecase.image.GetImageDetailsUseCase
 import com.skillbox.unsplash.domain.usecase.image.GetImagesUseCase
 import com.skillbox.unsplash.domain.usecase.image.LikeImageUseCase
+import com.skillbox.unsplash.domain.usecase.image.SaveImageToGalleryUseCase
 import com.skillbox.unsplash.domain.usecase.image.UnlikeImageUseCase
 import dagger.Module
 import dagger.Provides
@@ -77,4 +79,13 @@ class ImageModule {
     fun provideUnlikeImageUseCase(imageRepository: ImageRepositoryApi): UnlikeImageUseCase =
         UnlikeImageUseCase(imageRepository)
 
+    @Provides
+    @Singleton
+    fun provideGetImageDetailsUseCase(imageRepository: ImageRepositoryApi): GetImageDetailsUseCase =
+        GetImageDetailsUseCase(imageRepository)
+
+    @Provides
+    @Singleton
+    fun provideSaveImageToGalleryUseCase(imageRepository: ImageRepositoryApi): SaveImageToGalleryUseCase =
+        SaveImageToGalleryUseCase(imageRepository)
 }
