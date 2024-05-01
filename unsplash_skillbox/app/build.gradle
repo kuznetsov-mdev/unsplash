@@ -120,8 +120,10 @@ dependencies {
     //LiveData
     implementation libs.androidx.lifecycle.livedata.ktx
     implementation libs.androidx.lifecycle.runtime.ktx
-    //Paging
-    implementation libs.androidx.paging.runtime
+    //Paging 3
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+
     //Flipper
     debugImplementation libs.facebook.flipper
     releaseImplementation libs.flipper.facebook.no.op
