@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -32,7 +34,10 @@ import coil.request.ImageRequest
 import com.skillbox.unsplash.R
 import com.skillbox.unsplash.common.LoadState
 import com.skillbox.unsplash.domain.model.UserModel
+import com.skillbox.unsplash.domain.model.detail.ExifModel
 import com.skillbox.unsplash.domain.model.detail.ImageDetailModel
+import com.skillbox.unsplash.domain.model.detail.StatisticModel
+import com.skillbox.unsplash.presentation.components.RowWithWrap
 import com.skillbox.unsplash.presentation.components.common.Avatar
 import com.skillbox.unsplash.presentation.components.common.DetailsTopBar
 import com.skillbox.unsplash.presentation.utils.MockData
@@ -45,17 +50,14 @@ fun ImageDetailScreen(
     onRepeatClick: () -> Unit,
     navigateUp: () -> Unit
 ) {
-
-
     val imageDetailLoadState by imageDetailStateFlow.collectAsState()
 
     Column(
         modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .statusBarsPadding()
-            .background(MaterialTheme.colorScheme.background)
     ) {
-
         when (imageDetailLoadState) {
             is LoadState.Loading -> ImageDetailShimmerScreen()
             is LoadState.Error -> Text(text = "Error")
@@ -66,7 +68,6 @@ fun ImageDetailScreen(
             )
         }
     }
-
 }
 
 
@@ -79,6 +80,7 @@ fun ImageDetail(
     val context = LocalContext.current
 
     DetailsTopBar(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         parentName = "Images",
         onBackClick = { navigateUp() },
         onShareClick = {}
@@ -98,12 +100,24 @@ fun ImageDetail(
 
     LazyColumn(
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
             .padding(start = 10.dp, top = 5.dp, end = 10.dp)
     ) {
         item {
             BottomImagePanel(author = imageDetail.author)
             HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+            About(imageDetail.author.biography)
+            HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+            CameraParams(
+                exif = imageDetail.exif,
+                width = imageDetail.width,
+                height = imageDetail.height
+            )
+            HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+            Statistic(statisticModel = imageDetail.statistic)
+            HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+            TagPanel(tags = imageDetail.tags)
         }
     }
 }
@@ -140,9 +154,125 @@ fun BottomImagePanel(
                     contentDescription = null,
                 )
             }
-
         }
     }
+}
+
+@Composable
+fun About(description: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp)
+    ) {
+        Text(text = "About:")
+        Text(text = description)
+    }
+}
+
+@Composable
+fun CameraParams(
+    exif: ExifModel,
+    width: Int,
+    height: Int
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp, bottom = 10.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Parameter(label = "Camera", textValue = exif.make)
+            Parameter(label = "Focal length", textValue = exif.focalLength)
+            Parameter(label = "ISO", textValue = exif.iso.toString())
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Parameter(label = "Aperture", textValue = exif.aperture)
+            Parameter(label = "Shutter speed", textValue = exif.exposureTime)
+            Parameter(label = "Dimension", textValue = "$width x $height")
+        }
+    }
+}
+
+@Composable
+fun Statistic(
+    statisticModel: StatisticModel
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        Parameter(modifier = Modifier.padding(top = 10.dp), label = "Views", textValue = statisticModel.views.toString())
+        Parameter(modifier = Modifier.padding(top = 10.dp), label = "Downloads", textValue = statisticModel.downloads.toString())
+        Parameter(modifier = Modifier.padding(top = 10.dp), label = "Likes", textValue = statisticModel.likes.toString())
+    }
+}
+
+@Composable
+fun Parameter(
+    modifier: Modifier = Modifier,
+    label: String,
+    textValue: String
+) {
+    Column(
+        modifier = modifier.padding(bottom = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium
+                .copy(
+                    color = Color.Gray,
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                )
+        )
+        Text(text = textValue)
+    }
+}
+
+@Composable
+fun TagPanel(
+    tags: List<String>
+) {
+    RowWithWrap() {
+        tags.forEach {
+            Tag(tagName = it)
+        }
+    }
+}
+
+@Composable
+fun Tag(
+    tagName: String
+) {
+    Row(
+        modifier = Modifier
+            .padding(start = 5.dp, top = 5.dp)
+            .clip(RoundedCornerShape(5.dp))
+            .background(color = Color.LightGray)
+
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(
+                    start = 5.dp,
+                    end = 5.dp,
+                    top = 3.dp,
+                    bottom = 3.dp
+                ),
+            softWrap = false,
+            text = tagName
+        )
+    }
+
 }
 
 @Preview(showBackground = true)
@@ -151,7 +281,6 @@ fun BottomImagePanel(
 fun ImageDetailScreenPreview() {
     MaterialTheme {
         ImageDetailScreen(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             imageDetailStateFlow = MockData.getImageDetail(),
             onRepeatClick = {},
             navigateUp = {}
